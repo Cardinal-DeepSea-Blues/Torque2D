@@ -1,4 +1,4 @@
 APP_PLATFORM := android-16
-APP_STL := stlport_static
+APP_STL := c++_static
 APP_OPTIM := release
-APP_ABI   := armeabi-v7a x86 x86_64
+APP_CPPFLAGS := -frtti -std=c++11 -fsigned-char

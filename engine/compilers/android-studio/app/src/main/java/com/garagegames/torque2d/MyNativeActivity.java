@@ -1,6 +1,7 @@
 package com.garagegames.torque2d;
 
 import android.app.NativeActivity;
+import android.os.Bundle;
 import android.view.View;
 
 public class MyNativeActivity extends NativeActivity {

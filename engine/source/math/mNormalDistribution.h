@@ -24,6 +24,7 @@
 #define _MNORMALDISTRIBUTION_H_
 
 #include <random>
+#include <cmath>
 
 //-----------------------------------------------------------------------------
 // Modified from this Stack Overflow answer: http://stackoverflow.com/a/28619226/289956
