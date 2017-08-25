@@ -77,13 +77,16 @@
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/$(CrtSDKReferenceVersion).$(Configuration).$(PlatformName)/$(ProjectName)/</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\../../Link/Release\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\../../Link/Release/libogg\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\../../Link/$(CrtSDKReferenceVersion).$(Configuration).$(PlatformName)/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\../../Link/$(CrtSDKReferenceVersion).$(Configuration).$(PlatformName)/$(ProjectName)/</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>$(ProjectName)_DEBUG</TargetName>
+    <TargetName>$(ProjectName)_$(Configuration)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>$(ProjectName)_$(Configuration)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -99,9 +102,9 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
       <CallingConvention>Cdecl</CallingConvention>
-      <AssemblerListingLocation>$(IntDir)/libogg/</AssemblerListingLocation>
-      <ObjectFileName>$(IntDir)/libogg/</ObjectFileName>
-      <ProgramDataBaseFileName>$(IntDir)/libogg/</ProgramDataBaseFileName>
+      <AssemblerListingLocation>$(IntDir)/$(ProjectName)/</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)/$(ProjectName)/</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)/$(ProjectName)/</ProgramDataBaseFileName>
       <PrecompiledHeaderOutputFile>.\../../Link/Debug/lpng/libogg.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
   </ItemDefinitionGroup>
@@ -145,9 +148,9 @@
       <CompileAs>CompileAsC</CompileAs>
       <DisableSpecificWarnings>4244;%(DisableSpecificWarnings)</DisableSpecificWarnings>
       <CallingConvention>Cdecl</CallingConvention>
-      <AssemblerListingLocation>.\../../Link/Release/libogg/</AssemblerListingLocation>
-      <ObjectFileName>.\../../Link/Release/libogg/</ObjectFileName>
-      <ProgramDataBaseFileName>.\../../Link/Release/libogg/</ProgramDataBaseFileName>
+      <AssemblerListingLocation>$(IntDir)/$(ProjectName)/</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)/$(ProjectName)/</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)/$(ProjectName)/</ProgramDataBaseFileName>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

@@ -54,11 +54,17 @@
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/$(CrtSDKReferenceVersion).$(Configuration).$(PlatformName)/</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/$(CrtSDKReferenceVersion).$(Configuration).$(PlatformName)/$(ProjectName)/</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\../../Link/Release\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Shipping|Win32'">.\../../Link/Release\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\../../Link/Release/lpng\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Shipping|Win32'">.\../../Link/Release/lpng\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)_DEBUG</TargetName>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\../../Link/$(CrtSDKReferenceVersion).$(Configuration).$(PlatformName)/</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Shipping|Win32'">.\../../Link/$(CrtSDKReferenceVersion).$(Configuration).$(PlatformName)/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\../../Link/$(CrtSDKReferenceVersion).$(Configuration).$(PlatformName)/$(ProjectName)/</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Shipping|Win32'">.\../../Link/$(CrtSDKReferenceVersion).$(Configuration).$(PlatformName)/$(ProjectName)/</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)_$(Configuration)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>$(ProjectName)_$(Configuration)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|Win32'">
+    <TargetName>$(ProjectName)_$(Configuration)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -72,9 +78,9 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <PrecompiledHeaderOutputFile>.\../../Link/Debug/lpng/lpng.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>$(IntDir)/lpng/</AssemblerListingLocation>
-      <ObjectFileName>$(IntDir)/lpng/</ObjectFileName>
-      <ProgramDataBaseFileName>$(IntDir)/lpng/</ProgramDataBaseFileName>
+      <AssemblerListingLocation>$(IntDir)/$(ProjectName)/</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)/$(ProjectName)/</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)/$(ProjectName)/</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
@@ -103,9 +109,9 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <PrecompiledHeaderOutputFile>.\../../Link/Release/lpng/lpng.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>.\../../Link/Release/lpng/</AssemblerListingLocation>
-      <ObjectFileName>.\../../Link/Release/lpng/</ObjectFileName>
-      <ProgramDataBaseFileName>.\../../Link/Release/lpng/</ProgramDataBaseFileName>
+      <AssemblerListingLocation>$(IntDir)/$(ProjectName)/</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)/$(ProjectName)/</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)/$(ProjectName)/</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <CompileAs>Default</CompileAs>
@@ -115,7 +121,7 @@
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Lib>
-      <OutputFile>.\../../Link/Release\lpng.lib</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
   </ItemDefinitionGroup>
@@ -133,9 +139,9 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <PrecompiledHeaderOutputFile>.\../../Link/Release/lpng/lpng.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>.\../../Link/Release/lpng/</AssemblerListingLocation>
-      <ObjectFileName>.\../../Link/Release/lpng/</ObjectFileName>
-      <ProgramDataBaseFileName>.\../../Link/Release/lpng/</ProgramDataBaseFileName>
+      <AssemblerListingLocation>$(IntDir)/$(ProjectName)/</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)/$(ProjectName)/</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)/$(ProjectName)/</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <CompileAs>Default</CompileAs>
@@ -145,7 +151,7 @@
       <Culture>0x0409</Culture>
     </ResourceCompile>
     <Lib>
-      <OutputFile>.\../../Link/Release\lpng.lib</OutputFile>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Lib>
   </ItemDefinitionGroup>

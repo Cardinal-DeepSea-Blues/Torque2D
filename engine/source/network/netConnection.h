@@ -39,9 +39,6 @@
 #include "network/connectionProtocol.h"
 #endif
 
-#ifndef _H_CONNECTIONSTRINGTABLE
-#include "network/connectionStringTable.h"
-#endif
 //----------------------------------------------------------------------------
 // the sim connection encapsulates the packet stream,
 // ghost manager, event manager and playerPSC of the old tribes net code
