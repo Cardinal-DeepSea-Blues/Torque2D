@@ -16,17 +16,11 @@
     <Filter Include="2d\scene">
       <UniqueIdentifier>{71933100-a4a2-464e-bb3f-bb04d9f078af}</UniqueIdentifier>
     </Filter>
-    <Filter Include="2d\gui">
-      <UniqueIdentifier>{7824869e-4359-4413-a615-38c8534d641b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="algorithm">
       <UniqueIdentifier>{baaa5934-0805-46eb-be6e-ae5643535b4b}</UniqueIdentifier>
     </Filter>
     <Filter Include="assets">
       <UniqueIdentifier>{6a14bfc6-1f7c-4527-91d3-ccf897ff4002}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="audio">
-      <UniqueIdentifier>{bfd4849e-66c6-450b-9a01-0873aa28e21a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Box2D">
       <UniqueIdentifier>{1f640da6-77a4-4176-a018-9bfad5becf95}</UniqueIdentifier>
@@ -78,21 +72,6 @@
     </Filter>
     <Filter Include="graphics">
       <UniqueIdentifier>{187e7671-960f-49a7-898b-a10cf5900751}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="gui">
-      <UniqueIdentifier>{c17330c5-953e-4e71-9acb-1b7806b3c932}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="gui\buttons">
-      <UniqueIdentifier>{92e20c7c-410f-4df4-a9b9-7662dac44699}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="gui\containers">
-      <UniqueIdentifier>{513dc4d3-ba16-414a-8576-16b1dba4f6e8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="gui\editor">
-      <UniqueIdentifier>{c48781cd-5e6a-4ffe-b866-e64582f00d6d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="gui\language">
-      <UniqueIdentifier>{eee14c00-6a21-4fa8-9339-572a11819062}</UniqueIdentifier>
     </Filter>
     <Filter Include="input">
       <UniqueIdentifier>{fcfa64cc-dd46-41c1-9ada-8b4a15051285}</UniqueIdentifier>
@@ -196,26 +175,8 @@
     <Filter Include="spine">
       <UniqueIdentifier>{bb776838-ed6f-477c-b366-dd0c5c60ae5f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="bitmapFont">
-      <UniqueIdentifier>{447ecd65-a7a2-4e18-9c55-b53356c6f7a9}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\audio\audio.cc">
-      <Filter>audio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\audio\audioBuffer.cc">
-      <Filter>audio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\audio\audioDataBlock.cc">
-      <Filter>audio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\audio\audioStreamSourceFactory.cc">
-      <Filter>audio</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\audio\wavStreamSource.cc">
-      <Filter>audio</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\component\dynamicConsoleMethodComponent.cpp">
       <Filter>component</Filter>
     </ClCompile>
@@ -450,96 +411,6 @@
     <ClCompile Include="..\..\source\platformWin32\threads\thread.cc">
       <Filter>platformWin32\threads</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\gui\buttons\guiBitmapButtonCtrl.cc">
-      <Filter>gui\buttons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\buttons\guiBorderButton.cc">
-      <Filter>gui\buttons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\buttons\guiButtonBaseCtrl.cc">
-      <Filter>gui\buttons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\buttons\guiButtonCtrl.cc">
-      <Filter>gui\buttons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\buttons\guiCheckBoxCtrl.cc">
-      <Filter>gui\buttons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\buttons\guiIconButtonCtrl.cc">
-      <Filter>gui\buttons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\buttons\guiRadioCtrl.cc">
-      <Filter>gui\buttons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\buttons\guiToolboxButtonCtrl.cc">
-      <Filter>gui\buttons</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\containers\guiAutoScrollCtrl.cc">
-      <Filter>gui\containers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\containers\guiCtrlArrayCtrl.cc">
-      <Filter>gui\containers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\containers\guiDragAndDropCtrl.cc">
-      <Filter>gui\containers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\containers\guiDynamicCtrlArrayCtrl.cc">
-      <Filter>gui\containers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\containers\guiFormCtrl.cc">
-      <Filter>gui\containers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\containers\guiFrameCtrl.cc">
-      <Filter>gui\containers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\containers\guiPaneCtrl.cc">
-      <Filter>gui\containers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\containers\guiRolloutCtrl.cc">
-      <Filter>gui\containers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\containers\guiScrollCtrl.cc">
-      <Filter>gui\containers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\containers\guiStackCtrl.cc">
-      <Filter>gui\containers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\containers\guiTabBookCtrl.cc">
-      <Filter>gui\containers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\containers\guiWindowCtrl.cc">
-      <Filter>gui\containers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\editor\guiControlListPopup.cc">
-      <Filter>gui\editor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\editor\guiDebugger.cc">
-      <Filter>gui\editor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\editor\guiEditCtrl.cc">
-      <Filter>gui\editor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\editor\guiFilterCtrl.cc">
-      <Filter>gui\editor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\editor\guiGraphCtrl.cc">
-      <Filter>gui\editor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\editor\guiImageList.cc">
-      <Filter>gui\editor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\editor\guiInspector.cc">
-      <Filter>gui\editor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\editor\guiInspectorTypes.cc">
-      <Filter>gui\editor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\editor\guiMenuBar.cc">
-      <Filter>gui\editor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\editor\guiSeparatorCtrl.cc">
-      <Filter>gui\editor</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\Box2D\Collision\b2BroadPhase.cpp">
       <Filter>Box2D\Collision</Filter>
     </ClCompile>
@@ -717,24 +588,6 @@
     <ClCompile Include="..\..\source\assets\assetBase.cc">
       <Filter>assets</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\gui\language\lang.cc">
-      <Filter>gui\language</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\graphics\bitmapBmp.cc">
-      <Filter>graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\graphics\bitmapJpeg.cc">
-      <Filter>graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\graphics\bitmapPng.cc">
-      <Filter>graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\graphics\dgl.cc">
-      <Filter>graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\graphics\dglMatrix.cc">
-      <Filter>graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\graphics\gBitmap.cc">
       <Filter>graphics</Filter>
     </ClCompile>
@@ -770,105 +623,6 @@
     </ClCompile>
     <ClCompile Include="..\..\source\input\actionMap.cc">
       <Filter>input</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiArrayCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiBackgroundCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiBitmapBorderCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiBitmapCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiBubbleTextCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiCanvas.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiColorPicker.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiConsole.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiConsoleEditCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiConsoleTextCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiControl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiDefaultControlRender.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiFadeinBitmapCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiInputCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiListBoxCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiMessageVectorCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiMLTextCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiMLTextEditCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiMouseEventCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiPopUpCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiPopUpCtrlEx.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiProgressCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiScriptNotifyControl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiSliderCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiTabPageCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiTextCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiTextEditCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiTextEditSliderCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiTextListCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiTickCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiTreeViewCtrl.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\guiTypes.cc">
-      <Filter>gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\gui\messageVector.cc">
-      <Filter>gui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\graphics\PNGImage.cpp">
       <Filter>graphics</Filter>
@@ -1077,9 +831,6 @@
     <ClCompile Include="..\..\source\console\consoleNamespace.cc">
       <Filter>console</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\audio\AudioAsset.cc">
-      <Filter>audio</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\graphics\TextureManager.cc">
       <Filter>graphics</Filter>
     </ClCompile>
@@ -1122,19 +873,7 @@
     <ClCompile Include="..\..\source\2d\sceneobject\Trigger.cc">
       <Filter>2d\sceneobject</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\2d\core\BatchRender.cc">
-      <Filter>2d\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\2d\core\RenderProxy.cc">
-      <Filter>2d\core</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\2d\core\SpriteBase.cc">
-      <Filter>2d\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\2d\core\SpriteBatch.cc">
-      <Filter>2d\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\2d\core\SpriteBatchItem.cc">
       <Filter>2d\core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\2d\core\Utility.cc">
@@ -1146,35 +885,14 @@
     <ClCompile Include="..\..\source\2d\scene\ContactFilter.cc">
       <Filter>2d\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\2d\scene\DebugDraw.cc">
-      <Filter>2d\scene</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\2d\scene\Scene.cc">
       <Filter>2d\scene</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\2d\scene\WorldQuery.cc">
       <Filter>2d\scene</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\2d\gui\guiImageButtonCtrl.cc">
-      <Filter>2d\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\2d\gui\guiSpriteCtrl.cc">
-      <Filter>2d\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\2d\gui\guiSceneObjectCtrl.cc">
-      <Filter>2d\gui</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\2d\core\CoreMath.cc">
       <Filter>2d\core</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\2d\scene\SceneRenderFactories.cpp">
-      <Filter>2d\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\2d\scene\SceneRenderQueue.cpp">
-      <Filter>2d\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\2d\gui\SceneWindow.cc">
-      <Filter>2d\gui</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\debug\remote\RemoteDebuggerBase.cc">
       <Filter>debug\remote</Filter>
@@ -1212,9 +930,6 @@
     <ClCompile Include="..\..\source\platformWin32\nativeDialogs\win32FileDialog.cc">
       <Filter>platformWin32\nativeDialogs</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\graphics\color.cc">
-      <Filter>graphics</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\2d\assets\ParticleAsset.cc">
       <Filter>2d\assets</Filter>
     </ClCompile>
@@ -1229,9 +944,6 @@
     </ClCompile>
     <ClCompile Include="..\..\source\2d\sceneobject\ParticlePlayer.cc">
       <Filter>2d\sceneobject</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\2d\core\ParticleSystem.cc">
-      <Filter>2d\core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\assets\declaredAssets.cc">
       <Filter>assets</Filter>
@@ -1262,9 +974,6 @@
     </ClCompile>
     <ClCompile Include="..\..\source\2d\controllers\AmbientForceController.cc">
       <Filter>2d\controllers</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\2d\core\SpriteBatchQuery.cc">
-      <Filter>2d\core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\2d\experimental\composites\WaveComposite.cc">
       <Filter>2d\experimental\composites</Filter>
@@ -1299,14 +1008,8 @@
     <ClCompile Include="..\..\source\persistence\taml\json\tamlJSONParser.cc">
       <Filter>persistence\taml\json</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\gui\containers\guiGridCtrl.cc">
-      <Filter>gui\containers</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\console\metaScripting_ScriptBinding.cc">
       <Filter>console</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\audio\audio_ScriptBinding.cc">
-      <Filter>audio</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\io\fileSystem_ScriptBinding.cc">
       <Filter>io</Filter>
@@ -1395,23 +1098,11 @@
     <ClCompile Include="..\..\source\2d\sceneobject\SkeletonObject.cc">
       <Filter>2d\sceneobject</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\audio\vorbisStreamSource.cc">
-      <Filter>audio</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\2d\assets\FontAsset.cc">
       <Filter>2d\assets</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\2d\sceneobject\TextSprite.cc">
       <Filter>2d\sceneobject</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\bitmapFont\BitmapFont.cc">
-      <Filter>bitmapFont</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\bitmapFont\BitmapFontCharacter.cc">
-      <Filter>bitmapFont</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\audio\audioDescriptions.cc">
-      <Filter>audio</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\platform\platformNetAsync.cpp">
       <Filter>platform</Filter>
@@ -1422,29 +1113,8 @@
     <ClCompile Include="..\..\source\platform\platformNet.cpp">
       <Filter>platform</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\network\netObject.cc">
-      <Filter>network</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\source\audio\audio.h">
-      <Filter>audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\audio\audioBuffer.h">
-      <Filter>audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\audio\audioDataBlock.h">
-      <Filter>audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\audio\audioStreamSource.h">
-      <Filter>audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\audio\audioStreamSourceFactory.h">
-      <Filter>audio</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\audio\wavStreamSource.h">
-      <Filter>audio</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\component\dynamicConsoleMethodComponent.h">
       <Filter>component</Filter>
     </ClInclude>
@@ -1697,90 +1367,6 @@
     <ClInclude Include="..\..\source\platformWin32\nativeDialogs\win32DirectoryResolver.h">
       <Filter>platformWin32\nativeDialogs</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\gui\buttons\guiBitmapButtonCtrl.h">
-      <Filter>gui\buttons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\buttons\guiButtonBaseCtrl.h">
-      <Filter>gui\buttons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\buttons\guiButtonCtrl.h">
-      <Filter>gui\buttons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\buttons\guiCheckBoxCtrl.h">
-      <Filter>gui\buttons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\buttons\guiIconButtonCtrl.h">
-      <Filter>gui\buttons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\buttons\guiRadioCtrl.h">
-      <Filter>gui\buttons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\buttons\guiToolboxButtonCtrl.h">
-      <Filter>gui\buttons</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\containers\guiAutoScrollCtrl.h">
-      <Filter>gui\containers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\containers\guiCtrlArrayCtrl.h">
-      <Filter>gui\containers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\containers\guiDragAndDropCtrl.h">
-      <Filter>gui\containers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\containers\guiDynamicCtrlArrayCtrl.h">
-      <Filter>gui\containers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\containers\guiFormCtrl.h">
-      <Filter>gui\containers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\containers\guiFrameCtrl.h">
-      <Filter>gui\containers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\containers\guiPaneCtrl.h">
-      <Filter>gui\containers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\containers\guiRolloutCtrl.h">
-      <Filter>gui\containers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\containers\guiScrollCtrl.h">
-      <Filter>gui\containers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\containers\guiStackCtrl.h">
-      <Filter>gui\containers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\containers\guiTabBookCtrl.h">
-      <Filter>gui\containers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\containers\guiWindowCtrl.h">
-      <Filter>gui\containers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\editor\guiDebugger.h">
-      <Filter>gui\editor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\editor\guiEditCtrl.h">
-      <Filter>gui\editor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\editor\guiFilterCtrl.h">
-      <Filter>gui\editor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\editor\guiGraphCtrl.h">
-      <Filter>gui\editor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\editor\guiImageList.h">
-      <Filter>gui\editor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\editor\guiInspector.h">
-      <Filter>gui\editor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\editor\guiInspectorTypes.h">
-      <Filter>gui\editor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\editor\guiMenuBar.h">
-      <Filter>gui\editor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\editor\guiSeparatorCtrl.h">
-      <Filter>gui\editor</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\Box2D\Box2D.h">
       <Filter>Box2D</Filter>
     </ClInclude>
@@ -2015,12 +1601,6 @@
     <ClInclude Include="..\..\source\assets\assetBase_ScriptBinding.h">
       <Filter>assets</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\gui\language\lang.h">
-      <Filter>gui\language</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\graphics\dgl.h">
-      <Filter>graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\graphics\gBitmap.h">
       <Filter>graphics</Filter>
     </ClInclude>
@@ -2056,99 +1636,6 @@
     </ClInclude>
     <ClInclude Include="..\..\source\input\actionMap.h">
       <Filter>input</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiArrayCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiBackgroundCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiBitmapCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiBubbleTextCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiCanvas.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiColorPicker.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiConsole.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiConsoleEditCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiConsoleTextCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiControl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiDefaultControlRender.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiInputCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiListBoxCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiMessageVectorCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiMLTextCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiMLTextEditCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiMouseEventCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiPopUpCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiPopUpCtrlEx.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiProgressCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiScriptNotifyControl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiSliderCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiTabPageCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiTextCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiTextEditCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiTextEditSliderCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiTextListCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiTickCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiTreeViewCtrl.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiTypes.h">
-      <Filter>gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\messageVector.h">
-      <Filter>gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\graphics\PNGImage.h">
       <Filter>graphics</Filter>
@@ -2266,9 +1753,6 @@
     </ClInclude>
     <ClInclude Include="..\..\source\algorithm\hashFunction.h">
       <Filter>algorithm</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\graphics\color.h">
-      <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\collection\bitMatrix.h">
       <Filter>collection</Filter>
@@ -2399,9 +1883,6 @@
     <ClInclude Include="..\..\source\console\consoleNamespace.h">
       <Filter>console</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\audio\AudioAsset.h">
-      <Filter>audio</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\graphics\TextureManager.h">
       <Filter>graphics</Filter>
     </ClInclude>
@@ -2483,12 +1964,6 @@
     <ClInclude Include="..\..\source\2d\sceneobject\Trigger_ScriptBinding.h">
       <Filter>2d\sceneobject</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\2d\core\BatchRender.h">
-      <Filter>2d\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\2d\core\RenderProxy.h">
-      <Filter>2d\core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\2d\core\RenderProxy_ScriptBinding.h">
       <Filter>2d\core</Filter>
     </ClInclude>
@@ -2496,12 +1971,6 @@
       <Filter>2d\core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\2d\core\SpriteBase_ScriptBinding.h">
-      <Filter>2d\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\2d\core\SpriteBatch.h">
-      <Filter>2d\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\2d\core\SpriteBatchItem.h">
       <Filter>2d\core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\2d\core\Utility.h">
@@ -2516,9 +1985,6 @@
     <ClInclude Include="..\..\source\2d\scene\ContactFilter.h">
       <Filter>2d\scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\2d\scene\DebugDraw.h">
-      <Filter>2d\scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\2d\scene\DebugStats.h">
       <Filter>2d\scene</Filter>
     </ClInclude>
@@ -2531,41 +1997,11 @@
     <ClInclude Include="..\..\source\2d\scene\Scene_ScriptBinding.h">
       <Filter>2d\scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\2d\scene\SceneRenderObject.h">
-      <Filter>2d\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\2d\scene\SceneRenderQueue.h">
-      <Filter>2d\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\2d\scene\SceneRenderRequest.h">
-      <Filter>2d\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\2d\scene\SceneRenderState.h">
-      <Filter>2d\scene</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\2d\scene\WorldQuery.h">
       <Filter>2d\scene</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\2d\gui\guiImageButtonCtrl.h">
-      <Filter>2d\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\2d\gui\guiImageButtonCtrl_ScriptBindings.h">
-      <Filter>2d\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\2d\gui\guiSpriteCtrl.h">
-      <Filter>2d\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\2d\gui\guiSpriteCtrl_ScriptBindings.h">
-      <Filter>2d\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\2d\gui\guiSceneObjectCtrl.h">
-      <Filter>2d\gui</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\2d\core\CoreMath.h">
       <Filter>2d\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\2d\scene\SceneRenderFactories.h">
-      <Filter>2d\scene</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\2d\scene\WorldQueryFilter.h">
       <Filter>2d\scene</Filter>
@@ -2575,12 +2011,6 @@
     </ClInclude>
     <ClInclude Include="..\..\source\algorithm\md5.h">
       <Filter>algorithm</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\2d\gui\SceneWindow.h">
-      <Filter>2d\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\2d\gui\SceneWindow_ScriptBinding.h">
-      <Filter>2d\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\debug\remote\RemoteDebuggerBase.h">
       <Filter>debug\remote</Filter>
@@ -2669,9 +2099,6 @@
     <ClInclude Include="..\..\source\2d\assets\ParticleAssetEmitter_ScriptBinding.h">
       <Filter>2d\assets</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\2d\core\ParticleSystem.h">
-      <Filter>2d\core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\assets\declaredAssets.h">
       <Filter>assets</Filter>
     </ClInclude>
@@ -2725,12 +2152,6 @@
     </ClInclude>
     <ClInclude Include="..\..\source\2d\controllers\AmbientForceController_ScriptBinding.h">
       <Filter>2d\controllers</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\2d\core\SpriteBatchQuery.h">
-      <Filter>2d\core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\2d\core\SpriteBatchQueryResult.h">
-      <Filter>2d\core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\2d\experimental\composites\WaveComposite.h">
       <Filter>2d\experimental\composites</Filter>
@@ -2819,17 +2240,11 @@
     <ClInclude Include="..\..\source\persistence\taml\json\tamlJSONParser.h">
       <Filter>persistence\taml\json</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\gui\containers\guiGridCtrl.h">
-      <Filter>gui\containers</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\sim\simBase_ScriptBinding.h">
       <Filter>sim</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\input\actionMap_ScriptBinding.h">
       <Filter>input</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiCanvas_ScriptBinding.h">
-      <Filter>gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\platform\platformString_ScriptBinding.h">
       <Filter>platform</Filter>
@@ -2848,9 +2263,6 @@
     </ClInclude>
     <ClInclude Include="..\..\source\console\expando_ScriptBinding.h">
       <Filter>console</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\graphics\color_ScriptBinding.h">
-      <Filter>graphics</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\sim\simObject_ScriptBinding.h">
       <Filter>sim</Filter>
@@ -2979,12 +2391,6 @@
     <ClInclude Include="..\..\source\platform\CursorManager_ScriptBinding.h">
       <Filter>platform</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\graphics\dgl_ScriptBinding.h">
-      <Filter>graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\graphics\dglMac_Scriptbinding.h">
-      <Filter>graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\platformWin32\winOGLVideo_ScriptBinding.h">
       <Filter>platformWin32</Filter>
     </ClInclude>
@@ -3029,9 +2435,6 @@
     </ClInclude>
     <ClInclude Include="..\..\source\io\zip\zipObject_ScriptBinding.h">
       <Filter>io\zip</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\gui\guiControl_ScriptBinding.h">
-      <Filter>gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\console\Package.h">
       <Filter>console</Filter>
@@ -3117,9 +2520,6 @@
     <ClInclude Include="..\..\source\2d\sceneobject\SkeletonObject.h">
       <Filter>2d\sceneobject</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\audio\vorbisStreamSource.h">
-      <Filter>audio</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\platformWin32\winVersion.h">
       <Filter>platformWin32</Filter>
     </ClInclude>
@@ -3134,21 +2534,6 @@
     </ClInclude>
     <ClInclude Include="..\..\source\2d\sceneobject\TextSprite_ScriptBinding.h">
       <Filter>2d\sceneobject</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\bitmapFont\BitmapFont.h">
-      <Filter>bitmapFont</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\bitmapFont\BitmapFontCharacter.h">
-      <Filter>bitmapFont</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\bitmapFont\BitmapFontCharacterInfo.h">
-      <Filter>bitmapFont</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\bitmapFont\BitmapFontLineInfo.h">
-      <Filter>bitmapFont</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\audio\audioDescriptions.h">
-      <Filter>audio</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\platform\platformNetAsync.h">
       <Filter>platform</Filter>
@@ -3170,12 +2555,6 @@
     </ClInclude>
     <ClInclude Include="..\..\source\math\mNormalDistribution.h">
       <Filter>math</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\network\netObject.h">
-      <Filter>network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\network\netObject_ScriptBinding.h">
-      <Filter>network</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

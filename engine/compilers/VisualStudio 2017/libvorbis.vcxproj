@@ -69,8 +69,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/Debug\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/Debug/libvorbis\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/$(CrtSDKReferenceVersion).$(Configuration).$(PlatformName)/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/$(CrtSDKReferenceVersion).$(Configuration).$(PlatformName)/$(ProjectName)/</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\../../Link/Release\</OutDir>
@@ -95,9 +95,9 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
       <CallingConvention>Cdecl</CallingConvention>
-      <AssemblerListingLocation>.\../../Link/Debug/libvorbis/</AssemblerListingLocation>
-      <ObjectFileName>.\../../Link/Debug/libvorbis/</ObjectFileName>
-      <ProgramDataBaseFileName>.\../../Link/Debug/libvorbis/</ProgramDataBaseFileName>
+      <AssemblerListingLocation>$(IntDir)/libvorbis/</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)/libvorbis/</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)/libvorbis/</ProgramDataBaseFileName>
       <PrecompiledHeaderOutputFile>.\../../Link/Debug/lpng/libvorbis.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
   </ItemDefinitionGroup>

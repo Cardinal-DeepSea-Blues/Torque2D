@@ -149,7 +149,7 @@ class GBitmap: public ResourceInstance
                             ///  deleted on exit, or written out on a
                             ///  write.
 
-   //-------------------------------------- Input/Output interface
+   //-------------------------------------- Input /Output interface
   public:
    bool readJPEG(Stream& io_rStream);              // located in bitmapJpeg.cc
    bool writeJPEG(Stream& io_rStream) const;

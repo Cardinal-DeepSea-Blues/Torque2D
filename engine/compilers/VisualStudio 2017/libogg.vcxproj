@@ -73,8 +73,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/Debug\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/Debug/libogg\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/$(CrtSDKReferenceVersion).$(Configuration).$(PlatformName)/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/$(CrtSDKReferenceVersion).$(Configuration).$(PlatformName)/$(ProjectName)/</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\../../Link/Release\</OutDir>
@@ -99,9 +99,9 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>CompileAsC</CompileAs>
       <CallingConvention>Cdecl</CallingConvention>
-      <AssemblerListingLocation>.\../../Link/Debug/libogg/</AssemblerListingLocation>
-      <ObjectFileName>.\../../Link/Debug/libogg/</ObjectFileName>
-      <ProgramDataBaseFileName>.\../../Link/Debug/libogg/</ProgramDataBaseFileName>
+      <AssemblerListingLocation>$(IntDir)/libogg/</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)/libogg/</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)/libogg/</ProgramDataBaseFileName>
       <PrecompiledHeaderOutputFile>.\../../Link/Debug/lpng/libogg.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
   </ItemDefinitionGroup>

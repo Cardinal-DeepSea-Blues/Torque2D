@@ -56,8 +56,8 @@
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Shipping|Win32'">.\../../Link/Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\../../Link/Release/ljpeg\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Shipping|Win32'">.\../../Link/Release/ljpeg\</IntDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/Debug\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/Debug/ljpeg\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/$(CrtSDKReferenceVersion).$(Configuration).$(PlatformName)/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/$(CrtSDKReferenceVersion).$(Configuration).$(PlatformName)/$(ProjectName)/</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectName)_DEBUG</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -132,9 +132,9 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <PrecompiledHeaderOutputFile>.\../../Link/Debug/ljpeg/ljpeg.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>.\../../Link/Debug/ljpeg/</AssemblerListingLocation>
-      <ObjectFileName>.\../../Link/Debug/ljpeg/</ObjectFileName>
-      <ProgramDataBaseFileName>.\../../Link/Debug/ljpeg/</ProgramDataBaseFileName>
+      <AssemblerListingLocation>$(IntDir)/ljpeg/</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)/ljpeg/</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)/ljpeg/</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>

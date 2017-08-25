@@ -82,8 +82,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/Debug\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/Debug/zlib\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/$(CrtSDKReferenceVersion).$(Configuration).$(PlatformName)/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/$(CrtSDKReferenceVersion).$(Configuration).$(PlatformName)/$(ProjectName)/</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\../../Link/Release\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Shipping|Win32'">.\../../Link/Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\../../Link/Release/zlib\</IntDir>
@@ -102,9 +102,9 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <PrecompiledHeaderOutputFile>.\../../Link/Debug/zlib/zlib.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>.\../../Link/Debug/zlib/</AssemblerListingLocation>
-      <ObjectFileName>.\../../Link/Debug/zlib/</ObjectFileName>
-      <ProgramDataBaseFileName>.\../../Link/Debug/zlib/</ProgramDataBaseFileName>
+      <AssemblerListingLocation>$(IntDir)/zlib/</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)/zlib/</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)/zlib/</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>

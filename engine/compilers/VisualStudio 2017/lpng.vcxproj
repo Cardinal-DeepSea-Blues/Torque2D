@@ -52,8 +52,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/Debug\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/Debug/lpng\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/$(CrtSDKReferenceVersion).$(Configuration).$(PlatformName)/</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.\../../Link/$(CrtSDKReferenceVersion).$(Configuration).$(PlatformName)/$(ProjectName)/</IntDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\../../Link/Release\</OutDir>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Shipping|Win32'">.\../../Link/Release\</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\../../Link/Release/lpng\</IntDir>
@@ -72,9 +72,9 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <PrecompiledHeaderOutputFile>.\../../Link/Debug/lpng/lpng.pch</PrecompiledHeaderOutputFile>
-      <AssemblerListingLocation>.\../../Link/Debug/lpng/</AssemblerListingLocation>
-      <ObjectFileName>.\../../Link/Debug/lpng/</ObjectFileName>
-      <ProgramDataBaseFileName>.\../../Link/Debug/lpng/</ProgramDataBaseFileName>
+      <AssemblerListingLocation>$(IntDir)/lpng/</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)/lpng/</ObjectFileName>
+      <ProgramDataBaseFileName>$(IntDir)/lpng/</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
