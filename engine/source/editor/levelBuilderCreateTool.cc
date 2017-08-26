@@ -8,8 +8,8 @@
 //---------------------------------------------------------------------------------------------
 
 #include "console/console.h"
-#include "dgl/dgl.h"
-#include "TGB/levelBuilderCreateTool.h"
+#include "graphics/dgl.h"
+#include "editor/levelBuilderCreateTool.h"
 #include "2d/sceneobject/SceneObject.h"
 
 // Implement Our Console Object
@@ -42,7 +42,7 @@ ConsoleMethod(LevelBuilderCreateTool, createObject, S32, 4, 4, "(sceneWindow, po
    LevelBuilderSceneWindow* sceneWindow = dynamic_cast<LevelBuilderSceneWindow*>(Sim::findObject(argv[2]));
    if (sceneWindow)
    {
-      t2dSceneObject* sceneObject = object->createFull(sceneWindow, t2dSceneObject::getStringElementVector(argv[3]));
+      SceneObject* sceneObject = object->createFull(sceneWindow, SceneObject::getStringElementVector(argv[3]));
       if (sceneObject)
          return sceneObject->getId();
    }
@@ -56,7 +56,7 @@ ConsoleMethod(LevelBuilderCreateTool, startCreate, void, 4, 4, "(sceneWindow, po
    if (sceneWindow)
    {
       t2dEditMouseStatus mouseStatus;
-      mouseStatus.mousePoint2D = t2dSceneObject::getStringElementVector( argv[3] );
+      mouseStatus.mousePoint2D = SceneObject::getStringElementVector( argv[3] );
       object->onMouseDown( sceneWindow, mouseStatus );
    }
 }
@@ -100,7 +100,7 @@ bool LevelBuilderCreateTool::create(LevelBuilderSceneWindow* sceneWindow)
    return true;
 }
 
-t2dSceneObject* LevelBuilderCreateTool::createFull(LevelBuilderSceneWindow* sceneWindow, t2dVector position)
+SceneObject* LevelBuilderCreateTool::createFull(LevelBuilderSceneWindow* sceneWindow, Vector2 position)
 {
    if (!create(sceneWindow))
       return NULL;
@@ -127,36 +127,36 @@ t2dSceneObject* LevelBuilderCreateTool::createFull(LevelBuilderSceneWindow* scen
    undo->addObject(mCreatedObject);
    undo->addToManager(&sceneWindow->getSceneEdit()->getUndoManager());
 
-   t2dSceneObject* obj = mCreatedObject;
+   SceneObject* obj = mCreatedObject;
    mCreatedObject = NULL;
 
    return obj;
 }
 
-t2dVector LevelBuilderCreateTool::getDefaultSize(LevelBuilderSceneWindow* sceneWindow)
+Vector2 LevelBuilderCreateTool::getDefaultSize(LevelBuilderSceneWindow* sceneWindow)
 {
    if (mCreatedObject && mCreatedObject->mConfigDataBlock)
    {
       const char* sizeString = mCreatedObject->mConfigDataBlock->getDataField(StringTable->insert("size"), NULL);
-      if (sizeString && (t2dSceneObject::getStringElementCount(sizeString) == 2))
-         return t2dSceneObject::getStringElementVector(sizeString);
+      if (sizeString && (SceneObject::getStringElementCount(sizeString) == 2))
+         return SceneObject::getStringElementVector(sizeString);
    }
 
    Point2I pixelSize = getPixelSize();
    Point2I designSize = sceneWindow->getSceneEdit()->getDesignResolution();
-   t2dVector worldSize = t2dVector(100.0f, 75.0f);
+   Vector2 worldSize = Vector2(100.0f, 75.0f);
 
-   t2dSceneGraph* sceneGraph = sceneWindow->getSceneGraph();
+   Scene* sceneGraph = sceneWindow->getSceneGraph();
    if (sceneGraph)
    {
       const char* cameraSize = sceneGraph->getDataField(StringTable->insert("cameraSize"), NULL);
       if (cameraSize && cameraSize[0])
-         worldSize = t2dSceneObject::getStringElementVector(cameraSize);
+         worldSize = SceneObject::getStringElementVector(cameraSize);
    }
 
-   t2dVector objectSize;
-   objectSize.mX = ((F32)worldSize.mX / designSize.x) * pixelSize.x;
-   objectSize.mY = ((F32)worldSize.mY / designSize.y) * pixelSize.y;
+   Vector2 objectSize;
+   objectSize.x = ((F32)worldSize.x / designSize.x) * pixelSize.x;
+   objectSize.y = ((F32)worldSize.y / designSize.y) * pixelSize.y;
 
    return objectSize;
 }
@@ -175,13 +175,13 @@ bool LevelBuilderCreateTool::onMouseDown( LevelBuilderSceneWindow* sceneWindow, 
    bool flipX, flipY;
    bool actualFlipX = false;
    bool actualFlipY = false;
-   t2dVector newSize, newPosition;
+   Vector2 newSize, newPosition;
    // Snap the mouse position to the grid.
-   move(sceneWindow->getSceneEdit(), t2dVector(0.0f, 0.0f), mouseStatus.mousePoint2D, mDragStart);
+   move(sceneWindow->getSceneEdit(), Vector2(0.0f, 0.0f), mouseStatus.mousePoint2D, mDragStart);
 
    // Setup the sizing state.
    mSizingState = 0;
-   if (mouseStatus.mousePoint2D.mX < mDragStart.mX)
+   if (mouseStatus.mousePoint2D.x < mDragStart.x)
    {
       actualFlipX = true;
       mSizingState |= SizingLeft;
@@ -189,7 +189,7 @@ bool LevelBuilderCreateTool::onMouseDown( LevelBuilderSceneWindow* sceneWindow, 
    else
       mSizingState |= SizingRight;
 
-   if (mouseStatus.mousePoint2D.mY < mDragStart.mY)
+   if (mouseStatus.mousePoint2D.y < mDragStart.y)
    {
       actualFlipY = true;
       mSizingState |= SizingTop;
@@ -197,10 +197,10 @@ bool LevelBuilderCreateTool::onMouseDown( LevelBuilderSceneWindow* sceneWindow, 
    else
       mSizingState |= SizingBottom;
 
-   t2dVector size = getDefaultSize( sceneWindow );
-   mMouseDownAR = size.mX / size.mY;
+   Vector2 size = getDefaultSize( sceneWindow );
+   mMouseDownAR = size.x / size.y;
 
-   scale(sceneWindow->getSceneEdit(), t2dVector(0.0f, 0.0f), mDragStart, mouseStatus.mousePoint2D, mouseStatus.event.modifier & SI_CTRL,
+   scale(sceneWindow->getSceneEdit(), Vector2(0.0f, 0.0f), mDragStart, mouseStatus.mousePoint2D, mouseStatus.event.modifier & SI_CTRL,
          mouseStatus.event.modifier & SI_SHIFT, mMouseDownAR, newSize, newPosition, flipX, flipY);
 
    mCreatedObject->setSize(newSize);
@@ -232,7 +232,7 @@ bool LevelBuilderCreateTool::onMouseDragged( LevelBuilderSceneWindow* sceneWindo
       mObjectHidden = false;
    }
 
-   t2dVector newSize, newPosition;
+   Vector2 newSize, newPosition;
    bool flipX, flipY;
    scale(sceneWindow->getSceneEdit(), mCreatedObject->getSize(), mCreatedObject->getPosition(), mouseStatus.mousePoint2D,
          mouseStatus.event.modifier & SI_CTRL, mouseStatus.event.modifier & SI_SHIFT, mMouseDownAR, newSize, newPosition, flipX, flipY);
@@ -264,7 +264,7 @@ bool LevelBuilderCreateTool::onMouseUp( LevelBuilderSceneWindow* sceneWindow, co
 
    if ( mouseStatus.dragRectNormal2D.extent.len() < 1.0f || mouseStatus.dragRectNormal.extent.len() < 4.0f)
    {
-      t2dVector size = getDefaultSize( sceneWindow );
+      Vector2 size = getDefaultSize( sceneWindow );
 
       mCreatedObject->setSize(size);
       mCreatedObject->setPosition(mouseStatus.mousePoint2D);

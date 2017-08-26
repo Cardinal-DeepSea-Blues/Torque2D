@@ -10,16 +10,14 @@
 #define _LEVELBUILDERSCENEWINDOW_H_
 
 #ifndef _GUICONTROL_H_
-#include "gui/core/guiControl.h"
+#include "gui/guiControl.h"
 #endif
 
 #ifndef _T2DSCENEWINDOW_H_
 #include "2d/gui/SceneWindow.h"
 #endif
 
-#ifndef _T2DSCENEOBJECT_H_
 #include "2d/sceneobject/SceneObject.h"
-#endif
 
 class LevelBuilderSceneEdit;
 class LevelBuilderBaseTool;
@@ -54,16 +52,16 @@ struct t2dEditMouseStatus
    GuiEvent                event;           ///< The GuiEvent that generated this dispatch
    typeSceneObjectVector   pickList;        ///< Scene window pick list for current mouse event at the point
    Point2I                 lastMousePoint;  ///< Last Mouse Position
-   t2dVector               mousePoint2D;    ///< Mouse point in t2d scene coordinates
-   t2dVector               lastMousePoint2D;///< Last Mouse point in t2d scene coordinates
+   Vector2               mousePoint2D;    ///< Mouse point in t2d scene coordinates
+   Vector2               lastMousePoint2D;///< Last Mouse point in t2d scene coordinates
    bool                    dragging;        ///< Specifies if we're currently dragging
    RectF                   dragRect2D;      ///< 2D Vector Drag Rect
    RectF                   dragRectNormal2D;///< 2D Vector Drag Rect Normalised
    RectI                   dragRect;        ///< Specifies the drag rect (Anchor + Extent) if we're dragging
    RectI                   dragRectNormal;  ///< Specifies the drag rect (Anchor + Extent) if we're dragging (with always positive rect)
    typeSceneObjectVector   dragPickList;    ///< Drag pick list (Pick rect at Anchor point with Extent extent)
-   t2dSceneObject*         firstPickPoint;  ///< First pick point object (if any) for quick referencing
-   t2dSceneObject*         firstPickRect;   ///< First pick rect object (if any) for quick referencing
+   SceneObject*         firstPickPoint;  ///< First pick point object (if any) for quick referencing
+   SceneObject*         firstPickRect;   ///< First pick rect object (if any) for quick referencing
 
    t2dEditMouseStatus() : event()
    {
@@ -79,7 +77,7 @@ struct t2dEditMouseStatus
       dragRect.set( 0,0,0,0 );
 
       // No 2D Mouse Point
-      mousePoint2D.zero();
+      mousePoint2D.setZero();
 
       // Clear First Picks
       firstPickRect  = NULL;
@@ -93,10 +91,10 @@ struct t2dEditMouseStatus
 // its editing context. It can also specify a tool override which basically
 // overrides the editing context's active tool for this window only.
 //-----------------------------------------------------------------------------
-class LevelBuilderSceneWindow : public t2dSceneWindow
+class LevelBuilderSceneWindow : public SceneWindow
 {
 private:
-   typedef t2dSceneWindow Parent;
+   typedef SceneWindow Parent;
 
    // Mouse Drag Handling
    Point2I            mDragPoint;
@@ -128,7 +126,7 @@ public:
    virtual ~LevelBuilderSceneWindow();
 
    // Helper Functions
-   RectI getObjectBoundsWindow(const t2dSceneObject* obj);
+   RectI getObjectBoundsWindow(const SceneObject* obj);
 
    // Mouse Event Dispatching
    bool mouseDispatcher(const GuiEvent& event, const t2dEditMouseStatus::MouseEventType eventType);
@@ -159,12 +157,12 @@ public:
    LevelBuilderBaseTool* getToolOverride()             { return mToolOverride; };
 
    // t2dSceneWindow Overrides
-   virtual void setSceneGraph(t2dSceneGraph* pT2DSceneGraph);
+   virtual void setSceneGraph(Scene* pT2DSceneGraph);
    virtual void resetSceneGraph(void);
    virtual void setTargetCameraArea(const RectF& cameraWindow);
-   virtual void setTargetCameraPosition(t2dVector centerPosition, F32 width, F32 height);
+   virtual void setTargetCameraPosition(Vector2 centerPosition, F32 width, F32 height);
    virtual void setCurrentCameraArea(const RectF& cameraWindow);
-   virtual void setCurrentCameraPosition(t2dVector centerPosition, F32 width, F32 height);
+   virtual void setCurrentCameraPosition(Vector2 centerPosition, F32 width, F32 height);
    virtual void resize(const Point2I &newPosition, const Point2I &newExtent);
 
    // Pick Mask Handling

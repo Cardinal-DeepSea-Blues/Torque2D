@@ -7,9 +7,9 @@
 // SceneObject Mount Tool.
 //-----------------------------------------------------------------------------
 #include "console/console.h"
-#include "dgl/dgl.h"
-#include "TGB/levelBuilderMountTool.h"
-#include "TGB/levelBuilderSceneEdit.h"
+#include "graphics/dgl.h"
+#include "editor/levelBuilderMountTool.h"
+#include "editor/levelBuilderSceneEdit.h"
 #include "T2D/t2dPath.h"
 
 IMPLEMENT_CONOBJECT(LevelBuilderMountTool);
@@ -53,7 +53,7 @@ void LevelBuilderMountTool::onDeactivate()
    Parent::onDeactivate();
 }
 
-bool LevelBuilderMountTool::onAcquireObject( t2dSceneObject *object )
+bool LevelBuilderMountTool::onAcquireObject( SceneObject *object )
 {
    if(!isEditable(object) || !mSceneWindow)
       return false;
@@ -71,7 +71,7 @@ bool LevelBuilderMountTool::onAcquireObject( t2dSceneObject *object )
    return true;
 }
 
-void LevelBuilderMountTool::onRelinquishObject( t2dSceneObject *object )
+void LevelBuilderMountTool::onRelinquishObject( SceneObject *object )
 {
    if(!mSceneWindow || !mSceneObject)
       return Parent::onRelinquishObject(object);
@@ -85,7 +85,7 @@ void LevelBuilderMountTool::onRelinquishObject( t2dSceneObject *object )
    Parent::onRelinquishObject(object);
 }
 
-void LevelBuilderMountTool::editObject(t2dSceneObject* object)
+void LevelBuilderMountTool::editObject(SceneObject* object)
 {
    if (!isEditable(object))
       return;
@@ -99,7 +99,7 @@ void LevelBuilderMountTool::editObject(t2dSceneObject* object)
 
 ConsoleMethod(LevelBuilderMountTool, editObject, void, 3, 3, "Selects an object for editing.")
 {
-   t2dSceneObject* obj = dynamic_cast<t2dSceneObject*>(Sim::findObject(argv[2]));
+   SceneObject* obj = dynamic_cast<SceneObject*>(Sim::findObject(argv[2]));
    if (obj)
       object->editObject(obj);
    else
@@ -123,7 +123,7 @@ ConsoleMethod(LevelBuilderMountTool, finishEdit, void, 2, 2, "Applies changes an
    object->finishEdit();
 }
 
-bool LevelBuilderMountTool::isEditable(t2dSceneObject* obj)
+bool LevelBuilderMountTool::isEditable(SceneObject* obj)
 {
    return true;
 }
@@ -131,7 +131,7 @@ bool LevelBuilderMountTool::isEditable(t2dSceneObject* obj)
 ConsoleMethod(LevelBuilderMountTool, dismountObject, void, 4, 4, "Dismounts an object.")
 {
    LevelBuilderSceneEdit* sceneEdit = dynamic_cast<LevelBuilderSceneEdit*>(Sim::findObject(argv[2]));
-   t2dSceneObject* obj = dynamic_cast<t2dSceneObject*>(Sim::findObject(argv[3]));
+   SceneObject* obj = dynamic_cast<SceneObject*>(Sim::findObject(argv[3]));
 
    if (sceneEdit && obj)
       object->dismountObject(sceneEdit, obj);
@@ -140,24 +140,24 @@ ConsoleMethod(LevelBuilderMountTool, dismountObject, void, 4, 4, "Dismounts an o
 ConsoleMethod(LevelBuilderMountTool, clearAllMounts, void, 4, 4, "Clears all mounts.")
 {
    LevelBuilderSceneEdit* sceneEdit = dynamic_cast<LevelBuilderSceneEdit*>(Sim::findObject(argv[2]));
-   t2dSceneObject* obj = dynamic_cast<t2dSceneObject*>(Sim::findObject(argv[3]));
+   SceneObject* obj = dynamic_cast<SceneObject*>(Sim::findObject(argv[3]));
 
    if (sceneEdit && obj)
       object->clearAllMounts(sceneEdit, obj);
 }
 
-void LevelBuilderMountTool::dismountObject(LevelBuilderSceneEdit* sceneEdit, t2dSceneObject* object)
+void LevelBuilderMountTool::dismountObject(LevelBuilderSceneEdit* sceneEdit, SceneObject* object)
 {
    if (object->getIsMounted())
    {
-      t2dSceneObject* mountedTo = object->getMountedParent();
+      SceneObject* mountedTo = object->getMountedParent();
 
       UndoDismountAction* undo = new UndoDismountAction(sceneEdit, "Dismount Object");
       undo->setMountInfo(object, mountedTo, object->getMountOffset(), object->getMountForce(), object->getMountTrackRotation(),
                          true, object->getMountOwned(), object->getMountInheritAttributes());
 
       object->dismount();
-      t2dVector position = object->getPosition() + t2dVector(10.0f, 10.0f);
+      Vector2 position = object->getPosition() + Vector2(10.0f, 10.0f);
       object->setPosition(position);
       undo->setStartPosition(position);
       undo->addToManager(&sceneEdit->getUndoManager());
@@ -176,7 +176,7 @@ void LevelBuilderMountTool::dismountObject(LevelBuilderSceneEdit* sceneEdit, t2d
          UndoPathDetachAction* undo = new UndoPathDetachAction(sceneEdit, "Detach From Path");
          undo->setMountInfo(object, path);
          path->detachObject(object);
-         t2dVector position = object->getPosition() + t2dVector(10.0f, 10.0f);
+         Vector2 position = object->getPosition() + Vector2(10.0f, 10.0f);
          object->setPosition(position);
          undo->setStartPosition(position);
          undo->addToManager(&sceneEdit->getUndoManager());
@@ -189,18 +189,18 @@ void LevelBuilderMountTool::dismountObject(LevelBuilderSceneEdit* sceneEdit, t2d
    }
 }
 
-void LevelBuilderMountTool::clearAllMounts(LevelBuilderSceneEdit* sceneEdit, t2dSceneObject* object)
+void LevelBuilderMountTool::clearAllMounts(LevelBuilderSceneEdit* sceneEdit, SceneObject* object)
 {
    if (object->getIsMounted())
    {
-      t2dSceneObject* mountedTo = object->getMountedParent();
+      SceneObject* mountedTo = object->getMountedParent();
 
       UndoDismountAction* undo = new UndoDismountAction(sceneEdit, "Dismount Object");
       undo->setMountInfo(object, mountedTo, object->getMountOffset(), object->getMountForce(), object->getMountTrackRotation(),
          true, object->getMountOwned(), object->getMountInheritAttributes());
 
       object->dismount();
-      t2dVector position = object->getPosition() + t2dVector(10.0f, 10.0f);
+      Vector2 position = object->getPosition() + Vector2(10.0f, 10.0f);
       object->setPosition(position);
       undo->setStartPosition(position);
       undo->addToManager(&sceneEdit->getUndoManager());
@@ -219,7 +219,7 @@ void LevelBuilderMountTool::clearAllMounts(LevelBuilderSceneEdit* sceneEdit, t2d
          UndoPathDetachAction* undo = new UndoPathDetachAction(sceneEdit, "Detach From Path");
          undo->setMountInfo(object, path);
          path->detachObject(object);
-         t2dVector position = object->getPosition() + t2dVector(10.0f, 10.0f);
+         Vector2 position = object->getPosition() + Vector2(10.0f, 10.0f);
          object->setPosition(position);
          undo->setStartPosition(position);
          undo->addToManager(&sceneEdit->getUndoManager());
@@ -239,14 +239,14 @@ void LevelBuilderMountTool::clearAllMounts(LevelBuilderSceneEdit* sceneEdit, t2d
          // for each pathed object, create an undo action and dismount
          while (path->getPathedObjectCount() > 0)
          {
-            t2dSceneObject* pathedObject = path->getPathedObject((U32)0);
+            SceneObject* pathedObject = path->getPathedObject((U32)0);
             if (pathedObject)
             {
                UndoPathDetachAction* undo = new UndoPathDetachAction(sceneEdit, "Detach From Path");
                undo->setMountInfo(pathedObject, path);
                path->detachObject(pathedObject);
 
-               t2dVector position = pathedObject->getPosition() + t2dVector(10.0f, 10.0f);
+               Vector2 position = pathedObject->getPosition() + Vector2(10.0f, 10.0f);
                pathedObject->setPosition(position);
 
                undo->setStartPosition(position);
@@ -262,12 +262,12 @@ void LevelBuilderMountTool::clearAllMounts(LevelBuilderSceneEdit* sceneEdit, t2d
    }
 
    // lets grab this object's scenegraph, and make sure no objects are mounted to it.. UGH!
-   t2dSceneGraph* sceneGraph = object->getSceneGraph();
+   Scene* sceneGraph = object->getSceneGraph();
    if (sceneGraph)
    {
       for (U32 i = 0; i < sceneGraph->size(); i++)
       {
-         t2dSceneObject* sceneObject = sceneGraph->getSceneObject(i);
+         SceneObject* sceneObject = sceneGraph->getSceneObject(i);
          if (sceneObject && (sceneObject->getMountedParent() == object))
          {
             UndoDismountAction* undo = new UndoDismountAction(sceneEdit, "Dismount Object");
@@ -276,7 +276,7 @@ void LevelBuilderMountTool::clearAllMounts(LevelBuilderSceneEdit* sceneEdit, t2d
                true, sceneObject->getMountOwned(), sceneObject->getMountInheritAttributes());
 
             sceneObject->dismount();
-            t2dVector position = sceneObject->getPosition() + t2dVector(10.0f, 10.0f);
+            Vector2 position = sceneObject->getPosition() + Vector2(10.0f, 10.0f);
             sceneObject->setPosition(position);
             undo->setStartPosition(position);
             undo->addToManager(&sceneEdit->getUndoManager());
@@ -304,8 +304,8 @@ bool LevelBuilderMountTool::onMouseMove( LevelBuilderSceneWindow* sceneWindow, c
       return false;
 
    F32 snapDistance = 2.5f;
-   t2dVector objPosition = mouseStatus.mousePoint2D;
-   objPosition.mX += snapDistance;
+   Vector2 objPosition = mouseStatus.mousePoint2D;
+   objPosition.x += snapDistance;
 
    bool found = false;
 
@@ -314,7 +314,7 @@ bool LevelBuilderMountTool::onMouseMove( LevelBuilderSceneWindow* sceneWindow, c
    {
       for (S32 i = 0; i < mouseStatus.pickList.size(); i++)
       {
-         t2dSceneObject* object = mouseStatus.pickList[i];
+         SceneObject* object = mouseStatus.pickList[i];
 
          // Skip this object.
          if (object == mSceneObject)
@@ -339,7 +339,7 @@ bool LevelBuilderMountTool::onMouseMove( LevelBuilderSceneWindow* sceneWindow, c
          // Otherwise, try to find a mount node.
          for (S32 j = 0; j < object->getMountNodeCount(); j++)
          {
-            t2dVector nodePosition = object->getMountNodeByIndex(j).mWorldMountPosition;
+            Vector2 nodePosition = object->getMountNodeByIndex(j).mWorldMountPosition;
             if ((nodePosition - mouseStatus.mousePoint2D).len() < (objPosition - mouseStatus.mousePoint2D).len())
             {
                found = true;
@@ -350,7 +350,7 @@ bool LevelBuilderMountTool::onMouseMove( LevelBuilderSceneWindow* sceneWindow, c
          // And if nothing else, snap to the middle of the object.
          if (!found)
          {
-            t2dVector nodePosition = object->getPosition();
+            Vector2 nodePosition = object->getPosition();
             if ((nodePosition - mouseStatus.mousePoint2D).len() < (objPosition - mouseStatus.mousePoint2D).len())
             {
                found = true;
@@ -378,15 +378,15 @@ bool LevelBuilderMountTool::onMouseDown( LevelBuilderSceneWindow* sceneWindow, c
 
 	// First, scan all objects with linkpoints, since they may have mountpoints outside their bounds.
 	F32 snapDistance = 2.5f;
-	t2dVector objPosition = mouseStatus.mousePoint2D;
-	objPosition.mX += snapDistance;
+	Vector2 objPosition = mouseStatus.mousePoint2D;
+	objPosition.x += snapDistance;
 
-	Vector<t2dSceneObject *> objList;
+	Vector<SceneObject *> objList;
 	U32 objCount;
 	objCount = sceneWindow->getSceneGraph()->getSceneObjectList(objList);
 	for (S32 i = 0; i < objCount; i++)
 	{
-		t2dSceneObject* object = objList[i];
+		SceneObject* object = objList[i];
 
 		// Skip this object.
 		if (object == mSceneObject)
@@ -395,15 +395,15 @@ bool LevelBuilderMountTool::onMouseDown( LevelBuilderSceneWindow* sceneWindow, c
 		// Try to find a mount node.
 		for (S32 j = 0; j < object->getMountNodeCount(); j++)
 		{
-			t2dVector nodePosition = object->getMountNodeByIndex(j).mWorldMountPosition;
+			Vector2 nodePosition = object->getMountNodeByIndex(j).mWorldMountPosition;
 			if ((nodePosition - mouseStatus.mousePoint2D).len() < (objPosition - mouseStatus.mousePoint2D).len())
 			{
-				t2dVector offset = object->getLocalPoint(nodePosition);
+				Vector2 offset = object->getLocalPoint(nodePosition);
 				UndoMountAction* undo = new UndoMountAction(sceneWindow->getSceneEdit(), "Mount Object");
 				undo->setStartPosition(mObjectStartPosition);
 				undo->setMountInfo(mSceneObject, object, offset, 0.0f, true, true, false, false);
-				if (object->getFlipX()) offset.mX = -offset.mX;
-				if (object->getFlipY()) offset.mY = -offset.mY;
+				if (object->getFlipX()) offset.x = -offset.x;
+				if (object->getFlipY()) offset.y = -offset.y;
 				mSceneObject->mount(object, offset, 0.0f, true, true, false, false);
 				undo->addToManager(&sceneWindow->getSceneEdit()->getUndoManager());
 
@@ -420,7 +420,7 @@ bool LevelBuilderMountTool::onMouseDown( LevelBuilderSceneWindow* sceneWindow, c
 	{
 		for (S32 i = 0; i < mouseStatus.pickList.size(); i++)
 		{
-			t2dSceneObject* mountToObject = mouseStatus.pickList[i];
+			SceneObject* mountToObject = mouseStatus.pickList[i];
 
 			// Can't mount to self.
 			if (mountToObject == mSceneObject)
@@ -454,12 +454,12 @@ bool LevelBuilderMountTool::onMouseDown( LevelBuilderSceneWindow* sceneWindow, c
 
 			else
 			{
-				t2dVector offset = mountToObject->getLocalPoint(mSceneObject->getPosition());
+				Vector2 offset = mountToObject->getLocalPoint(mSceneObject->getPosition());
 				UndoMountAction* undo = new UndoMountAction(sceneWindow->getSceneEdit(), "Mount Object");
 				undo->setStartPosition(mObjectStartPosition);
 				undo->setMountInfo(mSceneObject, mountToObject, offset, 0.0f, true, true, false, false);
-				if (mountToObject->getFlipX()) offset.mX = -offset.mX;
-				if (mountToObject->getFlipY()) offset.mY = -offset.mY;
+				if (mountToObject->getFlipX()) offset.x = -offset.x;
+				if (mountToObject->getFlipY()) offset.y = -offset.y;
 				mSceneObject->mount(mountToObject, offset, 0.0f, true, true, false, false);
 				undo->addToManager(&sceneWindow->getSceneEdit()->getUndoManager());
 

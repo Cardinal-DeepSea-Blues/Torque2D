@@ -18,15 +18,15 @@
 #endif
 
 #ifndef _T2DPATH_H_
-#include "T2D/t2dPath.h"
+#include "2d/sceneobject/Path.h"
 #endif
 
 #ifndef _LEVELBUILDERBASETOOL_H_
-#include "TGB/levelBuilderBaseTool.h"
+#include "editor/levelBuilderBaseTool.h"
 #endif
 
 #ifndef _LEVELBUILDERSCENEEDIT_H_
-#include "TGB/levelBuilderSceneEdit.h"
+#include "editor/levelBuilderSceneEdit.h"
 #endif
 
 //-----------------------------------------------------------------------------
@@ -37,13 +37,13 @@ class LevelBuilderMountTool : public LevelBuilderBaseTool
    typedef LevelBuilderBaseTool Parent;
 
    F32 mBlendAlpha;
-   t2dVector mObjectStartPosition;
+   Vector2 mObjectStartPosition;
 
 protected:
-   t2dSceneObject* mSceneObject;
+   SceneObject* mSceneObject;
    LevelBuilderSceneWindow* mSceneWindow;
 
-   bool isEditable(t2dSceneObject* obj);
+   bool isEditable(SceneObject* obj);
 
 public:
    LevelBuilderMountTool();
@@ -52,19 +52,19 @@ public:
    // Base Tool Overrides
    bool onActivate(LevelBuilderSceneWindow* sceneWindow);
    void onDeactivate();
-   bool onAcquireObject(t2dSceneObject* object);
-   void onRelinquishObject(t2dSceneObject* object);
+   bool onAcquireObject(SceneObject* object);
+   void onRelinquishObject(SceneObject* object);
 
    // Object Editing
-   void editObject(t2dSceneObject* object);
+   void editObject(SceneObject* object);
    // This cancels an edit, applying changes.
    void finishEdit();
    
    void onRenderGraph( LevelBuilderSceneWindow* sceneWindow );
 
    // Dismounts An Object
-   void dismountObject(LevelBuilderSceneEdit* sceneEdit, t2dSceneObject* object);
-   void clearAllMounts(LevelBuilderSceneEdit* sceneEdit, t2dSceneObject* object);
+   void dismountObject(LevelBuilderSceneEdit* sceneEdit, SceneObject* object);
+   void clearAllMounts(LevelBuilderSceneEdit* sceneEdit, SceneObject* object);
 
    virtual bool onMouseMove( LevelBuilderSceneWindow* sceneWindow, const t2dEditMouseStatus &mouseStatus );
    virtual bool onMouseDown( LevelBuilderSceneWindow* sceneWindow, const t2dEditMouseStatus &mouseStatus );
@@ -78,23 +78,23 @@ class UndoMountAction : public UndoAction
 private:
    LevelBuilderSceneEdit* mSceneEdit;
 
-   t2dVector mStartPosition;
+   Vector2 mStartPosition;
 
-   t2dSceneObject* mMounter;
-   t2dSceneObject* mMountee;
+   SceneObject* mMounter;
+   SceneObject* mMountee;
 
    S32 mMounterLO;
    S32 mMounteeLO;
 
-   t2dVector mOffset;
+   Vector2 mOffset;
    F32 mForce;
    bool mTrack, mSend, mOwned, mInherit;
 
 public:
    UndoMountAction(LevelBuilderSceneEdit* sceneEdit, UTF8* actionName) : UndoAction(actionName) { mSceneEdit = sceneEdit; };
 
-   void setStartPosition(t2dVector position) { mStartPosition = position; };
-   void setMountInfo(t2dSceneObject* mounter, t2dSceneObject* mountee, t2dVector offset, F32 force, bool track, bool send, bool owned, bool inherit)
+   void setStartPosition(Vector2 position) { mStartPosition = position; };
+   void setMountInfo(SceneObject* mounter, SceneObject* mountee, Vector2 offset, F32 force, bool track, bool send, bool owned, bool inherit)
    {
       mMounter = mounter;
       mMountee = mountee;
@@ -146,23 +146,23 @@ class UndoDismountAction : public UndoAction
 private:
    LevelBuilderSceneEdit* mSceneEdit;
 
-   t2dVector mStartPosition;
+   Vector2 mStartPosition;
 
-   t2dSceneObject* mMounter;
-   t2dSceneObject* mMountee;
+   SceneObject* mMounter;
+   SceneObject* mMountee;
 
    S32 mMounterLO;
    S32 mMounteeLO;
 
-   t2dVector mOffset;
+   Vector2 mOffset;
    F32 mForce;
    bool mTrack, mSend, mOwned, mInherit;
 
 public:
    UndoDismountAction(LevelBuilderSceneEdit* sceneEdit, UTF8* actionName) : UndoAction(actionName) { mSceneEdit = sceneEdit; };
 
-   void setStartPosition(t2dVector position) { mStartPosition = position; };
-   void setMountInfo(t2dSceneObject* mounter, t2dSceneObject* mountee, t2dVector offset, F32 force, bool track, bool send, bool owned, bool inherit)
+   void setStartPosition(Vector2 position) { mStartPosition = position; };
+   void setMountInfo(SceneObject* mounter, SceneObject* mountee, Vector2 offset, F32 force, bool track, bool send, bool owned, bool inherit)
    {
       mMounter = mounter;
       mMountee = mountee;
@@ -215,9 +215,9 @@ class UndoMountMoveAction : public UndoAction
    typedef UndoAction Parent;
 
 private:
-   t2dSceneObject* mObject;
-   t2dVector mStartPosition;
-   t2dVector mEndPosition;
+   SceneObject* mObject;
+   Vector2 mStartPosition;
+   Vector2 mEndPosition;
 
    // We need this so we can send notifications of objects changing.
    LevelBuilderSceneEdit* mSceneEdit;
@@ -225,8 +225,8 @@ private:
 public:
    UndoMountMoveAction(LevelBuilderSceneEdit* sceneEdit, UTF8* name) : UndoAction(name) { mSceneEdit = sceneEdit; };
 
-   void setStartPosition(t2dSceneObject* object, t2dVector position) { mObject = object; mStartPosition = position; deleteNotify(object); };
-   void setEndPosition(t2dVector position) { mEndPosition = position; };
+   void setStartPosition(SceneObject* object, Vector2 position) { mObject = object; mStartPosition = position; deleteNotify(object); };
+   void setEndPosition(Vector2 position) { mEndPosition = position; };
 
    virtual void onDeleteNotify(SimObject* object)
    {
@@ -252,9 +252,9 @@ class UndoPathAttachAction : public UndoAction
 private:
    LevelBuilderSceneEdit* mSceneEdit;
 
-   t2dVector mStartPosition;
+   Vector2 mStartPosition;
 
-   t2dSceneObject* mMounter;
+   SceneObject* mMounter;
    t2dPath* mPath;
    F32 mSpeed;
    S32 mDirection;
@@ -266,8 +266,8 @@ private:
 public:
    UndoPathAttachAction(LevelBuilderSceneEdit* sceneEdit, UTF8* actionName) : UndoAction(actionName) { mSceneEdit = sceneEdit; };
 
-   void setStartPosition(t2dVector position) { mStartPosition = position; };
-   void setMountInfo(t2dSceneObject* mounter, t2dPath* path)
+   void setStartPosition(Vector2 position) { mStartPosition = position; };
+   void setMountInfo(SceneObject* mounter, t2dPath* path)
    {
       mMounter = mounter;
       mPath = path;
@@ -311,9 +311,9 @@ class UndoPathDetachAction : public UndoAction
 private:
    LevelBuilderSceneEdit* mSceneEdit;
 
-   t2dVector mStartPosition;
+   Vector2 mStartPosition;
 
-   t2dSceneObject* mMounter;
+   SceneObject* mMounter;
    t2dPath* mPath;
    F32 mSpeed;
    S32 mDirection;
@@ -325,8 +325,8 @@ private:
 public:
    UndoPathDetachAction(LevelBuilderSceneEdit* sceneEdit, UTF8* actionName) : UndoAction(actionName) { mSceneEdit = sceneEdit; };
 
-   void setStartPosition(t2dVector position) { mStartPosition = position; };
-   void setMountInfo(t2dSceneObject* mounter, t2dPath* path)
+   void setStartPosition(Vector2 position) { mStartPosition = position; };
+   void setMountInfo(SceneObject* mounter, t2dPath* path)
    {
       mMounter = mounter;
       mPath = path;

@@ -298,8 +298,6 @@
     <ClCompile Include="..\..\source\editor\levelBuilderStaticSpriteTool.cc" />
     <ClCompile Include="..\..\source\editor\levelBuilderTextEditTool.cc" />
     <ClCompile Include="..\..\source\editor\levelBuilderTextObjectTool.cc" />
-    <ClCompile Include="..\..\source\editor\levelBuilderTileMapEditTool.cc" />
-    <ClCompile Include="..\..\source\editor\levelBuilderTileMapTool.cc" />
     <ClCompile Include="..\..\source\editor\levelBuilderTriggerTool.cc" />
     <ClCompile Include="..\..\source\editor\levelBuilderWorldLimitTool.cc" />
     <ClCompile Include="..\..\source\editor\preferencesManager.cc" />
@@ -330,8 +328,6 @@
     <ClInclude Include="..\..\source\editor\levelBuilderStaticSpriteTool.h" />
     <ClInclude Include="..\..\source\editor\levelBuilderTextEditTool.h" />
     <ClInclude Include="..\..\source\editor\levelBuilderTextObjectTool.h" />
-    <ClInclude Include="..\..\source\editor\levelBuilderTileMapEditTool.h" />
-    <ClInclude Include="..\..\source\editor\levelBuilderTileMapTool.h" />
     <ClInclude Include="..\..\source\editor\levelBuilderTriggerTool.h" />
     <ClInclude Include="..\..\source\editor\levelBuilderWorldLimitTool.h" />
     <ClInclude Include="..\..\source\editor\preferencesManager.h" />

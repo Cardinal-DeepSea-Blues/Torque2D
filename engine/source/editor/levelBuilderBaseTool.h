@@ -10,26 +10,16 @@
 #ifndef _LEVELBUILDERBASETOOL_H_
 #define _LEVELBUILDERBASETOOL_H_
 
-#ifndef _SIMBASE_H_
-#include "console/simBase.h"
-#endif
+#include "sim/simBase.h"
 
-#ifndef _T2DSCENEGRAPH_H_
-#include "T2D/t2dSceneGraph.h"
-#endif
-
-#ifndef _T2DSCENEOBJECT_H_
+#include "2d/scene/Scene.h"
 #include "2d/sceneobject/SceneObject.h"
-#endif
 
 #ifndef _LEVELBUILDERSCENEWINDOW_H_
-#include "TGB/levelBuilderSceneWindow.h"
+#include "editor/levelBuilderSceneWindow.h"
 #endif
 
-#ifndef _UNDO_H_
-#include "util/undo.h"
-#endif
-
+#include "collection/undo.h"
 #ifndef _PROFILER_H_
 #include "platform/profiler.h"
 #endif
@@ -72,11 +62,11 @@ public:
    /// onAcquireObject is called when an object is acquired by the SGEC that owns this tool.
    /// There is a required return of true or false indicating whether our not the tool wants
    /// the object and acquired it properly.
-   virtual bool onAcquireObject(t2dSceneObject* object);
+   virtual bool onAcquireObject(SceneObject* object);
 
    /// onRelinquishObject is called when the edit window that owns this tool loses acquisition of
    /// an object.
-   virtual void onRelinquishObject(t2dSceneObject* object);
+   virtual void onRelinquishObject(SceneObject* object);
    
 	/// Acquired Object Mouse events
    ///

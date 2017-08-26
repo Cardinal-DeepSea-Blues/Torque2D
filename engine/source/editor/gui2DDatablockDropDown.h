@@ -5,8 +5,8 @@
 // Copyright (C) GarageGames.com, Inc.
 //-----------------------------------------------------------------------------
 
-#include "gui/controls/guiPopUpCtrlEx.h"
-#include "T2D/t2dBaseDatablock.h"
+#include "gui/guiPopUpCtrlEx.h"
+#include "sim/simDatablock.h"
 #include "T2D/t2dImageMapDatablock.h"
 #include "2d/sceneobject/SceneObject.h"
 #include "T2D/t2dAnimatedSprite.h"

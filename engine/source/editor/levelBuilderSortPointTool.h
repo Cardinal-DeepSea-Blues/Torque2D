@@ -18,11 +18,11 @@
 #endif
 
 #ifndef _LEVELBUILDERBASETOOL_H_
-#include "TGB/levelBuilderBaseTool.h"
+#include "editor/levelBuilderBaseTool.h"
 #endif
 
 #ifndef _LEVELBUILDERSCENEEDIT_H_
-#include "TGB/levelBuilderSceneEdit.h"
+#include "editor/levelBuilderSceneEdit.h"
 #endif
 
 class UndoSortPointMoveAction;
@@ -43,12 +43,12 @@ private:
    bool mAddUndo;
 
 protected:
-   t2dSceneObject* mSceneObject;
+   SceneObject* mSceneObject;
    LevelBuilderSceneWindow* mSceneWindow;
 
-   bool isEditable(t2dSceneObject* obj);
-   Point2I getMountPointWorld(LevelBuilderSceneWindow* sceneWindow, const t2dSceneObject *obj, Point2F oneToOnePoint) const;
-   Point2F getMountPointObject(LevelBuilderSceneWindow* sceneWindow, const t2dSceneObject *obj, const Point2I &worldPoint) const;
+   bool isEditable(SceneObject* obj);
+   Point2I getMountPointWorld(LevelBuilderSceneWindow* sceneWindow, const SceneObject *obj, Point2F oneToOnePoint) const;
+   Point2F getMountPointObject(LevelBuilderSceneWindow* sceneWindow, const SceneObject *obj, const Point2I &worldPoint) const;
 
 public:
    LevelBuilderSortPointTool();
@@ -57,13 +57,13 @@ public:
    // Base Tool Overrides
    bool onActivate(LevelBuilderSceneWindow* sceneWindow);
    void onDeactivate();
-   bool onAcquireObject(t2dSceneObject* object);
-   void onRelinquishObject(t2dSceneObject* object);
+   bool onAcquireObject(SceneObject* object);
+   void onRelinquishObject(SceneObject* object);
    
    void onRenderGraph( LevelBuilderSceneWindow* sceneWindow );
 
    // Object Editing
-   void editObject(t2dSceneObject* object);
+   void editObject(SceneObject* object);
    // This cancels an edit, applying changes.
    void finishEdit();
 
@@ -79,16 +79,16 @@ class UndoSortPointMoveAction : public UndoAction
 {
 private:
    LevelBuilderSceneEdit* mSceneEdit;
-   t2dSceneObject* mObject;
+   SceneObject* mObject;
    
-   t2dVector mStartPosition;
-   t2dVector mEndPosition;
+   Vector2 mStartPosition;
+   Vector2 mEndPosition;
 
 public:
    UndoSortPointMoveAction(LevelBuilderSceneEdit* sceneEdit, UTF8* actionName) : UndoAction(actionName) { mSceneEdit = sceneEdit; };
 
-   void setStartPosition(t2dSceneObject* object, t2dVector position) { mObject = object; mStartPosition = position; deleteNotify(object); };
-   void setEndPosition(t2dVector position) { mEndPosition = position; };
+   void setStartPosition(SceneObject* object, Vector2 position) { mObject = object; mStartPosition = position; deleteNotify(object); };
+   void setEndPosition(Vector2 position) { mEndPosition = position; };
 
    virtual void onDeleteNotify(SimObject* object)
    {

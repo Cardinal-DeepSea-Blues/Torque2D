@@ -109,7 +109,7 @@ public:
    };
 
    // Calls the script function defined in 'mCallback'.
-   void doCallback(LevelBuilderSceneEdit* sceneEdit, const t2dSceneObject* object)
+   void doCallback(LevelBuilderSceneEdit* sceneEdit, const SceneObject* object)
    {
       Con::executef(sceneEdit, 2, mCallback, Con::getIntArg(object->getId()));
    };
@@ -161,10 +161,10 @@ protected:
 
    // The hover object is the object that would be selected if the mouse were
    // clicked at its current point.
-	const t2dSceneObject*    mHoverObj;
+	const SceneObject*    mHoverObj;
 
    // The selected hover object is the object for which the widgets are being shown.
-   const t2dSceneObject*    mSelectedHoverObj;
+   const SceneObject*    mSelectedHoverObj;
 
    static const S32 mMaxWidgets = 8;
    // These are the widgets to be rendered for the current selected hover obj.
@@ -183,14 +183,14 @@ protected:
    bool                     mUndoSelections;
 
    // This is the offset from an object's center that the mouse was clicked.
-   t2dVector mMouseOffset;
+   Vector2 mMouseOffset;
    // These store info about the rotation and mouse status at the start of a rotation.
    F32 mStartRotation;
-   t2dVector mRotationVector;
+   Vector2 mRotationVector;
 
    // This function finds the selected hover object based on a mouse status.
    void checkSelectedHoverObj(LevelBuilderSceneWindow* sceneWindow, const t2dEditMouseStatus& mouseStatus);
-   void setSelectedHoverObj(const t2dSceneObject* object);
+   void setSelectedHoverObj(const SceneObject* object);
 
 public:
 	LevelBuilderSelectionTool();
@@ -232,10 +232,10 @@ class UndoMoveAction : public UndoAction
 private:
    struct UndoObject
    {
-      UndoObject(t2dSceneObject* _object, t2dVector _oldPosition) { object = _object; oldPosition = _oldPosition; };
-      t2dSceneObject* object;
-      t2dVector oldPosition;
-      t2dVector newPosition;
+      UndoObject(SceneObject* _object, Vector2 _oldPosition) { object = _object; oldPosition = _oldPosition; };
+      SceneObject* object;
+      Vector2 oldPosition;
+      Vector2 newPosition;
    };
 
    Vector<UndoObject> mObjects;
@@ -246,7 +246,7 @@ private:
 public:
    UndoMoveAction(LevelBuilderSceneEdit* sceneEdit, UTF8* name) : UndoAction(name) { mSceneEdit = sceneEdit; };
 
-   void addObject(t2dSceneObject* object)
+   void addObject(SceneObject* object)
    {
       mObjects.push_back(UndoObject(object, object->getPosition()));
       deleteNotify(object);
@@ -268,7 +268,7 @@ public:
          mUndoManager->removeAction(this);
    }
 
-   void setNewPosition(t2dSceneObject* object)
+   void setNewPosition(SceneObject* object)
    {
       Vector<UndoObject>::iterator itr;
       for (itr = mObjects.begin(); itr != mObjects.end(); itr++)
@@ -286,7 +286,7 @@ public:
       for (S32 i = 0; i < mObjects.size(); i++)
       {
          if (!mObjects[i].object) continue;
-         t2dSceneObject* object = mObjects[i].object;
+         SceneObject* object = mObjects[i].object;
          object->setPosition(mObjects[i].oldPosition);
          mSceneEdit->onObjectSpatialChanged(object);
       }
@@ -297,7 +297,7 @@ public:
       for (S32 i = 0; i < mObjects.size(); i++)
       {
          if (!mObjects[i].object) continue;
-         t2dSceneObject* object = mObjects[i].object;
+         SceneObject* object = mObjects[i].object;
          object->setPosition(mObjects[i].newPosition);
          mSceneEdit->onObjectSpatialChanged(object);
       }
@@ -312,7 +312,7 @@ class UndoScaleAction : public UndoAction
 private:
    struct UndoObject
    {
-      UndoObject(t2dSceneObject* _object, t2dVector _oldSize, t2dVector _oldPosition, bool _oldFlipX, bool _oldFlipY)
+      UndoObject(SceneObject* _object, Vector2 _oldSize, Vector2 _oldPosition, bool _oldFlipX, bool _oldFlipY)
 	  {
 		  object = _object;
 		  oldSize = _oldSize;
@@ -320,13 +320,13 @@ private:
 		  oldFlipX = _oldFlipX;
 		  oldFlipY = _oldFlipY;
 	  };
-      t2dSceneObject* object;
-      t2dVector oldSize;
-      t2dVector oldPosition;
+      SceneObject* object;
+      Vector2 oldSize;
+      Vector2 oldPosition;
 	  bool oldFlipX;
 	  bool oldFlipY;
-      t2dVector newSize;
-      t2dVector newPosition;
+      Vector2 newSize;
+      Vector2 newPosition;
 	  bool newFlipX;
 	  bool newFlipY;
    };
@@ -339,7 +339,7 @@ private:
 public:
    UndoScaleAction(LevelBuilderSceneEdit* sceneEdit, UTF8* name) : UndoAction(name) { mSceneEdit = sceneEdit; };
 
-   void addObject(t2dSceneObject* object)
+   void addObject(SceneObject* object)
    {
       mObjects.push_back(UndoObject(object, object->getSize(), object->getPosition(), object->getFlipX(), object->getFlipY()));
       deleteNotify(object);
@@ -361,7 +361,7 @@ public:
          mUndoManager->removeAction(this);
    }
 
-   void setNewSize(t2dSceneObject* object)
+   void setNewSize(SceneObject* object)
    {
       Vector<UndoObject>::iterator itr;
       for (itr = mObjects.begin(); itr != mObjects.end(); itr++)
@@ -382,7 +382,7 @@ public:
       for (S32 i = 0; i < mObjects.size(); i++)
       {
          if (!mObjects[i].object) continue;
-         t2dSceneObject* object = mObjects[i].object;
+         SceneObject* object = mObjects[i].object;
          object->setSize(mObjects[i].oldSize);
          object->setPosition(mObjects[i].oldPosition);
 		 object->setFlipX(mObjects[i].oldFlipX);
@@ -396,7 +396,7 @@ public:
       for (S32 i = 0; i < mObjects.size(); i++)
       {
          if (!mObjects[i].object) continue;
-         t2dSceneObject* object = mObjects[i].object;
+         SceneObject* object = mObjects[i].object;
          object->setSize(mObjects[i].newSize);
          object->setPosition(mObjects[i].newPosition);
 		 object->setFlipX(mObjects[i].newFlipX);
@@ -412,8 +412,8 @@ class UndoSelectAction : public UndoAction
    typedef UndoAction Parent;
 
 private:
-   Vector<t2dSceneObject*> mOldObjects;
-   Vector<t2dSceneObject*> mNewObjects;
+   Vector<SceneObject*> mOldObjects;
+   Vector<SceneObject*> mNewObjects;
 
    // We need this so we can send notifications of objects changing.
    LevelBuilderSceneEdit* mSceneEdit;
@@ -421,12 +421,12 @@ private:
 public:
    UndoSelectAction(LevelBuilderSceneEdit* sceneEdit, UTF8* name) : UndoAction(name) { mSceneEdit = sceneEdit; };
 
-   void addOldObject(t2dSceneObject* object)
+   void addOldObject(SceneObject* object)
    {
       mOldObjects.push_back(object);
       deleteNotify(object);
    };
-   void addNewObject(t2dSceneObject* object)
+   void addNewObject(SceneObject* object)
    {
       mNewObjects.push_back(object);
       deleteNotify(object);
@@ -434,7 +434,7 @@ public:
 
    virtual void onDeleteNotify(SimObject* object)
    {
-      Vector<t2dSceneObject*>::iterator itr;
+      Vector<SceneObject*>::iterator itr;
       for (itr = mOldObjects.begin(); itr != mOldObjects.end(); itr++)
       {
          if (*itr == object)
@@ -444,7 +444,7 @@ public:
          }
       }
 
-      Vector<t2dSceneObject*>::iterator itr2;
+      Vector<SceneObject*>::iterator itr2;
       for (itr2 = mNewObjects.begin(); itr2 != mNewObjects.end(); itr2++)
       {
          if (*itr2 == object)
@@ -473,7 +473,7 @@ public:
       mSceneEdit->clearAcquisition();
       for (S32 i = 0; i < mNewObjects.size(); i++)
       {
-         SimObjectPtr<t2dSceneObject> object = mNewObjects[i];
+         SimObjectPtr<SceneObject> object = mNewObjects[i];
          if (!object) continue;
          mSceneEdit->acquireObject(mNewObjects[i]);
       }
@@ -488,8 +488,8 @@ class UndoRotateAction : public UndoAction
 private:
    struct UndoObject
    {
-      UndoObject(t2dSceneObject* _object, F32 _oldRotation) { object = _object; oldRotation = _oldRotation; };
-      t2dSceneObject* object;
+      UndoObject(SceneObject* _object, F32 _oldRotation) { object = _object; oldRotation = _oldRotation; };
+      SceneObject* object;
       F32 oldRotation;
       F32 newRotation;
    };
@@ -502,7 +502,7 @@ private:
 public:
    UndoRotateAction(LevelBuilderSceneEdit* sceneEdit, UTF8* name) : UndoAction(name) { mSceneEdit = sceneEdit; };
 
-   void addObject(t2dSceneObject* object)
+   void addObject(SceneObject* object)
    {
       mObjects.push_back(UndoObject(object, object->getRotation()));
       deleteNotify(object);
@@ -524,7 +524,7 @@ public:
          mUndoManager->removeAction(this);
    };
 
-   void setNewRotation(t2dSceneObject* object)
+   void setNewRotation(SceneObject* object)
    {
       Vector<UndoObject>::iterator itr;
       for (itr = mObjects.begin(); itr != mObjects.end(); itr++)
@@ -542,7 +542,7 @@ public:
       for (S32 i = 0; i < mObjects.size(); i++)
       {
          if (!mObjects[i].object) continue;
-         t2dSceneObject* object = mObjects[i].object;
+         SceneObject* object = mObjects[i].object;
          object->setRotation(mObjects[i].oldRotation);
          mSceneEdit->onObjectSpatialChanged(object);
       }
@@ -553,7 +553,7 @@ public:
       for (S32 i = 0; i < mObjects.size(); i++)
       {
          if (!mObjects[i].object) continue;
-         t2dSceneObject* object = mObjects[i].object;
+         SceneObject* object = mObjects[i].object;
          object->setRotation(mObjects[i].newRotation);
          mSceneEdit->onObjectSpatialChanged(object);
       }

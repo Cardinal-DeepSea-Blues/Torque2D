@@ -14,11 +14,11 @@
 #endif
 
 #ifndef _T2DTRIGGER_H_
-#include "T2D/t2dTrigger.h"
+#include "2d/sceneobject/Trigger.h"
 #endif
 
 #ifndef _LEVELBUILDERCREATETOOL_H_
-#include "TGB/levelBuilderCreateTool.h"
+#include "editor/levelBuilderCreateTool.h"
 #endif
 
 #ifndef _CONSOLETYPES_H_
@@ -33,7 +33,7 @@ class LevelBuilderTriggerTool : public LevelBuilderCreateTool
    typedef LevelBuilderCreateTool Parent;
 
 protected:
-   virtual t2dSceneObject* createObject();
+   virtual SceneObject* createObject();
    virtual void showObject();
   
 public:

@@ -18,7 +18,7 @@
 #endif
 
 #ifndef _LEVELBUILDERCREATETOOL_H_
-#include "TGB/levelBuilderCreateTool.h"
+#include "editor/levelBuilderCreateTool.h"
 #endif
 
 #ifndef _CONSOLETYPES_H_
@@ -36,9 +36,9 @@ private:
    StringTableEntry mImageMapName;
 
 protected:
-   virtual t2dSceneObject* createObject();
+   virtual SceneObject* createObject();
    virtual void showObject();
-   virtual t2dVector getDefaultSize( LevelBuilderSceneWindow *window );
+   virtual Vector2 getDefaultSize( LevelBuilderSceneWindow *window );
   
 public:
    LevelBuilderChunkedSpriteTool();

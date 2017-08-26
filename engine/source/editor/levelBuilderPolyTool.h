@@ -10,11 +10,11 @@
 #define _LEVELBUILDERPOLYTOOL_H_
 
 #ifndef _LEVELBUILDERBASETOOL_H_
-#include "TGB/levelBuilderBaseTool.h"
+#include "editor/levelBuilderBaseTool.h"
 #endif
 
 #ifndef _UNDO_H_
-#include "util/undo.h"
+#include "collection/undo.h"
 #endif
 
 class UndoPolyAction;
@@ -43,21 +43,21 @@ protected:
    F32 mCameraZoom;
 
    LevelBuilderSceneWindow* mSceneWindow;
-   t2dSceneObject*          mSceneObject;
+   SceneObject*          mSceneObject;
    
    // Helper Functions
    S32     findCollisionVertex(Point2I hitPoint);
-   Point2I getCollisionPointWorld(LevelBuilderSceneWindow* sceneWindow, const t2dSceneObject *obj, Point2F oneToOnePoint) const;
-   Point2F getCollisionPointObject(LevelBuilderSceneWindow* sceneWindow, const t2dSceneObject *obj, const Point2I &worldPoint) const;
+   Point2I getCollisionPointWorld(LevelBuilderSceneWindow* sceneWindow, const SceneObject *obj, Point2F oneToOnePoint) const;
+   Point2F getCollisionPointObject(LevelBuilderSceneWindow* sceneWindow, const SceneObject *obj, const Point2I &worldPoint) const;
 
    // Object Editing
-   bool acquireCollisionPoly(t2dSceneObject* object);
-   bool setCollisionPoly(t2dSceneObject* object);
+   bool acquireCollisionPoly(SceneObject* object);
+   bool setCollisionPoly(SceneObject* object);
    void clearCollisionPoly();
-   bool isEditable(t2dSceneObject* obj);
+   bool isEditable(SceneObject* obj);
 
    // State Info
-   t2dVector mLocalMousePosition;
+   Vector2 mLocalMousePosition;
    
 public:
    LevelBuilderPolyTool();
@@ -69,7 +69,7 @@ public:
    virtual bool hasUndoManager() { return true; };
    
    // Convex Checking
-   bool checkConvexPoly(Vector<t2dVector> &list);
+   bool checkConvexPoly(Vector<Vector2> &list);
    bool checkDragPoint(Vector<Point2F> &list, S32 index, Point2I dragPoint);
    S32  checkNewPointConvexAddition(const Point2I &newPoint);
 
@@ -85,11 +85,11 @@ public:
    // Base Tool Overrides
    bool onActivate(LevelBuilderSceneWindow* sceneWindow);
    void onDeactivate();
-   bool onAcquireObject(t2dSceneObject* object);
-   void onRelinquishObject(t2dSceneObject* object);
+   bool onAcquireObject(SceneObject* object);
+   void onRelinquishObject(SceneObject* object);
 
    // Object Editing
-   void editObject(t2dSceneObject* object);
+   void editObject(SceneObject* object);
    // This cancels an edit, not applying any changes.
    void cancelEdit();
    // This cancels an edit, applying changes.
@@ -98,8 +98,8 @@ public:
    virtual bool undo() { mUndoManager.undo(); return true; };
    virtual bool redo() { mUndoManager.redo(); return true; };
 
-   void moveVertex(S32 index, t2dVector position);
-   void insertVertex(t2dVector position, S32 index);
+   void moveVertex(S32 index, Vector2 position);
+   void insertVertex(Vector2 position, S32 index);
    void removeVertex(S32 index);
 
    void onRenderGraph(LevelBuilderSceneWindow* sceneWindow);
@@ -109,7 +109,7 @@ public:
    void             setPolyPrimitive(U32 polyVertexCount);
 
    // State Accessors
-   t2dVector getLocalMousePosition() { return mLocalMousePosition; };
+   Vector2 getLocalMousePosition() { return mLocalMousePosition; };
 
    DECLARE_CONOBJECT(LevelBuilderPolyTool);
 };
@@ -120,12 +120,12 @@ class UndoFullPolyAction : public UndoAction
    typedef UndoAction Parent;
 
 private:
-   t2dSceneObject* mSceneObject;
-   Vector<t2dVector> mOldPoints;
-   Vector<t2dVector> mNewPoints;
+   SceneObject* mSceneObject;
+   Vector<Vector2> mOldPoints;
+   Vector<Vector2> mNewPoints;
 
 public:
-   UndoFullPolyAction(t2dSceneObject* object, UTF8* actionName) : UndoAction(actionName) { mSceneObject = object; deleteNotify(object); };
+   UndoFullPolyAction(SceneObject* object, UTF8* actionName) : UndoAction(actionName) { mSceneObject = object; deleteNotify(object); };
 
    virtual void onDeleteNotify(SimObject* object)
    {
@@ -133,14 +133,14 @@ public:
          mUndoManager->removeAction(this);
    };
 
-   void setOldPoints(S32 count, const t2dVector* oldPoints)
+   void setOldPoints(S32 count, const Vector2* oldPoints)
    {
       mOldPoints.clear();
       for (S32 i = 0; i < count; i++)
          mOldPoints.push_back(oldPoints[i]);
    };
 
-   void setNewPoints(S32 count, const t2dVector* newPoints)
+   void setNewPoints(S32 count, const Vector2* newPoints)
    {
       mNewPoints.clear();
       for (S32 i = 0; i < count; i++)
@@ -163,12 +163,12 @@ public:
 
    virtual void undo()
    {
-      mSceneObject->setCollisionPolyCustom(mOldPoints.size(), mOldPoints.address());
+      mSceneObject->createPolygonCollisionShape(mOldPoints.size(), mOldPoints.address());
    };
 
    virtual void redo()
    {
-      mSceneObject->setCollisionPolyCustom(mNewPoints.size(), mNewPoints.address());
+      mSceneObject->createPolygonCollisionShape(mNewPoints.size(), mNewPoints.address());
    };
 };
 
@@ -180,12 +180,12 @@ private:
    LevelBuilderPolyTool* mPolyTool;
    
    S32 mIndex;
-   t2dVector mPosition;
+   Vector2 mPosition;
 
 public:
    UndoPolyAddVertexAction(LevelBuilderPolyTool* tool, UTF8* actionName) : UndoAction(actionName) { mPolyTool = tool; };
 
-   void setIndex(t2dVector position, S32 index) { mIndex = index, mPosition = position; };
+   void setIndex(Vector2 position, S32 index) { mIndex = index, mPosition = position; };
 
    virtual void undo() { mPolyTool->removeVertex(mIndex); };
    virtual void redo() { mPolyTool->insertVertex(mPosition, mIndex); };
@@ -199,12 +199,12 @@ private:
    LevelBuilderPolyTool* mPolyTool;
    
    Vector<S32> mIndex;
-   Vector<t2dVector> mPosition;
+   Vector<Vector2> mPosition;
 
 public:
    UndoPolyRemoveVertexAction(LevelBuilderPolyTool* tool, UTF8* actionName) : UndoAction(actionName) { mPolyTool = tool; };
 
-   void addIndex(t2dVector position, S32 index) { mIndex.push_back(index), mPosition.push_back(position); };
+   void addIndex(Vector2 position, S32 index) { mIndex.push_back(index), mPosition.push_back(position); };
 
    virtual void undo() { for (S32 i = 0; i < mIndex.size(); i++) mPolyTool->insertVertex(mPosition[i], mIndex[i]); };
    virtual void redo() { for (S32 i = 0; i < mIndex.size(); i++) mPolyTool->removeVertex(mIndex[i]); };
@@ -218,14 +218,14 @@ private:
    LevelBuilderPolyTool* mPolyTool;
    
    S32 mIndex;
-   t2dVector mStartPosition;
-   t2dVector mEndPosition;
+   Vector2 mStartPosition;
+   Vector2 mEndPosition;
 
 public:
    UndoPolyMoveVertexAction(LevelBuilderPolyTool* tool, UTF8* actionName) : UndoAction(actionName) { mPolyTool = tool; };
 
-   void setStartPosition(t2dVector position, S32 index) { mIndex = index, mStartPosition = position; };
-   void setEndPosition(t2dVector position) { mEndPosition = position; };
+   void setStartPosition(Vector2 position, S32 index) { mIndex = index, mStartPosition = position; };
+   void setEndPosition(Vector2 position) { mEndPosition = position; };
 
    virtual void undo() { mPolyTool->moveVertex(mIndex, mStartPosition); };
    virtual void redo() { mPolyTool->moveVertex(mIndex, mEndPosition); };

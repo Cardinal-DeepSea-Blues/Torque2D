@@ -24,7 +24,7 @@ LevelBuilderAnimatedSpriteTool::~LevelBuilderAnimatedSpriteTool()
 {
 }
 
-t2dSceneObject* LevelBuilderAnimatedSpriteTool::createObject()
+SceneObject* LevelBuilderAnimatedSpriteTool::createObject()
 {
    t2dAnimatedSprite* animatedSprite = dynamic_cast<t2dAnimatedSprite*>(ConsoleObject::create("t2dAnimatedSprite"));
 

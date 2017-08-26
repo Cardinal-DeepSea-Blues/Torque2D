@@ -14,11 +14,11 @@
 #endif
 
 #ifndef _T2DANIMATEDSPRITE_H_
-#include "T2D/t2dAnimatedSprite.h"
+#include "2d/assets/AnimationAsset.h"
 #endif
 
 #ifndef _LEVELBUILDERCREATETOOL_H_
-#include "TGB/levelBuilderCreateTool.h"
+#include "editor/levelBuilderCreateTool.h"
 #endif
 
 #ifndef _CONSOLETYPES_H_
@@ -36,7 +36,7 @@ private:
    StringTableEntry mAnimationName;
 
 protected:
-   virtual t2dSceneObject* createObject();
+   virtual SceneObject* createObject();
    virtual Point2I getPixelSize();
   
 public:

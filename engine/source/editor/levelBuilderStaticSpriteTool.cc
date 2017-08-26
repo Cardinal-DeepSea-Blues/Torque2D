@@ -8,7 +8,7 @@
 //---------------------------------------------------------------------------------------------
 
 #include "console/console.h"
-#include "TGB/levelBuilderStaticSpriteTool.h"
+#include "editor/levelBuilderStaticSpriteTool.h"
 #include "T2D/t2dStaticSprite.h"
 
 // Implement Our Console Object
@@ -26,7 +26,7 @@ LevelBuilderStaticSpriteTool::~LevelBuilderStaticSpriteTool()
 {
 }
 
-t2dSceneObject* LevelBuilderStaticSpriteTool::createObject()
+SceneObject* LevelBuilderStaticSpriteTool::createObject()
 {
    t2dStaticSprite* staticSprite = dynamic_cast<t2dStaticSprite*>(ConsoleObject::create("t2dStaticSprite"));
 

@@ -18,11 +18,11 @@
 #endif
 
 #ifndef _LEVELBUILDERBASETOOL_H_
-#include "TGB/levelBuilderBaseTool.h"
+#include "editor/levelBuilderBaseTool.h"
 #endif
 
 #ifndef _LEVELBUILDERSCENEEDIT_H_
-#include "TGB/levelBuilderSceneEdit.h"
+#include "editor/levelBuilderSceneEdit.h"
 #endif
 
 //-----------------------------------------------------------------------------
@@ -45,13 +45,13 @@ private:
    bool mAddUndo;
 
 protected:
-   t2dSceneObject* mSceneObject;
+   SceneObject* mSceneObject;
    LevelBuilderSceneWindow* mSceneWindow;
 
    S32 findMountNode( Point2I hitPoint );
-   bool isEditable(t2dSceneObject* obj);
-   Point2I getMountPointWorld(LevelBuilderSceneWindow* sceneWindow, const t2dSceneObject *obj, Point2F oneToOnePoint) const;
-   Point2F getMountPointObject(LevelBuilderSceneWindow* sceneWindow, const t2dSceneObject *obj, const Point2I &worldPoint) const;
+   bool isEditable(SceneObject* obj);
+   Point2I getMountPointWorld(LevelBuilderSceneWindow* sceneWindow, const SceneObject *obj, Point2F oneToOnePoint) const;
+   Point2F getMountPointObject(LevelBuilderSceneWindow* sceneWindow, const SceneObject *obj, const Point2I &worldPoint) const;
 
 public:
    LevelBuilderLinkPointTool();
@@ -60,13 +60,13 @@ public:
    // Base Tool Overrides
    bool onActivate(LevelBuilderSceneWindow* sceneWindow);
    void onDeactivate();
-   bool onAcquireObject(t2dSceneObject* object);
-   void onRelinquishObject(t2dSceneObject* object);
+   bool onAcquireObject(SceneObject* object);
+   void onRelinquishObject(SceneObject* object);
    
    void onRenderGraph( LevelBuilderSceneWindow* sceneWindow );
 
    // Object Editing
-   void editObject(t2dSceneObject* object);
+   void editObject(SceneObject* object);
    // This cancels an edit, applying changes.
    void finishEdit();
 
@@ -83,14 +83,14 @@ class UndoLinkPointAddAction : public UndoAction
 {
 private:
    LevelBuilderSceneEdit* mSceneEdit;
-   t2dSceneObject* mObject;
+   SceneObject* mObject;
    U32 mNode;
-   t2dVector mPosition;
+   Vector2 mPosition;
 
 public:
    UndoLinkPointAddAction(LevelBuilderSceneEdit* sceneEdit, UTF8* actionName) : UndoAction(actionName) { mSceneEdit = sceneEdit; };
 
-   void setNode(t2dSceneObject* object, U32 node, t2dVector position) { mObject = object; mNode = node; mPosition = position; deleteNotify(object); };
+   void setNode(SceneObject* object, U32 node, Vector2 position) { mObject = object; mNode = node; mPosition = position; deleteNotify(object); };
 
    virtual void onDeleteNotify(SimObject* object)
    {
@@ -106,7 +106,7 @@ public:
    virtual void redo()
    {
       U32 node = mObject->addLinkPoint(mPosition);
-      t2dSceneObject::tMountNode* mountNode = mObject->getMountNode(node);
+      SceneObject::tMountNode* mountNode = mObject->getMountNode(node);
       mountNode->mMountID = mNode;
       mSceneEdit->onObjectChanged(mObject);
    };
@@ -116,14 +116,14 @@ class UndoLinkPointRemoveAction : public UndoAction
 {
 private:
    LevelBuilderSceneEdit* mSceneEdit;
-   t2dSceneObject* mObject;
+   SceneObject* mObject;
    U32 mNode;
-   t2dVector mPosition;
+   Vector2 mPosition;
 
 public:
    UndoLinkPointRemoveAction(LevelBuilderSceneEdit* sceneEdit, UTF8* actionName) : UndoAction(actionName) { mSceneEdit = sceneEdit; };
 
-   void setNode(t2dSceneObject* object, U32 node, t2dVector position) { mObject = object; mNode = node; mPosition = position; deleteNotify(object); };
+   void setNode(SceneObject* object, U32 node, Vector2 position) { mObject = object; mNode = node; mPosition = position; deleteNotify(object); };
 
    virtual void onDeleteNotify(SimObject* object)
    {
@@ -139,7 +139,7 @@ public:
    virtual void undo()
    {
       U32 node = mObject->addLinkPoint(mPosition);
-      t2dSceneObject::tMountNode* mountNode = mObject->getMountNode(node);
+      SceneObject::tMountNode* mountNode = mObject->getMountNode(node);
       mountNode->mMountID = mNode;
       mSceneEdit->onObjectChanged(mObject);
    };
@@ -149,17 +149,17 @@ class UndoLinkPointMoveAction : public UndoAction
 {
 private:
    LevelBuilderSceneEdit* mSceneEdit;
-   t2dSceneObject* mObject;
+   SceneObject* mObject;
    
    U32 mNode;
-   t2dVector mStartPosition;
-   t2dVector mEndPosition;
+   Vector2 mStartPosition;
+   Vector2 mEndPosition;
 
 public:
    UndoLinkPointMoveAction(LevelBuilderSceneEdit* sceneEdit, UTF8* actionName) : UndoAction(actionName) { mSceneEdit = sceneEdit; };
 
-   void setStartPosition(t2dSceneObject* object, U32 node, t2dVector position) { mObject = object; mNode = node; mStartPosition = position; deleteNotify(object); };
-   void setEndPosition(t2dVector position) { mEndPosition = position; };
+   void setStartPosition(SceneObject* object, U32 node, Vector2 position) { mObject = object; mNode = node; mStartPosition = position; deleteNotify(object); };
+   void setEndPosition(Vector2 position) { mEndPosition = position; };
 
    virtual void onDeleteNotify(SimObject* object)
    {

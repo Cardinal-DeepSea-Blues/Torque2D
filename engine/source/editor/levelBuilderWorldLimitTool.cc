@@ -25,18 +25,18 @@ void LevelBuilderWorldLimitTool::updateSceneObject()
 
    /* This part is copied from former finishEdit() - Why aren't those modes allowed?
    // Set a default limit mode if necessary.
-   t2dSceneObject::eWorldLimit limit = mSceneObject->getWorldLimitMode();
-   if ((limit == t2dSceneObject::T2D_LIMIT_OFF) ||
-       (limit == t2dSceneObject::T2D_LIMIT_INVALID) ||
-       (limit == t2dSceneObject::T2D_LIMIT_NULL))
+   SceneObject::eWorldLimit limit = mSceneObject->getWorldLimitMode();
+   if ((limit == SceneObject::T2D_LIMIT_OFF) ||
+       (limit == SceneObject::T2D_LIMIT_INVALID) ||
+       (limit == SceneObject::T2D_LIMIT_NULL))
    {
-      limit = t2dSceneObject::T2D_LIMIT_BOUNCE;
+      limit = SceneObject::T2D_LIMIT_BOUNCE;
    }
    */
 
-   t2dSceneObject::eWorldLimit limit = mSceneObject->getWorldLimitMode();
-   if( limit == t2dSceneObject::T2D_LIMIT_INVALID )
-      limit = t2dSceneObject::T2D_LIMIT_BOUNCE;
+   SceneObject::eWorldLimit limit = mSceneObject->getWorldLimitMode();
+   if( limit == SceneObject::T2D_LIMIT_INVALID )
+      limit = SceneObject::T2D_LIMIT_BOUNCE;
 
    mSceneObject->setWorldLimit(limit, min, max, mSceneObject->getWorldLimitCallback());
 
@@ -124,7 +124,7 @@ bool LevelBuilderWorldLimitTool::onAcquireObject(SceneObject* object)
    return true;
 }
 
-void LevelBuilderWorldLimitTool::onRelinquishObject(t2dSceneObject* object)
+void LevelBuilderWorldLimitTool::onRelinquishObject(SceneObject* object)
 {
    if(!mSceneWindow || !mSceneObject)
       return Parent::onRelinquishObject(object);
@@ -139,7 +139,7 @@ void LevelBuilderWorldLimitTool::onRelinquishObject(t2dSceneObject* object)
          // Since we're a tool override, we should try to edit any object we can.
          for (S32 i = 0; i < mSceneWindow->getSceneEdit()->getAcquiredObjectCount(); i++)
          {
-            t2dSceneObject* newObject = mSceneWindow->getSceneEdit()->getAcquiredObject(i);
+            SceneObject* newObject = mSceneWindow->getSceneEdit()->getAcquiredObject(i);
             if ((newObject != mSceneObject) && isEditable(newObject))
             {
                foundNewObject = true;
@@ -151,22 +151,22 @@ void LevelBuilderWorldLimitTool::onRelinquishObject(t2dSceneObject* object)
          if (!foundNewObject)
          {
             // Grab the size and position of the camera from the scenegraph.
-            t2dVector cameraPosition = t2dVector(0.0f, 0.0f);
-            t2dVector cameraSize = t2dVector(100.0f, 75.0f);
+            Vector2 cameraPosition = Vector2(0.0f, 0.0f);
+            Vector2 cameraSize = Vector2(100.0f, 75.0f);
             if (mSceneWindow->getSceneGraph())
             {
                const char* pos = mSceneWindow->getSceneGraph()->getDataField(StringTable->insert("cameraPosition"), NULL);
-               if (t2dSceneObject::getStringElementCount(pos) == 2)
-                  cameraPosition = t2dSceneObject::getStringElementVector(pos);
+               if (SceneObject::getStringElementCount(pos) == 2)
+                  cameraPosition = SceneObject::getStringElementVector(pos);
                
                const char* size = mSceneWindow->getSceneGraph()->getDataField(StringTable->insert("cameraSize"), NULL);
-               if (t2dSceneObject::getStringElementCount(size) == 2)
-                  cameraSize = t2dSceneObject::getStringElementVector(size);
+               if (SceneObject::getStringElementCount(size) == 2)
+                  cameraSize = SceneObject::getStringElementVector(size);
             }
 
             // And update the camera.
             mSceneWindow->setTargetCameraZoom( 1.0f );
-            mSceneWindow->setTargetCameraPosition(cameraPosition, cameraSize.mX, cameraSize.mY);
+            mSceneWindow->setTargetCameraPosition(cameraPosition, cameraSize.x, cameraSize.y);
             mSceneWindow->startCameraMove( 0.5f );
             mSceneObject = NULL;
          }
@@ -177,23 +177,23 @@ void LevelBuilderWorldLimitTool::onRelinquishObject(t2dSceneObject* object)
    Parent::onRelinquishObject(object);
 }
 
-void LevelBuilderWorldLimitTool::editObject(t2dSceneObject* object)
+void LevelBuilderWorldLimitTool::editObject(SceneObject* object)
 {
    if (!mSceneWindow || !isEditable(object))
       return;
 
    mSceneObject = object;
 
-   t2dSceneObject::eWorldLimit mode = object->getWorldLimitMode();
-   t2dVector min = object->getWorldLimitMin();
-   t2dVector max = object->getWorldLimitMax();
+   SceneObject::eWorldLimit mode = object->getWorldLimitMode();
+   Vector2 min = object->getWorldLimitMin();
+   Vector2 max = object->getWorldLimitMax();
    bool callback = object->getWorldLimitCallback();
 
    // Store entry values
    mWorldLimitMinBackup = min;
    mWorldLimitMinBackup = max;
 
-   if (RectF(min.mX, min.mY, max.mX - min.mX, max.mY - min.mY).isValidRect())
+   if (RectF(min.x, min.y, max.x - min.x, max.y - min.y).isValidRect())
    {
       mWorldLimitPosition = min + ((max - min) * 0.5);
       mWorldLimitSize = max - min;
@@ -210,7 +210,7 @@ void LevelBuilderWorldLimitTool::editObject(t2dSceneObject* object)
    mCameraZoom = mSceneWindow->getCurrentCameraZoom();
 
    mSceneWindow->setTargetCameraZoom(1.0f);
-   mSceneWindow->setTargetCameraPosition(mWorldLimitPosition, mWorldLimitSize.mX * 2.0f, mWorldLimitSize.mY * 2.0f);
+   mSceneWindow->setTargetCameraPosition(mWorldLimitPosition, mWorldLimitSize.x * 2.0f, mWorldLimitSize.y * 2.0f);
    mSceneWindow->startCameraMove( 0.5f );
 
    mUndoFullAction = new UndoFullWorldLimitAction(mSceneObject, "World Limit Change");
@@ -219,7 +219,7 @@ void LevelBuilderWorldLimitTool::editObject(t2dSceneObject* object)
 
 ConsoleMethod(LevelBuilderWorldLimitTool, editObject, void, 3, 3, "Selects an object for editing.")
 {
-   t2dSceneObject* obj = dynamic_cast<t2dSceneObject*>(Sim::findObject(argv[2]));
+   SceneObject* obj = dynamic_cast<SceneObject*>(Sim::findObject(argv[2]));
    if (obj)
       object->editObject(obj);
    else
@@ -307,7 +307,7 @@ bool LevelBuilderWorldLimitTool::onMouseDown( LevelBuilderSceneWindow* sceneWind
       if (mouseStatus.pickList.size() == 0)
          return Parent::onMouseDown(sceneWindow, mouseStatus);
 
-      t2dSceneObject* pObj = mouseStatus.pickList[0];
+      SceneObject* pObj = mouseStatus.pickList[0];
 
       if (mouseStatus.event.mouseClickCount >= 2)
          sceneWindow->getSceneEdit()->requestAcquisition(pObj);
@@ -315,18 +315,18 @@ bool LevelBuilderWorldLimitTool::onMouseDown( LevelBuilderSceneWindow* sceneWind
       return true;
    }
 
-   mMouseDownAR = mWorldLimitSize.mX / mWorldLimitSize.mY;
+   mMouseDownAR = mWorldLimitSize.x / mWorldLimitSize.y;
 
-   t2dVector upperLeft = mWorldLimitPosition - (mWorldLimitSize * 0.5);
-   t2dVector lowerRight = mWorldLimitPosition + (mWorldLimitSize * 0.5);
+   Vector2 upperLeft = mWorldLimitPosition - (mWorldLimitSize * 0.5);
+   Vector2 lowerRight = mWorldLimitPosition + (mWorldLimitSize * 0.5);
 
    mSizingState = getSizingState( sceneWindow, mouseStatus.event.mousePoint, RectF(upperLeft, mWorldLimitSize));
 
    mMoving = false;
    if (!mSizingState)
    {
-      if ((mouseStatus.mousePoint2D.mX > upperLeft.mX) && (mouseStatus.mousePoint2D.mX < lowerRight.mX) &&
-          (mouseStatus.mousePoint2D.mY > upperLeft.mY) && (mouseStatus.mousePoint2D.mY < lowerRight.mY))
+      if ((mouseStatus.mousePoint2D.x > upperLeft.x) && (mouseStatus.mousePoint2D.x < lowerRight.x) &&
+          (mouseStatus.mousePoint2D.y > upperLeft.y) && (mouseStatus.mousePoint2D.y < lowerRight.y))
       {
           mMoving = true;
           mOffset = mouseStatus.mousePoint2D - (upperLeft + ((lowerRight - upperLeft) * 0.5));
@@ -383,14 +383,14 @@ void LevelBuilderWorldLimitTool::onRenderGraph(LevelBuilderSceneWindow* sceneWin
    if (!mSceneObject || (sceneWindow != mSceneWindow))
       return;
 
-   t2dVector upperLeft = mWorldLimitPosition - (mWorldLimitSize * 0.5);
-   t2dVector lowerRight = mWorldLimitPosition + (mWorldLimitSize * 0.5);
-   t2dVector windowUpperLeft, windowLowerRight;
+   Vector2 upperLeft = mWorldLimitPosition - (mWorldLimitSize * 0.5);
+   Vector2 lowerRight = mWorldLimitPosition + (mWorldLimitSize * 0.5);
+   Vector2 windowUpperLeft, windowLowerRight;
    sceneWindow->sceneToWindowCoord(upperLeft, windowUpperLeft);
    sceneWindow->sceneToWindowCoord(lowerRight, windowLowerRight);
 
-   Point2I offsetUpperLeft = sceneWindow->localToGlobalCoord(Point2I(S32(windowUpperLeft.mX), S32(windowUpperLeft.mY)));
-   Point2I offsetLowerRight = sceneWindow->localToGlobalCoord(Point2I(S32(windowLowerRight.mX), S32(windowLowerRight.mY)));
+   Point2I offsetUpperLeft = sceneWindow->localToGlobalCoord(Point2I(S32(windowUpperLeft.x), S32(windowUpperLeft.y)));
+   Point2I offsetLowerRight = sceneWindow->localToGlobalCoord(Point2I(S32(windowLowerRight.x), S32(windowLowerRight.y)));
 
    RectI cameraRect = RectI(offsetUpperLeft, offsetLowerRight - offsetUpperLeft);
 

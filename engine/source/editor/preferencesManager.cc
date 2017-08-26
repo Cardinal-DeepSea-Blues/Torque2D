@@ -206,7 +206,7 @@ void PreferencesManager::endPrefGroup()
 bool PreferencesManager::getPrefBroadcastState(const char* name)
 {
    //*** Find the preference
-   Preference *pref = mPrefsHash.retreive(name);
+   Preference *pref = mPrefsHash.retrieve(name);
    if(pref && ! pref->mIsGroup)
       return pref->mBroadcastChange;
 
@@ -217,7 +217,7 @@ bool PreferencesManager::getPrefBroadcastState(const char* name)
 void PreferencesManager::setPrefBroadcastState(const char* name, bool state)
 {
    //*** Find the preference
-   Preference *pref = mPrefsHash.retreive(name);
+   Preference *pref = mPrefsHash.retrieve(name);
    if(pref && ! pref->mIsGroup)
       pref->mBroadcastChange = state;
 }
@@ -225,7 +225,7 @@ void PreferencesManager::setPrefBroadcastState(const char* name, bool state)
 //*** Get a preference's control setup callback
 const char *PreferencesManager::getPrefSetupCtrlCB(const char *name)
 {
-   Preference *pref = mPrefsHash.retreive(name);
+   Preference *pref = mPrefsHash.retrieve(name);
    if(pref && pref->mSetupCtrlCB)
       return pref->mSetupCtrlCB;
 
@@ -235,7 +235,7 @@ const char *PreferencesManager::getPrefSetupCtrlCB(const char *name)
 //*** Set a preference's control setup callback
 void PreferencesManager::setPrefSetupCtrlCB(const char *name, const char *cb)
 {
-   Preference *pref = mPrefsHash.retreive(name);
+   Preference *pref = mPrefsHash.retrieve(name);
    if(pref && ! pref->mIsGroup)
       pref->mSetupCtrlCB = StringTable->insert(cb);
 }
@@ -243,7 +243,7 @@ void PreferencesManager::setPrefSetupCtrlCB(const char *name, const char *cb)
 //*** Get a preference's control label
 const char *PreferencesManager::getPrefCtrlLabel(const char *name)
 {
-   Preference *pref = mPrefsHash.retreive(name);
+   Preference *pref = mPrefsHash.retrieve(name);
    if(pref && pref->mCtrlLabel)
       return pref->mCtrlLabel;
 
@@ -253,7 +253,7 @@ const char *PreferencesManager::getPrefCtrlLabel(const char *name)
 //*** Set a preference's control label
 void PreferencesManager::setPrefCtrlLabel(const char *name, const char *label)
 {
-   Preference *pref = mPrefsHash.retreive(name);
+   Preference *pref = mPrefsHash.retrieve(name);
    if(pref && ! pref->mIsGroup)
       pref->mCtrlLabel = StringTable->insert(label);
 }
@@ -263,7 +263,7 @@ void PreferencesManager::setPrefCtrlLabel(const char *name, const char *label)
 const char* PreferencesManager::getPref(const char* name, const char* defaultChar)
 {
    //*** Find the preference
-   Preference *pref = mPrefsHash.retreive(name);
+   Preference *pref = mPrefsHash.retrieve(name);
    if(pref && ! pref->mIsGroup)
       return Con::getVariable(pref->mVariable);
 
@@ -274,7 +274,7 @@ const char* PreferencesManager::getPref(const char* name, const char* defaultCha
 void PreferencesManager::setPref(const char* name, const char* value)
 {
    //*** Find the preference
-   Preference *pref = mPrefsHash.retreive(name);
+   Preference *pref = mPrefsHash.retrieve(name);
    if(pref && ! pref->mIsGroup)
    {
       //*** Set the value according to the storage type, if necessary.
@@ -325,7 +325,7 @@ void PreferencesManager::setPref(const char* name, const char* value)
 F32 PreferencesManager::getPrefF32(const char* name, F32 defaultF32)
 {
    //*** Find the preference
-   Preference *pref = mPrefsHash.retreive(name);
+   Preference *pref = mPrefsHash.retrieve(name);
    if(pref && ! pref->mIsGroup)
    {
       //*** If this preference is defined as a F32 storage type, then
@@ -348,7 +348,7 @@ F32 PreferencesManager::getPrefF32(const char* name, F32 defaultF32)
 S32 PreferencesManager::getPrefS32(const char* name, S32 defaultS32)
 {
    //*** Find the preference
-   Preference *pref = mPrefsHash.retreive(name);
+   Preference *pref = mPrefsHash.retrieve(name);
    if(pref && ! pref->mIsGroup)
    {
       //*** If this preference is defined as a S32 storage type, then
@@ -371,7 +371,7 @@ S32 PreferencesManager::getPrefS32(const char* name, S32 defaultS32)
 bool PreferencesManager::getPrefBool(const char* name, bool defaultBool)
 {
    //*** Find the preference
-   Preference *pref = mPrefsHash.retreive(name);
+   Preference *pref = mPrefsHash.retrieve(name);
    if(pref && ! pref->mIsGroup)
    {
       //*** If this preference is defined as a Bool storage type, then
@@ -394,7 +394,7 @@ bool PreferencesManager::getPrefBool(const char* name, bool defaultBool)
 ColorI PreferencesManager::getPrefColorI(const char* name, ColorI defaultColor)
 {
    //*** Find the preference
-   Preference *pref = mPrefsHash.retreive(name);
+   Preference *pref = mPrefsHash.retrieve(name);
    if(pref && ! pref->mIsGroup)
    {
       //*** If this preference is defined as a ColorI storage type, then
@@ -414,7 +414,7 @@ ColorI PreferencesManager::getPrefColorI(const char* name, ColorI defaultColor)
 ColorF PreferencesManager::getPrefColorF(const char* name, ColorF defaultColor)
 {
    //*** Find the preference
-   Preference *pref = mPrefsHash.retreive(name);
+   Preference *pref = mPrefsHash.retrieve(name);
    if(pref && ! pref->mIsGroup)
    {
       //*** If this preference is defined as a ColorF storage type, then
@@ -450,7 +450,7 @@ void PreferencesManager::doEnumCallback(const char *callback, const char *cbData
 
 bool PreferencesManager::enumeratePrefGroup(const char *name, S32 selector, const char *callback, const char *cbData)
 {
-   Preference *group = mPrefsHash.retreive(name);
+   Preference *group = mPrefsHash.retrieve(name);
    if(group == NULL || !group->mIsGroup || group->mID < 0 || group->mID >= mPreferences.size()-1)
       return false;
 

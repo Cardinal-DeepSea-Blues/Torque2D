@@ -7,10 +7,10 @@
 // SceneObject Link Point Tool.
 //-----------------------------------------------------------------------------
 #include "console/console.h"
-#include "dgl/dgl.h"
-#include "TGB/levelBuilderSortPointTool.h"
-#include "TGB/levelBuilderSceneEdit.h"
-#include "TGB/levelBuilderMountTool.h"
+#include "graphics/dgl.h"
+#include "editor/levelBuilderSortPointTool.h"
+#include "editor/levelBuilderSceneEdit.h"
+#include "editor/levelBuilderMountTool.h"
 
 IMPLEMENT_CONOBJECT(LevelBuilderSortPointTool);
 
@@ -49,7 +49,7 @@ void LevelBuilderSortPointTool::onDeactivate()
    Parent::onDeactivate();
 }
 
-bool LevelBuilderSortPointTool::onAcquireObject( t2dSceneObject *object )
+bool LevelBuilderSortPointTool::onAcquireObject( SceneObject *object )
 {
    if(!isEditable(object) || !mSceneWindow)
       return false;
@@ -67,7 +67,7 @@ bool LevelBuilderSortPointTool::onAcquireObject( t2dSceneObject *object )
    return true;
 }
 
-void LevelBuilderSortPointTool::onRelinquishObject( t2dSceneObject *object )
+void LevelBuilderSortPointTool::onRelinquishObject( SceneObject *object )
 {
    if(!mSceneWindow || !mSceneObject)
       return Parent::onRelinquishObject(object);
@@ -82,7 +82,7 @@ void LevelBuilderSortPointTool::onRelinquishObject( t2dSceneObject *object )
          // Since we're a tool override, we should try to edit any object we can.
          for (S32 i = 0; i < mSceneWindow->getSceneEdit()->getAcquiredObjectCount(); i++)
          {
-            t2dSceneObject* newObject = mSceneWindow->getSceneEdit()->getAcquiredObject(i);
+            SceneObject* newObject = mSceneWindow->getSceneEdit()->getAcquiredObject(i);
             if ((newObject != mSceneObject) && isEditable(newObject))
             {
                foundNewObject = true;
@@ -94,22 +94,22 @@ void LevelBuilderSortPointTool::onRelinquishObject( t2dSceneObject *object )
          if (!foundNewObject)
          {
             // Grab the size and position of the camera from the scenegraph.
-            t2dVector cameraPosition = t2dVector(0.0f, 0.0f);
-            t2dVector cameraSize = t2dVector(100.0f, 75.0f);
+            Vector2 cameraPosition = Vector2(0.0f, 0.0f);
+            Vector2 cameraSize = Vector2(100.0f, 75.0f);
             if (mSceneWindow->getSceneGraph())
             {
                const char* pos = mSceneWindow->getSceneGraph()->getDataField(StringTable->insert("cameraPosition"), NULL);
-               if (t2dSceneObject::getStringElementCount(pos) == 2)
-                  cameraPosition = t2dSceneObject::getStringElementVector(pos);
+               if (SceneObject::getStringElementCount(pos) == 2)
+                  cameraPosition = SceneObject::getStringElementVector(pos);
                
                const char* size = mSceneWindow->getSceneGraph()->getDataField(StringTable->insert("cameraSize"), NULL);
-               if (t2dSceneObject::getStringElementCount(size) == 2)
-                  cameraSize = t2dSceneObject::getStringElementVector(size);
+               if (SceneObject::getStringElementCount(size) == 2)
+                  cameraSize = SceneObject::getStringElementVector(size);
             }
 
             // And update the camera.
             mSceneWindow->setTargetCameraZoom( 1.0f );
-            mSceneWindow->setTargetCameraPosition(cameraPosition, cameraSize.mX, cameraSize.mY);
+            mSceneWindow->setTargetCameraPosition(cameraPosition, cameraSize.x, cameraSize.y);
             mSceneWindow->startCameraMove( 0.5f );
             mSceneObject = NULL;
          }
@@ -120,7 +120,7 @@ void LevelBuilderSortPointTool::onRelinquishObject( t2dSceneObject *object )
    Parent::onRelinquishObject(object);
 }
 
-void LevelBuilderSortPointTool::editObject(t2dSceneObject* object)
+void LevelBuilderSortPointTool::editObject(SceneObject* object)
 {
    if (!mSceneWindow || !isEditable(object))
       return;
@@ -143,7 +143,7 @@ void LevelBuilderSortPointTool::editObject(t2dSceneObject* object)
 
 ConsoleMethod(LevelBuilderSortPointTool, editObject, void, 3, 3, "Selects an object for editing.")
 {
-   t2dSceneObject* obj = dynamic_cast<t2dSceneObject*>(Sim::findObject(argv[2]));
+   SceneObject* obj = dynamic_cast<SceneObject*>(Sim::findObject(argv[2]));
    if (obj)
       object->editObject(obj);
    else
@@ -171,7 +171,7 @@ ConsoleMethod(LevelBuilderSortPointTool, finishEdit, void, 2, 2, "Applies change
    object->finishEdit();
 }
 
-bool LevelBuilderSortPointTool::isEditable(t2dSceneObject* obj)
+bool LevelBuilderSortPointTool::isEditable(SceneObject* obj)
 {
    return true;
 }
@@ -224,7 +224,7 @@ bool LevelBuilderSortPointTool::onMouseDown( LevelBuilderSceneWindow* sceneWindo
       if (mouseStatus.pickList.size() == 0)
          return Parent::onMouseDown(sceneWindow, mouseStatus);
 
-      t2dSceneObject* pObj = mouseStatus.pickList[0];
+      SceneObject* pObj = mouseStatus.pickList[0];
 
       if ((mouseStatus.event.mouseClickCount >= 2) && isEditable(pObj))
          sceneWindow->getSceneEdit()->requestAcquisition(pObj);
@@ -236,7 +236,7 @@ bool LevelBuilderSortPointTool::onMouseDown( LevelBuilderSceneWindow* sceneWindo
    mUndoAction->setStartPosition(mSceneObject, mSceneObject->getSortPoint());
    mAddUndo = true;
 
-   t2dVector position = getMountPointObject( mSceneWindow, mSceneObject, mSceneWindow->localToGlobalCoord(mouseStatus.event.mousePoint));
+   Vector2 position = getMountPointObject( mSceneWindow, mSceneObject, mSceneWindow->localToGlobalCoord(mouseStatus.event.mousePoint));
    mSceneObject->setSortPoint( position );
    
    mSceneWindow->getSceneEdit()->onObjectSpatialChanged(mSceneObject);
@@ -253,7 +253,7 @@ bool LevelBuilderSortPointTool::onMouseDragged( LevelBuilderSceneWindow* sceneWi
 
    if (bounds.pointInRect(mouseStatus.event.mousePoint))
    {
-      t2dVector position = getMountPointObject( mSceneWindow, mSceneObject, mSceneWindow->localToGlobalCoord(mouseStatus.event.mousePoint));
+      Vector2 position = getMountPointObject( mSceneWindow, mSceneObject, mSceneWindow->localToGlobalCoord(mouseStatus.event.mousePoint));
       mSceneObject->setSortPoint( position );
       
       mSceneWindow->getSceneEdit()->onObjectSpatialChanged(mSceneObject);
@@ -281,7 +281,7 @@ bool LevelBuilderSortPointTool::onMouseUp( LevelBuilderSceneWindow* sceneWindow,
    return true;
 }
 
-Point2F LevelBuilderSortPointTool::getMountPointObject(LevelBuilderSceneWindow* sceneWindow, const t2dSceneObject* obj, const Point2I& worldPoint) const 
+Point2F LevelBuilderSortPointTool::getMountPointObject(LevelBuilderSceneWindow* sceneWindow, const SceneObject* obj, const Point2I& worldPoint) const 
 {
    Point2I localPoint = sceneWindow->globalToLocalCoord( worldPoint );
    // Get our object's bounds window
@@ -306,7 +306,7 @@ Point2F LevelBuilderSortPointTool::getMountPointObject(LevelBuilderSceneWindow* 
                    ( (F32)positionY * nHeightInverse * 2.0f - 1.0f) );
 }
 
-Point2I LevelBuilderSortPointTool::getMountPointWorld(LevelBuilderSceneWindow* sceneWindow, const t2dSceneObject *obj, Point2F oneToOnePoint) const 
+Point2I LevelBuilderSortPointTool::getMountPointWorld(LevelBuilderSceneWindow* sceneWindow, const SceneObject *obj, Point2F oneToOnePoint) const 
 {
    // Get our object's bounds window
    RectI objRect = sceneWindow->getObjectBoundsWindow(obj);

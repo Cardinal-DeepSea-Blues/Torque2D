@@ -32,7 +32,7 @@ class LevelBuilderShapeVectorTool : public LevelBuilderCreateTool
    typedef LevelBuilderCreateTool Parent;
 
 protected:
-   virtual t2dShapeVector* createObject();
+   virtual ShapeVector* createObject();
    virtual void showObject();
   
 public:

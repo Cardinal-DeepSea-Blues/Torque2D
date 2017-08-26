@@ -8,7 +8,7 @@
 //---------------------------------------------------------------------------------------------
 
 #include "console/console.h"
-#include "TGB/levelBuilderPathTool.h"
+#include "editor/levelBuilderPathTool.h"
 
 // Implement Our Console Object
 IMPLEMENT_CONOBJECT(LevelBuilderPathTool);
@@ -23,7 +23,7 @@ LevelBuilderPathTool::~LevelBuilderPathTool()
 {
 }
 
-t2dSceneObject* LevelBuilderPathTool::createObject()
+SceneObject* LevelBuilderPathTool::createObject()
 {
    t2dPath* path = dynamic_cast<t2dPath*>(ConsoleObject::create("t2dPath"));
 
@@ -36,9 +36,9 @@ void LevelBuilderPathTool::showObject()
    mCreatedObject->setVisible(true);
 }
 
-t2dVector LevelBuilderPathTool::getDefaultSize( LevelBuilderSceneWindow *window )
+Vector2 LevelBuilderPathTool::getDefaultSize( LevelBuilderSceneWindow *window )
 {
-   return t2dVector(10.0f, 10.0f);
+   return Vector2(10.0f, 10.0f);
 }
 
 

@@ -8,7 +8,7 @@
 //---------------------------------------------------------------------------------------------
 
 #include "console/console.h"
-#include "TGB/levelBuilderTextObjectTool.h"
+#include "editor/levelBuilderTextObjectTool.h"
 
 // Implement Our Console Object
 IMPLEMENT_CONOBJECT(LevelBuilderTextObjectTool);
@@ -33,7 +33,7 @@ LevelBuilderTextObjectTool::~LevelBuilderTextObjectTool()
 {
 }
 
-t2dSceneObject* LevelBuilderTextObjectTool::createObject()
+SceneObject* LevelBuilderTextObjectTool::createObject()
 {
    t2dTextObject* textObject = dynamic_cast<t2dTextObject*>(ConsoleObject::create("t2dTextObject"));
    
@@ -53,9 +53,9 @@ void LevelBuilderTextObjectTool::showObject()
    mCreatedObject->setVisible(true);
 }
 
-t2dVector LevelBuilderTextObjectTool::getDefaultSize(LevelBuilderSceneWindow* sceneWindow)
+Vector2 LevelBuilderTextObjectTool::getDefaultSize(LevelBuilderSceneWindow* sceneWindow)
 {
-   return t2dVector( 1.0f, static_cast<t2dTextObject*>( mCreatedObject )->getLineHeight() );
+   return Vector2( 1.0f, static_cast<t2dTextObject*>( mCreatedObject )->getLineHeight() );
 }
 
 void LevelBuilderTextObjectTool::onObjectCreated()

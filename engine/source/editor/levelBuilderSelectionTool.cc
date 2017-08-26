@@ -9,9 +9,9 @@
 
 #include "console/console.h"
 #include "console/consoleTypes.h"
-#include "dgl/dgl.h"
-#include "gui/core/guiDefaultControlRender.h"
-#include "TGB/levelBuilderSelectionTool.h"
+#include "graphics/dgl.h"
+#include "gui/guiDefaultControlRender.h"
+#include "editor/levelBuilderSelectionTool.h"
 
 // Implement Our Console Object
 IMPLEMENT_CONOBJECT( SelectionToolWidget );
@@ -128,7 +128,7 @@ bool LevelBuilderSelectionTool::onKeyDown(LevelBuilderSceneWindow* sceneWindow, 
       return false;
 
    LevelBuilderSceneEdit* mOwner = sceneWindow->getSceneEdit();
-   t2dVector newPos;
+   Vector2 newPos;
 
    mAddUndo = false;
 
@@ -194,7 +194,7 @@ bool LevelBuilderSelectionTool::onKeyRepeat(LevelBuilderSceneWindow* sceneWindow
       return false;
 
    LevelBuilderSceneEdit* mOwner = sceneWindow->getSceneEdit();
-   t2dVector newPos;
+   Vector2 newPos;
    switch(event.keyCode)
    {
    case KEY_LEFT:
@@ -336,8 +336,8 @@ bool LevelBuilderSelectionTool::onMouseDown( LevelBuilderSceneWindow* sceneWindo
    }
 
    mMouseOffset = mOwner->getAcquiredObjects().getPosition() - mouseStatus.mousePoint2D;
-   t2dVector size = mOwner->getAcquiredObjects().getSize();
-   mMouseDownAR = size.mX / size.mY;
+   Vector2 size = mOwner->getAcquiredObjects().getSize();
+   mMouseDownAR = size.x / size.y;
 
    // Check to see if a sizing nob was hit - in which case all acquired objects will be scaled.
    if (mOwner->getAcquiredObjectCount())
@@ -465,7 +465,7 @@ bool LevelBuilderSelectionTool::onMouseDragged( LevelBuilderSceneWindow* sceneWi
       }
 
       mCantMove = false;
-      t2dVector finalPosition;
+      Vector2 finalPosition;
       move(mOwner, mOwner->getAcquiredObjects().getSize(), mouseStatus.mousePoint2D + mMouseOffset, finalPosition);
 
       mAddUndo = true;
@@ -475,7 +475,7 @@ bool LevelBuilderSelectionTool::onMouseDragged( LevelBuilderSceneWindow* sceneWi
 
    else if (mMouseState == SizingSelection)
    {
-      t2dVector newSize, newPosition;
+      Vector2 newSize, newPosition;
       bool flipX, flipY;
 
       // Alt scales uniformly.
@@ -668,13 +668,13 @@ bool LevelBuilderSelectionTool::onMouseUp( LevelBuilderSceneWindow* sceneWindow,
          if (getFullContainSelect())
          {
             RectF bounds = mouseStatus.dragPickList[i]->getWorldClipRectangle();
-            t2dVector upperLeft = bounds.point;
-            t2dVector lowerRight = bounds.point + bounds.extent;
-            t2dVector dragUpperLeft = mouseStatus.dragRectNormal2D.point;
-            t2dVector dragLowerRight = mouseStatus.dragRectNormal2D.point + mouseStatus.dragRectNormal2D.extent;
+            Vector2 upperLeft = bounds.point;
+            Vector2 lowerRight = bounds.point + bounds.extent;
+            Vector2 dragUpperLeft = mouseStatus.dragRectNormal2D.point;
+            Vector2 dragLowerRight = mouseStatus.dragRectNormal2D.point + mouseStatus.dragRectNormal2D.extent;
 
-            if (!((upperLeft.mX > dragUpperLeft.mX) && (upperLeft.mY > dragUpperLeft.mY) &&
-                (lowerRight.mX < dragLowerRight.mX) && (lowerRight.mY < dragLowerRight.mY)))
+            if (!((upperLeft.x > dragUpperLeft.x) && (upperLeft.y > dragUpperLeft.y) &&
+                (lowerRight.x < dragLowerRight.x) && (lowerRight.y < dragLowerRight.y)))
                continue;
          }
 
@@ -831,7 +831,7 @@ ConsoleMethod(LevelBuilderSelectionTool, RefreshWidgets, void, 2, 2, "%tool.refr
    object->refreshSelectedHoverObj();
 }
 
-void LevelBuilderSelectionTool::setSelectedHoverObj(const t2dSceneObject* object)
+void LevelBuilderSelectionTool::setSelectedHoverObj(const SceneObject* object)
 {
    mSelectedHoverObj = object;
    mHoverWidget = NULL;
@@ -937,7 +937,7 @@ void LevelBuilderSelectionTool::onRenderGraph(LevelBuilderSceneWindow* sceneWind
       // Draw the object bounding boxes.
       for (U32 i = 0; i < mOwner->getAcquiredObjectCount(); i++)
       {
-         t2dSceneObject *obj = mOwner->getAcquiredObject(i);
+         SceneObject *obj = mOwner->getAcquiredObject(i);
 
          // Render bounding box
          RectI objRect = sceneWindow->getObjectBoundsWindow( obj );

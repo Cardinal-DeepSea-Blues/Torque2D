@@ -8,8 +8,8 @@
 //---------------------------------------------------------------------------------------------
 
 #include "console/console.h"
-#include "dgl/dgl.h"
-#include "TGB/levelBuilderCameraTool.h"
+#include "graphics/dgl.h"
+#include "editor/levelBuilderCameraTool.h"
 
 // Implement Our Console Object
 IMPLEMENT_CONOBJECT(LevelBuilderCameraTool);
@@ -63,12 +63,12 @@ bool LevelBuilderCameraTool::onActivate(LevelBuilderSceneWindow* sceneWindow)
    if (sceneWindow->getSceneGraph())
    {
       const char* pos = sceneWindow->getSceneGraph()->getDataField(StringTable->insert("cameraPosition"), NULL);
-      if (t2dSceneObject::getStringElementCount(pos) == 2)
-         mCameraPosition = t2dSceneObject::getStringElementVector(pos);
+      if (SceneObject::getStringElementCount(pos) == 2)
+         mCameraPosition = SceneObject::getStringElementVector(pos);
       
       const char* size = sceneWindow->getSceneGraph()->getDataField(StringTable->insert("cameraSize"), NULL);
-      if (t2dSceneObject::getStringElementCount(size) == 2)
-         mCameraSize = t2dSceneObject::getStringElementVector(size);
+      if (SceneObject::getStringElementCount(size) == 2)
+         mCameraSize = SceneObject::getStringElementVector(size);
    }
 
    mUndoFullAction = new UndoFullCameraAction(this, sceneWindow->getSceneGraph(), "Camera Change");
@@ -81,7 +81,7 @@ bool LevelBuilderCameraTool::onActivate(LevelBuilderSceneWindow* sceneWindow)
    mCameraArea = sceneWindow->getCurrentCameraArea();
 
    sceneWindow->setTargetCameraZoom(1.0f);
-   sceneWindow->setTargetCameraPosition(mCameraPosition, mCameraSize.mX * 2.0f, mCameraSize.mY * 2.0f);
+   sceneWindow->setTargetCameraPosition(mCameraPosition, mCameraSize.x * 2.0f, mCameraSize.y * 2.0f);
    sceneWindow->startCameraMove( 0.5f );
 
    return true;
@@ -95,20 +95,20 @@ void LevelBuilderCameraTool::onDeactivate()
    if (mSceneWindow->getSceneGraph())
    {
       char pos[32];
-      dSprintf(pos, 32, "%f %f", mCameraPosition.mX, mCameraPosition.mY);
+      dSprintf(pos, 32, "%f %f", mCameraPosition.x, mCameraPosition.y);
       mSceneWindow->getSceneGraph()->setDataField(StringTable->insert("cameraPosition"), NULL, pos);
 
       char size[32];
-      dSprintf(size, 32, "%f %f", mCameraSize.mX, mCameraSize.mY);
+      dSprintf(size, 32, "%f %f", mCameraSize.x, mCameraSize.y);
       mSceneWindow->getSceneGraph()->setDataField(StringTable->insert("cameraSize"), NULL, size);
 
       if( mSceneWindow->getSceneEdit() )
       {
          char oldPos[32];
-         dSprintf(oldPos, 32, "%f %f", mStartPos.mX, mStartPos.mY);
+         dSprintf(oldPos, 32, "%f %f", mStartPos.x, mStartPos.y);
 
          char oldSize[32];
-         dSprintf(oldSize, 32, "%f %f", mStartSize.mX, mStartSize.mY);
+         dSprintf(oldSize, 32, "%f %f", mStartSize.x, mStartSize.y);
 
          Con::executef( mSceneWindow->getSceneEdit(), 5, "onCameraChanged", oldPos, oldSize, pos, size );
       }
@@ -124,7 +124,7 @@ void LevelBuilderCameraTool::onDeactivate()
    }
    
    mSceneWindow->setTargetCameraZoom( mCameraZoom );
-   mSceneWindow->setTargetCameraPosition( mCameraPosition, mCameraSize.mX, mCameraSize.mY );
+   mSceneWindow->setTargetCameraPosition( mCameraPosition, mCameraSize.x, mCameraSize.y );
    mSceneWindow->startCameraMove( 0.5f );
 
    Parent::onDeactivate();
@@ -142,17 +142,17 @@ bool LevelBuilderCameraTool::onMouseDown( LevelBuilderSceneWindow* sceneWindow, 
    if (sceneWindow != mSceneWindow)
       return Parent::onMouseDragged(sceneWindow, mouseStatus);
 
-   t2dVector upperLeft = mCameraPosition - (mCameraSize * 0.5);
-   t2dVector lowerRight = mCameraPosition + (mCameraSize * 0.5);
+   Vector2 upperLeft = mCameraPosition - (mCameraSize * 0.5);
+   Vector2 lowerRight = mCameraPosition + (mCameraSize * 0.5);
 
    mSizingState = getSizingState( sceneWindow, mouseStatus.event.mousePoint, RectF(upperLeft, mCameraSize));
-   mMouseDownAR = mCameraSize.mX / mCameraSize.mY;
+   mMouseDownAR = mCameraSize.x / mCameraSize.y;
 
    mMoving = false;
    if (!mSizingState)
    {
-      if ((mouseStatus.mousePoint2D.mX > upperLeft.mX) && (mouseStatus.mousePoint2D.mX < lowerRight.mX) &&
-          (mouseStatus.mousePoint2D.mY > upperLeft.mY) && (mouseStatus.mousePoint2D.mY < lowerRight.mY))
+      if ((mouseStatus.mousePoint2D.x > upperLeft.x) && (mouseStatus.mousePoint2D.x < lowerRight.x) &&
+          (mouseStatus.mousePoint2D.y > upperLeft.y) && (mouseStatus.mousePoint2D.y < lowerRight.y))
       {
           mMoving = true;
           mOffset = mouseStatus.mousePoint2D - (upperLeft + ((lowerRight - upperLeft) * 0.5));
@@ -178,9 +178,9 @@ bool LevelBuilderCameraTool::onMouseDragged( LevelBuilderSceneWindow* sceneWindo
       move(sceneWindow->getSceneEdit(), mCameraSize, mouseStatus.mousePoint2D - mOffset, mCameraPosition);
 
    char position[64];
-   dSprintf(position, 64, "%f %f", mCameraPosition.mX, mCameraPosition.mY);
+   dSprintf(position, 64, "%f %f", mCameraPosition.x, mCameraPosition.y);
    char size[64];
-   dSprintf(size, 64, "%f %f", mCameraSize.mX, mCameraSize.mY);
+   dSprintf(size, 64, "%f %f", mCameraSize.x, mCameraSize.y);
    Con::executef(this, 3, "onCameraChanged", position, size);
    return true;
 }
@@ -209,14 +209,14 @@ void LevelBuilderCameraTool::onRenderGraph(LevelBuilderSceneWindow* sceneWindow)
    if (sceneWindow != mSceneWindow)
       return;
 
-   t2dVector upperLeft = mCameraPosition - (mCameraSize * 0.5);
-   t2dVector lowerRight = mCameraPosition + (mCameraSize * 0.5);
-   t2dVector windowUpperLeft, windowLowerRight;
+   Vector2 upperLeft = mCameraPosition - (mCameraSize * 0.5);
+   Vector2 lowerRight = mCameraPosition + (mCameraSize * 0.5);
+   Vector2 windowUpperLeft, windowLowerRight;
    mSceneWindow->sceneToWindowCoord(upperLeft, windowUpperLeft);
    mSceneWindow->sceneToWindowCoord(lowerRight, windowLowerRight);
 
-   Point2I offsetUpperLeft = mSceneWindow->localToGlobalCoord(Point2I(S32(windowUpperLeft.mX), S32(windowUpperLeft.mY)));
-   Point2I offsetLowerRight = mSceneWindow->localToGlobalCoord(Point2I(S32(windowLowerRight.mX), S32(windowLowerRight.mY)));
+   Point2I offsetUpperLeft = mSceneWindow->localToGlobalCoord(Point2I(S32(windowUpperLeft.x), S32(windowUpperLeft.y)));
+   Point2I offsetLowerRight = mSceneWindow->localToGlobalCoord(Point2I(S32(windowLowerRight.x), S32(windowLowerRight.y)));
 
    RectI cameraRect = RectI(offsetUpperLeft, offsetLowerRight - offsetUpperLeft);
 
@@ -230,7 +230,7 @@ ConsoleMethod(LevelBuilderCameraTool, getCameraPosition, const char*, 2, 2, "() 
 			  "@return Returns the cameras position formatted as \"x y\"")
 {
    char* ret = Con::getReturnBuffer(32);
-   dSprintf(ret, 32, "%s %s", object->getCameraPosition().mX, object->getCameraPosition().mY);
+   dSprintf(ret, 32, "%s %s", object->getCameraPosition().x, object->getCameraPosition().y);
    return ret;
 }
 
@@ -238,7 +238,7 @@ ConsoleMethod(LevelBuilderCameraTool, getCameraSize, const char*, 2, 2, "() Get 
 			  "@return Returns the cameras size formatted as \"x y\"")
 {
    char* ret = Con::getReturnBuffer(32);
-   dSprintf(ret, 32, "%s %s", object->getCameraSize().mX, object->getCameraSize().mY);
+   dSprintf(ret, 32, "%s %s", object->getCameraSize().x, object->getCameraSize().y);
    return ret;
 }
 
@@ -246,14 +246,14 @@ ConsoleMethod(LevelBuilderCameraTool, setCameraPosition, void, 3, 3, "(position)
 			  "@param position Coordinates formatted as \"x y\""
 			  "@return No return value.")
 {
-	object->setCameraPosition(t2dSceneObject::getStringElementVector(argv[2]));
+	object->setCameraPosition(SceneObject::getStringElementVector(argv[2]));
 }
 
 ConsoleMethod(LevelBuilderCameraTool, setCameraSize, void, 3, 3, "(size) Set the current camera size\n"
 			  "@param size Coordinates formatted as \"x y\""
 			  "@return No return value.")
 {
-	object->setCameraSize(t2dSceneObject::getStringElementVector(argv[2]));
+	object->setCameraSize(SceneObject::getStringElementVector(argv[2]));
 }
 
 #endif // TORQUE_TOOLS

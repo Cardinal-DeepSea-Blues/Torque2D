@@ -629,7 +629,7 @@ void SceneWindow::stopCameraShake( void )
     mCameraShaking = false;
 
     // Reset Shake Offset.
-    mCameraShakeOffset.setZero();
+    mCameraShakeOffset.SetZero();
 }
 
 //-----------------------------------------------------------------------------

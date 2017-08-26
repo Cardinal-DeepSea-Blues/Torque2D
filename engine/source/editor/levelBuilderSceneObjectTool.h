@@ -18,7 +18,7 @@
 #endif
 
 #ifndef _LEVELBUILDERCREATETOOL_H_
-#include "TGB/levelBuilderCreateTool.h"
+#include "editor/levelBuilderCreateTool.h"
 #endif
 
 #ifndef _CONSOLETYPES_H_
@@ -33,7 +33,7 @@ class LevelBuilderSceneObjectTool : public LevelBuilderCreateTool
    typedef LevelBuilderCreateTool Parent;
 
 protected:
-   virtual t2dSceneObject* createObject();
+   virtual SceneObject* createObject();
    virtual void showObject();
   
 public:

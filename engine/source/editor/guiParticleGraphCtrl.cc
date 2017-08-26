@@ -6,9 +6,9 @@
 #include "console/console.h"
 #include "console/consoleTypes.h"
 #include "graphics/dgl.h"
-#include "gui/core/guiCanvas.h"
+#include "gui/guiCanvas.h"
 
-#include "TGB/guiParticleGraphCtrl.h"
+#include "editor/guiParticleGraphCtrl.h"
 
 IMPLEMENT_CONOBJECT(GuiParticleGraphCtrl);
 

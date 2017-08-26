@@ -92,7 +92,7 @@ void LevelBuilderBaseTool::onDeactivate()
    mActive = false;
 }
 
-bool LevelBuilderBaseTool::onAcquireObject(t2dSceneObject* object)
+bool LevelBuilderBaseTool::onAcquireObject(SceneObject* object)
 {
    // Can't acquire objects if we're not active.
    if (!mActive)
@@ -102,7 +102,7 @@ bool LevelBuilderBaseTool::onAcquireObject(t2dSceneObject* object)
    return true;
 }          
 
-void LevelBuilderBaseTool::onRelinquishObject(t2dSceneObject* object)
+void LevelBuilderBaseTool::onRelinquishObject(SceneObject* object)
 {
 }
 

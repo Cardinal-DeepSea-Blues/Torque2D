@@ -5,10 +5,10 @@
 // Copyright (C) GarageGames.com, Inc.
 //-----------------------------------------------------------------------------
 
-#include "TGB/LevelBuilderTextEditTool.h"
-#include "TGB/levelBuilderSceneEdit.h"
+#include "editor/LevelBuilderTextEditTool.h"
+#include "editor/levelBuilderSceneEdit.h"
 #include "console/console.h"
-#include "dgl/dgl.h"
+#include "graphics/dgl.h"
 
 IMPLEMENT_CONOBJECT( LevelBuilderTextEditTool );
 
@@ -73,7 +73,7 @@ void LevelBuilderTextEditTool::onDeactivate()
    Parent::onDeactivate();
 }
 
-bool LevelBuilderTextEditTool::onAcquireObject( t2dSceneObject* object )
+bool LevelBuilderTextEditTool::onAcquireObject( SceneObject* object )
 {
    // Make sure the object is editable and we are ready for editing.
    if( !isEditable( object ) || !mSceneWindow )
@@ -92,7 +92,7 @@ bool LevelBuilderTextEditTool::onAcquireObject( t2dSceneObject* object )
    return true;
 }
 
-void LevelBuilderTextEditTool::onRelinquishObject( t2dSceneObject* object )
+void LevelBuilderTextEditTool::onRelinquishObject( SceneObject* object )
 {
    if( !mSceneWindow || !mTextObject )
    {
@@ -110,7 +110,7 @@ void LevelBuilderTextEditTool::onRelinquishObject( t2dSceneObject* object )
 //-----------------------------------------------------------------------------
 // Editing
 //-----------------------------------------------------------------------------
-void LevelBuilderTextEditTool::editObject( t2dSceneObject* object )
+void LevelBuilderTextEditTool::editObject( SceneObject* object )
 {
    if ( !mSceneWindow || !isEditable( object ) )
       return;
@@ -170,7 +170,7 @@ void LevelBuilderTextEditTool::finishEdit()
    mTextObject = NULL;
 }
 
-bool LevelBuilderTextEditTool::isEditable(t2dSceneObject* obj)
+bool LevelBuilderTextEditTool::isEditable(SceneObject* obj)
 {
    // Can only edit text objects or their derivatives.
    if( dynamic_cast<t2dTextObject*>( obj ) )
@@ -200,7 +200,7 @@ bool LevelBuilderTextEditTool::onMouseDown( LevelBuilderSceneWindow* sceneWindow
       // Search the pick list for a t2dTextObject.
       for( S32 i = 0; i < mouseStatus.pickList.size(); i++ )
       {
-         t2dSceneObject* pObj = mouseStatus.pickList[i];
+         SceneObject* pObj = mouseStatus.pickList[i];
 
          if( isEditable( pObj ) )
          {
@@ -216,14 +216,14 @@ bool LevelBuilderTextEditTool::onMouseDown( LevelBuilderSceneWindow* sceneWindow
       {
          // Could not find a text object at the cursor position. Create a new one.
          char* pos = Con::getArgBuffer( 32 );
-         dSprintf( pos, 32, "%f %f", mouseStatus.mousePoint2D.mX, mouseStatus.mousePoint2D.mY );
+         dSprintf( pos, 32, "%f %f", mouseStatus.mousePoint2D.x, mouseStatus.mousePoint2D.y );
          Con::executef( sceneWindow->getSceneEdit(), 2, "createTextObject", pos );
       }
 
       return true;
    }
 
-   mMouseDownAR = mTextObject->getSize().mX / mTextObject->getSize().mY;
+   mMouseDownAR = mTextObject->getSize().x / mTextObject->getSize().y;
 
    // Clicked on the word wrap resizer.
    mSizingState = getSizingState( sceneWindow, mouseStatus.event.mousePoint, mTextObject->getWorldClipRectangle() );
@@ -255,10 +255,10 @@ bool LevelBuilderTextEditTool::onMouseDown( LevelBuilderSceneWindow* sceneWindow
       F32 top = bounds.point.y;
       F32 bottom = bounds.point.y + bounds.extent.y;
 
-      if( ( mouseStatus.mousePoint2D.mX > left ) && 
-          ( mouseStatus.mousePoint2D.mX < right ) && 
-          ( mouseStatus.mousePoint2D.mY > top ) && 
-          ( mouseStatus.mousePoint2D.mY < bottom ) )
+      if( ( mouseStatus.mousePoint2D.x > left ) && 
+          ( mouseStatus.mousePoint2D.x < right ) && 
+          ( mouseStatus.mousePoint2D.y > top ) && 
+          ( mouseStatus.mousePoint2D.y < bottom ) )
       {
          // Reset the highlight block.
          mTextObject->setHighlightBlock( mTextObject->getCharacterPosition( mouseStatus.mousePoint2D ), -1 );
@@ -283,7 +283,7 @@ bool LevelBuilderTextEditTool::onMouseDragged(LevelBuilderSceneWindow* sceneWind
    // Resize the object.
    if( mSizingState != SizingNone )
    {
-      t2dVector newSize, newPosition;
+      Vector2 newSize, newPosition;
       bool flipX, flipY;
 
       // Ctrl scales uniformly.
@@ -490,8 +490,8 @@ bool LevelBuilderTextEditTool::onKeyDown(LevelBuilderSceneWindow* sceneWindow, c
          conv[0] = 0;
          {
             RectF charBounds = mTextObject->getCharacterBounds( mTextObject->getCursorPosition() );
-            t2dVector cursorPos = charBounds.point;
-            cursorPos.mY -= mTextObject->getLineHeight() * 0.5f;
+            Vector2 cursorPos = charBounds.point;
+            cursorPos.y -= mTextObject->getLineHeight() * 0.5f;
             mTextObject->setCursorPosition( cursorPos );
          }
          break;
@@ -501,8 +501,8 @@ bool LevelBuilderTextEditTool::onKeyDown(LevelBuilderSceneWindow* sceneWindow, c
          conv[0] = 0;
          {
             RectF charBounds = mTextObject->getCharacterBounds( mTextObject->getCursorPosition() );
-            t2dVector cursorPos = charBounds.point;
-            cursorPos.mY += mTextObject->getLineHeight() * 1.5f;
+            Vector2 cursorPos = charBounds.point;
+            cursorPos.y += mTextObject->getLineHeight() * 1.5f;
             mTextObject->setCursorPosition( cursorPos );
          }
          break;
@@ -615,19 +615,19 @@ void LevelBuilderTextEditTool::onRenderGraph( LevelBuilderSceneWindow* sceneWind
 
 void LevelBuilderTextEditTool::drawWordWrapSizingNuts(LevelBuilderSceneWindow* sceneWindow, const RectF& rect)
 {
-   t2dVector upperLeft = t2dVector(rect.point);
-   t2dVector lowerRight = t2dVector(rect.point + rect.extent);
+   Vector2 upperLeft = Vector2(rect.point);
+   Vector2 lowerRight = Vector2(rect.point + rect.extent);
 
    // Convert to window coords.
-   t2dVector windowUpperLeft, windowLowerRight;
+   Vector2 windowUpperLeft, windowLowerRight;
    sceneWindow->sceneToWindowCoord(upperLeft, windowUpperLeft);
    sceneWindow->sceneToWindowCoord(lowerRight, windowLowerRight);
-   windowUpperLeft = sceneWindow->localToGlobalCoord(Point2I(S32(windowUpperLeft.mX), S32(windowUpperLeft.mY)));
-   windowLowerRight = sceneWindow->localToGlobalCoord(Point2I(S32(windowLowerRight.mX), S32(windowLowerRight.mY)));
+   windowUpperLeft = sceneWindow->localToGlobalCoord(Point2I(S32(windowUpperLeft.x), S32(windowUpperLeft.y)));
+   windowLowerRight = sceneWindow->localToGlobalCoord(Point2I(S32(windowLowerRight.x), S32(windowLowerRight.y)));
 
-   RectI selectionRect = RectI(S32(windowUpperLeft.mX), S32(windowUpperLeft.mY),
-                               S32(windowLowerRight.mX - windowUpperLeft.mX),
-                               S32(windowLowerRight.mY - windowUpperLeft.mY));
+   RectI selectionRect = RectI(S32(windowUpperLeft.x), S32(windowUpperLeft.y),
+                               S32(windowLowerRight.x - windowUpperLeft.x),
+                               S32(windowLowerRight.y - windowUpperLeft.y));
 
    // Middle Left Sizing Knob
    drawArrowNut( Point2I( selectionRect.point.x, selectionRect.point.y  ));
@@ -641,11 +641,11 @@ void LevelBuilderTextEditTool::drawWordWrapSizingNuts(LevelBuilderSceneWindow* s
 ConsoleMethod( LevelBuilderTextEditTool, editObject, void, 3, 3, "( t2dTextObject object ) Selects an object for editing.\n"
               "@param object The object to edit." )
 {
-   t2dSceneObject* obj = dynamic_cast<t2dSceneObject*>( Sim::findObject( argv[2] ) );
+   SceneObject* obj = dynamic_cast<SceneObject*>( Sim::findObject( argv[2] ) );
    if( obj )
       object->editObject( obj );
    else
-      Con::warnf( "LevelBuilderTextEditTool::editObject - Object %s is not a t2dSceneObject.", argv[2] );
+      Con::warnf( "LevelBuilderTextEditTool::editObject - Object %s is not a SceneObject.", argv[2] );
 }
 
 ConsoleMethod( LevelBuilderTextEditTool, finishEdit, void, 2, 2, "() Applies changes and ends editing of an object." )

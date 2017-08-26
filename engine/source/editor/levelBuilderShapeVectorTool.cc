@@ -8,7 +8,7 @@
 //---------------------------------------------------------------------------------------------
 
 #include "console/console.h"
-#include "TGB/levelBuilderShapeVectorTool.h"
+#include "editor/levelBuilderShapeVectorTool.h"
 
 // Implement Our Console Object
 IMPLEMENT_CONOBJECT(LevelBuilderShapeVectorTool);

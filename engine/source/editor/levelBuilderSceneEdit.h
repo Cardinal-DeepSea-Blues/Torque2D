@@ -18,23 +18,23 @@
 #endif
 
 #ifndef _T2DSCENEOBJECTSET_H_
-#include "T2D/t2dSceneObjectSet.h"
+#include "2d/sceneobject/SceneObjectSet.h"
 #endif
 
 #ifndef _T2DSCENEOBJECTGROUP_H_
-#include "T2D/t2dSceneObjectGroup.h"
+#include "2d/sceneobject/SceneObjectGroup.h"
 #endif
 
 #ifndef _LEVELBUILDERBASETOOL_H_
-#include "TGB/levelBuilderBaseTool.h"
+#include "editor/levelBuilderBaseTool.h"
 #endif
 
 #ifndef _LEVELBUILDERSCENEWINDOW_H_
-#include "TGB/levelBuilderSceneWindow.h"
+#include "editor/levelBuilderSceneWindow.h"
 #endif
 
 #ifndef _UNDO_H_
-#include "util/undo.h"
+#include "collection/undo.h"
 #endif
 
 typedef SimObjectPtr<LevelBuilderBaseTool> ToolPtr;
@@ -74,8 +74,8 @@ private:
    Point2I                 mDesignResolution;
 
    // State Info
-   t2dVector               mCameraPosition;
-   t2dVector               mMousePosition;
+   Vector2               mCameraPosition;
+   Vector2               mMousePosition;
    F32                     mCameraZoom;
 
    // The Undo Manager
@@ -91,8 +91,8 @@ private:
 
 protected:
    // Acquired Objects
-   t2dSceneObjectSet       mAcquiredObjects;
-   t2dSceneObjectGroup*    mAcquiredGroup;
+   SceneObjectSet       mAcquiredObjects;
+   SceneObjectGroup*    mAcquiredGroup;
 
    // The Last Window Events Were Received From
    LevelBuilderSceneWindow* mLastWindow;
@@ -132,31 +132,31 @@ public:
    bool    setDefaultToolActive();
 
    // Object Acquisition
-   void acquireObject(t2dSceneObject* object);
-   void acquireObject(t2dSceneObjectGroup* pGroup);
-   void requestAcquisition(t2dSceneObject* obj);
-   void requestAcquisition(t2dSceneObjectGroup* pGroup);
-   void clearAcquisition(t2dSceneObject* object = NULL);
+   void acquireObject(SceneObject* object);
+   void acquireObject(SceneObjectGroup* pGroup);
+   void requestAcquisition(SceneObject* obj);
+   void requestAcquisition(SceneObjectGroup* pGroup);
+   void clearAcquisition(SceneObject* object = NULL);
 
    // Acquired Object Management
-   inline t2dSceneObject*      getAcquiredObject(S32 index = 0) const { return (t2dSceneObject*)mAcquiredObjects.at(index); };
-   inline t2dSceneObjectSet&   getAcquiredObjects()                   { return mAcquiredObjects; }
-   inline t2dSceneObjectGroup* getAcquiredGroup() const               { return mAcquiredGroup; };
+   inline SceneObject*      getAcquiredObject(S32 index = 0) const { return (SceneObject*)mAcquiredObjects.at(index); };
+   inline SceneObjectSet&   getAcquiredObjects()                   { return mAcquiredObjects; }
+   inline SceneObjectGroup* getAcquiredGroup() const               { return mAcquiredGroup; };
    inline S32                  getAcquiredObjectCount() const         { return mAcquiredObjects.size(); }
    inline bool                 hasAcquiredObjects() const             { return mAcquiredObjects.size() > 0; }
-   bool                        isAcquired(const t2dSceneObject* object) const;
-   bool                        isAcquired(const t2dSceneObjectGroup* group) const;
-   bool                        isOnlyAcquired(const t2dSceneObjectGroup* group) const;
-   bool                        containsAllAcquiredObjects(const t2dSceneObjectGroup* group) const;
+   bool                        isAcquired(const SceneObject* object) const;
+   bool                        isAcquired(const SceneObjectGroup* group) const;
+   bool                        isOnlyAcquired(const SceneObjectGroup* group) const;
+   bool                        containsAllAcquiredObjects(const SceneObjectGroup* group) const;
    void                        deleteAcquiredObjects();
    void                        groupAcquiredObjects();
-   void                        addObjectsToGroup(t2dSceneObjectGroup* checkGroup, Vector<SimObject*>& objectGroup);
+   void                        addObjectsToGroup(SceneObjectGroup* checkGroup, Vector<SimObject*>& objectGroup);
    void                        breakApartAcquiredObjects();
    void                        updateAcquiredObjects();
 	void                        onObjectChanged();
 	void                        onObjectSpatialChanged();
-   void                        onObjectChanged(t2dSceneObject* object);
-   void                        onObjectSpatialChanged(t2dSceneObject* object);
+   void                        onObjectChanged(SceneObject* object);
+   void                        onObjectSpatialChanged(SceneObject* object);
 
    // Scene Window Events
    virtual bool onMouseEvent(LevelBuilderSceneWindow* sceneWindow, const t2dEditMouseStatus& mouseStatus);
@@ -213,8 +213,8 @@ public:
    F32 getClosestYGuide( F32 y );
 
    // State Accessors
-   inline t2dVector getMousePosition()          { return mMousePosition; };
-   inline t2dVector getCameraPosition()         { return mCameraPosition; };
+   inline Vector2 getMousePosition()          { return mMousePosition; };
+   inline Vector2 getCameraPosition()         { return mCameraPosition; };
    inline F32       getCameraZoom()             { return mCameraZoom; };
 
    // Declare our Console Object
@@ -229,9 +229,9 @@ class UndoDeleteAction : public UndoAction
 private:
    struct UndoObject
    {
-      UndoObject(t2dSceneObject* _object, bool _wasAcquired) { object = _object; wasAcquired = _wasAcquired; group = _object->getSceneObjectGroup(); };
-      t2dSceneObject* object;
-      t2dSceneObjectGroup* group;
+      UndoObject(SceneObject* _object, bool _wasAcquired) { object = _object; wasAcquired = _wasAcquired; group = _object->getSceneObjectGroup(); };
+      SceneObject* object;
+      SceneObjectGroup* group;
       bool wasAcquired;
    };
 
@@ -243,7 +243,7 @@ private:
 public:
    UndoDeleteAction(LevelBuilderSceneEdit* sceneEdit, UTF8* name) : UndoAction(name) { mSceneEdit = sceneEdit; };
 
-   void addObject(t2dSceneObject* object, bool wasAcquired) { mObjects.push_back(UndoObject(object, wasAcquired)); deleteNotify(object); };
+   void addObject(SceneObject* object, bool wasAcquired) { mObjects.push_back(UndoObject(object, wasAcquired)); deleteNotify(object); };
 
    virtual void onDeleteNotify(SimObject* object)
    {
@@ -265,7 +265,7 @@ public:
    {
       for (S32 i = 0; i < mObjects.size(); i++)
       {
-         t2dSceneObject* object = mObjects[i].object;
+         SceneObject* object = mObjects[i].object;
          if (mSceneEdit->isRecycled(mObjects[i].group))
             mSceneEdit->moveFromRecycleBin(mObjects[i].group);
 
@@ -281,7 +281,7 @@ public:
    {
       for (S32 i = 0; i < mObjects.size(); i++)
       {
-         t2dSceneObject* object = mObjects[i].object;
+         SceneObject* object = mObjects[i].object;
          if (mSceneEdit->isAcquired(object))
             mSceneEdit->clearAcquisition(object);
 
@@ -306,13 +306,13 @@ class UndoGroupAction : public UndoAction
 
    Vector<GroupedObject> mObjects;
    SimSet* mOldGroup;
-   t2dSceneObjectGroup* mGroup;
+   SceneObjectGroup* mGroup;
 
    LevelBuilderSceneEdit* mSceneEdit;
 
 public:
 
-   UndoGroupAction(LevelBuilderSceneEdit* sceneEdit, t2dSceneObjectGroup* group, UTF8* actionName) : UndoAction(actionName)
+   UndoGroupAction(LevelBuilderSceneEdit* sceneEdit, SceneObjectGroup* group, UTF8* actionName) : UndoAction(actionName)
    {
       mSceneEdit = sceneEdit;
       mGroup = group;
@@ -320,8 +320,8 @@ public:
 
    void addObject(SimObject* object)
    {
-      SimSet* set = t2dSceneObjectGroup::getSceneObjectGroup(object);
-      if (!set) set = t2dSceneObjectGroup::getSceneGraph(object);
+      SimSet* set = SceneObjectGroup::getSceneObjectGroup(object);
+      if (!set) set = SceneObjectGroup::getSceneGraph(object);
       mObjects.push_back(GroupedObject(set, object));
 
       deleteNotify(object);
@@ -379,7 +379,7 @@ class UndoBreakApartAction : public UndoAction
    };
 
    Vector<GroupedObject> mObjects;
-   Vector<t2dSceneObjectGroup*> mRecycledGroups;
+   Vector<SceneObjectGroup*> mRecycledGroups;
    LevelBuilderSceneEdit* mSceneEdit;
 
 public:
@@ -395,7 +395,7 @@ public:
       deleteNotify(object);
    };
 
-   void addRecycledGroup(t2dSceneObjectGroup* group)
+   void addRecycledGroup(SceneObjectGroup* group)
    {
       mRecycledGroups.push_back(group);
    };

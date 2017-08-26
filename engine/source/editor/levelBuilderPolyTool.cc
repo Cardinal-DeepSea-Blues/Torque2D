@@ -9,11 +9,10 @@
 
 #include "console/console.h"
 #include "console/consoleTypes.h"
-#include "dgl/dgl.h"
-#include "TGB/levelBuilderPolyTool.h"
-#include "T2D/t2dTileMap.h"
-#include "T2D/t2dParticleEmitter.h"
-#include "TGB/levelBuilderSceneEdit.h"
+#include "graphics/dgl.h"
+#include "editor/levelBuilderPolyTool.h"
+#include "2d/assets/particlet2dParticleEmitter.h"
+#include "editor/levelBuilderSceneEdit.h"
 
 IMPLEMENT_CONOBJECT( LevelBuilderPolyTool );
 
@@ -76,7 +75,7 @@ void LevelBuilderPolyTool::onDeactivate()
    Parent::onDeactivate();
 }
 
-bool LevelBuilderPolyTool::onAcquireObject(t2dSceneObject *object)
+bool LevelBuilderPolyTool::onAcquireObject(SceneObject *object)
 {
    if(!isEditable(object) || !mSceneWindow)
       return false;
@@ -94,7 +93,7 @@ bool LevelBuilderPolyTool::onAcquireObject(t2dSceneObject *object)
    return true;
 }
 
-void LevelBuilderPolyTool::onRelinquishObject(t2dSceneObject* object)
+void LevelBuilderPolyTool::onRelinquishObject(SceneObject* object)
 {
    if(!mSceneWindow || !mSceneObject)
       return Parent::onRelinquishObject(object);
@@ -109,7 +108,7 @@ void LevelBuilderPolyTool::onRelinquishObject(t2dSceneObject* object)
          // Since we're a tool override, we should try to edit any object we can.
          for (S32 i = 0; i < mSceneWindow->getSceneEdit()->getAcquiredObjectCount(); i++)
          {
-            t2dSceneObject* newObject = mSceneWindow->getSceneEdit()->getAcquiredObject(i);
+            SceneObject* newObject = mSceneWindow->getSceneEdit()->getAcquiredObject(i);
             if ((newObject != mSceneObject) && isEditable(newObject))
             {
                foundNewObject = true;
@@ -121,22 +120,22 @@ void LevelBuilderPolyTool::onRelinquishObject(t2dSceneObject* object)
          if (!foundNewObject)
          {
             // Grab the size and position of the camera from the scenegraph.
-            t2dVector cameraPosition = t2dVector(0.0f, 0.0f);
-            t2dVector cameraSize = t2dVector(100.0f, 75.0f);
+            Vector2 cameraPosition = Vector2(0.0f, 0.0f);
+            Vector2 cameraSize = Vector2(100.0f, 75.0f);
             if (mSceneWindow->getSceneGraph())
             {
                const char* pos = mSceneWindow->getSceneGraph()->getDataField(StringTable->insert("cameraPosition"), NULL);
-               if (t2dSceneObject::getStringElementCount(pos) == 2)
-                  cameraPosition = t2dSceneObject::getStringElementVector(pos);
+               if (SceneObject::getStringElementCount(pos) == 2)
+                  cameraPosition = SceneObject::getStringElementVector(pos);
                
                const char* size = mSceneWindow->getSceneGraph()->getDataField(StringTable->insert("cameraSize"), NULL);
-               if (t2dSceneObject::getStringElementCount(size) == 2)
-                  cameraSize = t2dSceneObject::getStringElementVector(size);
+               if (SceneObject::getStringElementCount(size) == 2)
+                  cameraSize = SceneObject::getStringElementVector(size);
             }
 
             // And update the camera.
             mSceneWindow->setTargetCameraZoom( 1.0f );
-            mSceneWindow->setTargetCameraPosition(cameraPosition, cameraSize.mX, cameraSize.mY);
+            mSceneWindow->setTargetCameraPosition(cameraPosition, cameraSize.x, cameraSize.y);
             mSceneWindow->startCameraMove( 0.5f );
             mSceneObject = NULL;
          }
@@ -147,7 +146,7 @@ void LevelBuilderPolyTool::onRelinquishObject(t2dSceneObject* object)
    Parent::onRelinquishObject(object);
 }
 
-void LevelBuilderPolyTool::editObject(t2dSceneObject* object)
+void LevelBuilderPolyTool::editObject(SceneObject* object)
 {
    if (!mSceneWindow || !isEditable(object))
       return;
@@ -175,7 +174,7 @@ void LevelBuilderPolyTool::editObject(t2dSceneObject* object)
    mFlipSettings[1] = object->getFlipY();
    object->setFlip(false,false);
 
-   object->setCollisionPolyScale(t2dVector(1.0f,1.0f));
+   object->setCollisionPolyScale(Vector2(1.0f,1.0f));
 
    mUndoFullAction = new UndoFullPolyAction(mSceneObject, "Collision Poly");
    mUndoFullAction->setOldPoints(mSceneObject->getCollisionPolyCount(), mSceneObject->getCollisionPolyArray());
@@ -183,7 +182,7 @@ void LevelBuilderPolyTool::editObject(t2dSceneObject* object)
 
 ConsoleMethod(LevelBuilderPolyTool, editObject, void, 3, 3, "Selects an object for editing.")
 {
-   t2dSceneObject* obj = dynamic_cast<t2dSceneObject*>(Sim::findObject(argv[2]));
+   SceneObject* obj = dynamic_cast<SceneObject*>(Sim::findObject(argv[2]));
    if (obj)
       object->editObject(obj);
    else
@@ -267,7 +266,7 @@ void LevelBuilderPolyTool::clearCollisionPoly()
    mNutList.clear();
 }
 
-bool LevelBuilderPolyTool::isEditable(t2dSceneObject* obj)
+bool LevelBuilderPolyTool::isEditable(SceneObject* obj)
 {
    if (dynamic_cast<t2dTileMap*>(obj) ||
        dynamic_cast<t2dParticleEmitter*>(obj))
@@ -350,7 +349,7 @@ bool LevelBuilderPolyTool::onMouseDown( LevelBuilderSceneWindow* sceneWindow, co
       if (mouseStatus.pickList.size() == 0)
          return Parent::onMouseDown(sceneWindow, mouseStatus);
 
-      t2dSceneObject* pObj = mouseStatus.pickList[0];
+      SceneObject* pObj = mouseStatus.pickList[0];
 
       if ((mouseStatus.event.mouseClickCount >= 2) && isEditable(pObj))
          sceneWindow->getSceneEdit()->requestAcquisition(pObj);
@@ -499,7 +498,7 @@ void LevelBuilderPolyTool::onRenderGraph(LevelBuilderSceneWindow* sceneWindow)
    }
 }
 
-void LevelBuilderPolyTool::insertVertex(t2dVector position, S32 index)
+void LevelBuilderPolyTool::insertVertex(Vector2 position, S32 index)
 {
    mNutList.insert(index);
    mNutList[index] = position;
@@ -510,12 +509,12 @@ void LevelBuilderPolyTool::removeVertex(S32 index)
    mNutList.erase(index);
 }
 
-void LevelBuilderPolyTool::moveVertex(S32 index, t2dVector position)
+void LevelBuilderPolyTool::moveVertex(S32 index, Vector2 position)
 {
    mNutList[index] = position;
 }
 
-Point2F LevelBuilderPolyTool::getCollisionPointObject(LevelBuilderSceneWindow* sceneWindow, const t2dSceneObject* obj, const Point2I& worldPoint) const 
+Point2F LevelBuilderPolyTool::getCollisionPointObject(LevelBuilderSceneWindow* sceneWindow, const SceneObject* obj, const Point2I& worldPoint) const 
 {
    Point2I localPoint = sceneWindow->globalToLocalCoord( worldPoint );
    // Get our object's bounds window
@@ -536,7 +535,7 @@ Point2F LevelBuilderPolyTool::getCollisionPointObject(LevelBuilderSceneWindow* s
                    ( (F32)positionY * nHeightInverse * 2.0f - 1.0f) );
 }
 
-Point2I LevelBuilderPolyTool::getCollisionPointWorld(LevelBuilderSceneWindow* sceneWindow, const t2dSceneObject *obj, Point2F oneToOnePoint) const 
+Point2I LevelBuilderPolyTool::getCollisionPointWorld(LevelBuilderSceneWindow* sceneWindow, const SceneObject *obj, Point2F oneToOnePoint) const 
 {
    // Get our object's bounds window
    RectI objRect = sceneWindow->getObjectBoundsWindow(obj);
@@ -558,8 +557,8 @@ Point2I LevelBuilderPolyTool::getCollisionPointWorld(LevelBuilderSceneWindow* sc
       return Point2I( 0, 0 );
    }
 
-   oneToOnePoint.x *= obj->getCollisionPolyScale().mX;
-   oneToOnePoint.y *= obj->getCollisionPolyScale().mX;
+   oneToOnePoint.x *= obj->getCollisionPolyScale().x;
+   oneToOnePoint.y *= obj->getCollisionPolyScale().x;
 
    // Calculate Local Point
    Point2I localPoint = Point2I( S32( ( ( oneToOnePoint.x + 1.0f ) * 0.5f ) * nWidth ),
@@ -572,18 +571,18 @@ Point2I LevelBuilderPolyTool::getCollisionPointWorld(LevelBuilderSceneWindow* sc
    return sceneWindow->localToGlobalCoord( localPoint );
 }
 
-bool LevelBuilderPolyTool::acquireCollisionPoly(t2dSceneObject *obj)
+bool LevelBuilderPolyTool::acquireCollisionPoly(SceneObject *obj)
 {
    // Fetch Collision Details.
    U32 polyCount = obj->getParentPhysics().getCollisionPolyCount();
-   const t2dVector* pPolyBasis = obj->getParentPhysics().getCollisionPolyBasis();
+   const Vector2* pPolyBasis = obj->getParentPhysics().getCollisionPolyBasis();
 
    if (polyCount <= 3) 
       return false;
 
    // Check to see if it's a default collision poly.  If it is, ignore it.
-   if( (t2dVector)pPolyBasis[0] == t2dVector(-1.f,-1.f) && (t2dVector)pPolyBasis[1] == t2dVector(1.f,-1.f) &&
-       (t2dVector)pPolyBasis[2] == t2dVector(1.f,1.f)   && (t2dVector)pPolyBasis[3] == t2dVector(-1.f,1.f) )
+   if( (Vector2)pPolyBasis[0] == Vector2(-1.f,-1.f) && (Vector2)pPolyBasis[1] == Vector2(1.f,-1.f) &&
+       (Vector2)pPolyBasis[2] == Vector2(1.f,1.f)   && (Vector2)pPolyBasis[3] == Vector2(-1.f,1.f) )
        return false;
 
    // Clear our poly basis list
@@ -591,13 +590,13 @@ bool LevelBuilderPolyTool::acquireCollisionPoly(t2dSceneObject *obj)
 
    // Generate our poly basis list
    for ( U32 n = 0; n < polyCount; n++ )
-      mNutList.push_back( Point2F( pPolyBasis[n].mX, pPolyBasis[n].mY ) );
+      mNutList.push_back( Point2F( pPolyBasis[n].x, pPolyBasis[n].y ) );
 
    // Success
    return true;
 }
 
-bool LevelBuilderPolyTool::setCollisionPoly( t2dSceneObject *obj )
+bool LevelBuilderPolyTool::setCollisionPoly( SceneObject *obj )
 {
    if (!mSceneWindow)
       return false;
@@ -605,12 +604,12 @@ bool LevelBuilderPolyTool::setCollisionPoly( t2dSceneObject *obj )
    // When we relinquish control we set the new collision polygon
    if( mNutList.size() >= 3 )
    {
-      t2dVector poly[t2dPhysics::MAX_COLLISION_POLY_VERTEX];
+      Vector2 poly[t2dPhysics::MAX_COLLISION_POLY_VERTEX];
 
       // Generate our poly basis list
       Vector<Point2F>::iterator iter = mNutList.begin();
       for (U32 i = 0 ; iter != mNutList.end(); i++, iter++)
-         poly[i] = t2dVector((*iter).x, (*iter).y);
+         poly[i] = Vector2((*iter).x, (*iter).y);
 
       // Set the poly to our object
       obj->setCollisionPolyCustom(mNutList.size(), poly);
@@ -633,21 +632,21 @@ S32 LevelBuilderPolyTool::checkNewPointConvexAddition( const Point2I &newPoint  
       return mNutList.size();
 
    // Get the pointer to our acquired object
-   t2dSceneObject *obj = mSceneObject;
+   SceneObject *obj = mSceneObject;
 
    // Setup poly basis list
-   Vector<t2dVector> PolyBasisList;
+   Vector<Vector2> PolyBasisList;
    PolyBasisList.clear();
    PolyBasisList.reserve( mNutList.size() + 2 );
 
    // Generate our poly basis list
    Vector<Point2F>::iterator i = mNutList.begin();
    for( ; i != mNutList.end(); i++ ) 
-      PolyBasisList.push_back( t2dVector( (*i).x, (*i).y ) );
+      PolyBasisList.push_back( Vector2( (*i).x, (*i).y ) );
 
    // Append the new point to check 
    Point2F fPoint = getCollisionPointObject( mSceneWindow, obj, newPoint );
-   t2dVector vPoint = t2dVector( fPoint.x, fPoint.y );
+   Vector2 vPoint = Vector2( fPoint.x, fPoint.y );
 
    for( S32 j = PolyBasisList.size() ; j > 0; j-- )
    {
@@ -668,10 +667,10 @@ bool LevelBuilderPolyTool::checkDragPoint( Vector<Point2F> &list, S32 index, Poi
       return false;
 
    // Get the pointer to our acquired object
-   t2dSceneObject *obj = mSceneObject;
+   SceneObject *obj = mSceneObject;
 
    // Setup poly basis list
-   Vector<t2dVector> PolyBasisList;
+   Vector<Vector2> PolyBasisList;
    PolyBasisList.clear();
    PolyBasisList.reserve( list.size() + 2 );
 
@@ -682,10 +681,10 @@ bool LevelBuilderPolyTool::checkDragPoint( Vector<Point2F> &list, S32 index, Poi
       if( j == index )
       {
          Point2F pt = getCollisionPointObject( mSceneWindow, obj, dragPoint );
-         PolyBasisList.push_back(  t2dVector( pt.x, pt.y ) );
+         PolyBasisList.push_back(  Vector2( pt.x, pt.y ) );
       }
       else
-         PolyBasisList.push_back( t2dVector( (*i).x, (*i).y ) );
+         PolyBasisList.push_back( Vector2( (*i).x, (*i).y ) );
    }
 
    if ( checkConvexPoly( PolyBasisList ) )
@@ -744,15 +743,15 @@ void LevelBuilderPolyTool::setPolyPrimitive( U32 polyVertexCount )
 
 ConsoleMethod(LevelBuilderPolyTool, checkConvexPoly, bool, 3, 3, "")
 {
-   Vector<t2dVector> poly;
+   Vector<Vector2> poly;
 
-   for (S32 i = 0; i < t2dSceneObject::getStringElementCount(argv[2]); i += 2)
-      poly.push_back(t2dVector(t2dSceneObject::getStringElementVector(argv[2], i)));
+   for (S32 i = 0; i < SceneObject::getStringElementCount(argv[2]); i += 2)
+      poly.push_back(Vector2(SceneObject::getStringElementVector(argv[2], i)));
 
    return object->checkConvexPoly(poly);
 }
 
-bool LevelBuilderPolyTool::checkConvexPoly( Vector<t2dVector> &list )
+bool LevelBuilderPolyTool::checkConvexPoly( Vector<Vector2> &list )
 {
    // Reset Sign Flag.
    bool sign = false;
@@ -771,8 +770,8 @@ bool LevelBuilderPolyTool::checkConvexPoly( Vector<t2dVector> &list )
       U32 n1 = (n0+1)%polyVertexCount;
       U32 n2 = (n0+2)%polyVertexCount;
       // Calculate Edges.
-      const t2dVector e0 = list[n1] - list[n0];
-      const t2dVector e1 = list[n2] - list[n1];
+      const Vector2 e0 = list[n1] - list[n0];
+      const Vector2 e1 = list[n2] - list[n1];
       // Calculate Perpendicular Dot-Product for edges.
       F32 perpDotEdge = e0.getPerp() * e1;
       // Have we processed the first vertex?
@@ -872,7 +871,7 @@ ConsoleMethod( LevelBuilderPolyTool, setPolyPrimitive, void, 3, 3, "setPolyPrimi
 ConsoleMethod( LevelBuilderPolyTool, getLocalMousePosition, const char*, 2, 2, "")
 {
    char* ret = Con::getReturnBuffer(32);
-   dSprintf(ret, 32, "%s %s", object->getLocalMousePosition().mX, object->getLocalMousePosition().mY);
+   dSprintf(ret, 32, "%s %s", object->getLocalMousePosition().x, object->getLocalMousePosition().y);
    return ret;
 }
 

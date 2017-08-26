@@ -249,6 +249,7 @@ protected:
     U32                     mSerialId;
     StringTableEntry        mRenderGroup;
 
+	SimObjectPtr<SceneObject> mAttachedToPath;
 protected:
     static S32 QSORT_CALLBACK sceneObjectLayerDepthSort(const void* a, const void* b);
 
@@ -569,6 +570,11 @@ public:
     inline void             addCameraMountReference( SceneWindow* pAttachedCamera ) { mpAttachedCamera = pAttachedCamera; }
     inline void             removeCameraMountReference( void )          { mpAttachedCamera = NULL; }
     inline void             dismountCamera( void )                      { if ( mpAttachedCamera ) mpAttachedCamera->dismountMe( this ); }
+
+
+	/// Pathing.
+	void setAttachedToPath(SceneObject* path) { mAttachedToPath = path; };
+	SceneObject* getAttachedToPath() const { return mAttachedToPath; };
 
     // GUI attachment.
     void attachGui(GuiControl* pGuiControl, SceneWindow* pSceneWindow, const bool sizeControl, const Vector2 offset);

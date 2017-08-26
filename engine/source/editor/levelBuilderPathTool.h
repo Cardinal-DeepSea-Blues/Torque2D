@@ -13,12 +13,10 @@
 #include "2d/gui/SceneWindow.h"
 #endif
 
-#ifndef _T2DPATH_H_
-#include "T2D/t2dPath.h"
-#endif
+#include "2d/sceneobject/Path.h"
 
 #ifndef _LEVELBUILDERCREATETOOL_H_
-#include "TGB/levelBuilderCreateTool.h"
+#include "editor/levelBuilderCreateTool.h"
 #endif
 
 #ifndef _CONSOLETYPES_H_
@@ -33,9 +31,9 @@ class LevelBuilderPathTool : public LevelBuilderCreateTool
    typedef LevelBuilderCreateTool Parent;
 
 protected:
-   virtual t2dSceneObject* createObject();
+   virtual SceneObject* createObject();
    virtual void showObject();
-   virtual t2dVector getDefaultSize( LevelBuilderSceneWindow *window );
+   virtual Vector2 getDefaultSize( LevelBuilderSceneWindow *window );
   
 public:
    LevelBuilderPathTool();

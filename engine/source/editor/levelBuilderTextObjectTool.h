@@ -18,7 +18,7 @@
 #endif
 
 #ifndef _LEVELBUILDERCREATETOOL_H_
-#include "TGB/levelBuilderCreateTool.h"
+#include "editor/levelBuilderCreateTool.h"
 #endif
 
 #ifndef _CONSOLETYPES_H_
@@ -48,9 +48,9 @@ private:
    StringBuffer mDefaultText;
 
 protected:
-   virtual t2dSceneObject* createObject();
+   virtual SceneObject* createObject();
    virtual void showObject();
-   virtual t2dVector getDefaultSize(LevelBuilderSceneWindow* sceneWindow);
+   virtual Vector2 getDefaultSize(LevelBuilderSceneWindow* sceneWindow);
   
 public:
    LevelBuilderTextObjectTool();

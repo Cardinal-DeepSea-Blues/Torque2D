@@ -14,11 +14,11 @@
 #endif
 
 #ifndef _T2DPATH_H_
-#include "T2D/t2dPath.h"
+#include "2d/sceneobject/Path.h"
 #endif
 
 #ifndef _LEVELBUILDERBASEEDITTOOL_H_
-#include "TGB/levelBuilderBaseEditTool.h"
+#include "editor/levelBuilderBaseEditTool.h"
 #endif
 
 //-----------------------------------------------------------------------------
@@ -39,7 +39,7 @@ protected:
    S32                      mDraggingNode;
    S32                      mDraggingHandle;
    F32                      mStartRotation;
-   t2dVector                mRotationVector;
+   Vector2                mRotationVector;
   
 public:
    LevelBuilderPathEditTool();
@@ -58,9 +58,9 @@ public:
    // This cancels an edit, applying changes.
    void finishEdit();
 
-   S32 findPathNode(t2dPath* path, t2dVector position);
-   S32 findClosestNode(t2dPath* path, t2dVector position);
-   S32 findBezierHandle(t2dPath::PathNode& node, t2dVector position);
+   S32 findPathNode(t2dPath* path, Vector2 position);
+   S32 findClosestNode(t2dPath* path, Vector2 position);
+   S32 findBezierHandle(t2dPath::PathNode& node, Vector2 position);
 
    void onRenderGraph( LevelBuilderSceneWindow* sceneWindow );
 
@@ -74,14 +74,14 @@ private:
    LevelBuilderSceneEdit* mSceneEdit;
    t2dPath* mObject;
    U32 mNode;
-   t2dVector mPosition;
+   Vector2 mPosition;
    F32 mWeight;
    F32 mRotation;
 
 public:
    UndoPathNodeAddAction(LevelBuilderSceneEdit* sceneEdit, UTF8* actionName) : UndoAction(actionName) { mSceneEdit = sceneEdit; };
 
-   void setNode(t2dPath* object, U32 node, t2dVector position, F32 rotation, F32 weight)
+   void setNode(t2dPath* object, U32 node, Vector2 position, F32 rotation, F32 weight)
    {
       mObject = object;
       mNode = node;
@@ -115,14 +115,14 @@ private:
    LevelBuilderSceneEdit* mSceneEdit;
    t2dPath* mObject;
    U32 mNode;
-   t2dVector mPosition;
+   Vector2 mPosition;
    F32 mWeight;
    F32 mRotation;
 
 public:
    UndoPathNodeRemoveAction(LevelBuilderSceneEdit* sceneEdit, UTF8* actionName) : UndoAction(actionName) { mSceneEdit = sceneEdit; };
 
-   void setNode(t2dPath* object, U32 node, t2dVector position, F32 rotation, F32 weight)
+   void setNode(t2dPath* object, U32 node, Vector2 position, F32 rotation, F32 weight)
    {
       mObject = object;
       mNode = node;
@@ -157,14 +157,14 @@ private:
    t2dPath* mObject;
    
    U32 mNode;
-   t2dVector mStartPosition;
-   t2dVector mEndPosition;
+   Vector2 mStartPosition;
+   Vector2 mEndPosition;
 
 public:
    UndoPathNodeMoveAction(LevelBuilderSceneEdit* sceneEdit, UTF8* actionName) : UndoAction(actionName) { mSceneEdit = sceneEdit; };
 
-   void setStartPosition(t2dPath* object, U32 node, t2dVector position) { mObject = object; mNode = node; mStartPosition = position; deleteNotify(object); };
-   void setEndPosition(t2dVector position) { mEndPosition = position; };
+   void setStartPosition(t2dPath* object, U32 node, Vector2 position) { mObject = object; mNode = node; mStartPosition = position; deleteNotify(object); };
+   void setEndPosition(Vector2 position) { mEndPosition = position; };
 
    virtual void onDeleteNotify(SimObject* object)
    {

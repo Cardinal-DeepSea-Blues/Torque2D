@@ -10,7 +10,7 @@
 #define _LEVELBUILDERCAMERATOOL_H_
 
 #ifndef _LEVELBUILDERBASEEDITTOOL_H_
-#include "TGB/levelBuilderBaseEditTool.h"
+#include "editor/levelBuilderBaseEditTool.h"
 #endif
 
 #ifndef _CONSOLETYPES_H_
@@ -32,8 +32,8 @@ private:
 
    F32 mMouseDownAR;
 
-   t2dVector mStartPos;
-   t2dVector mStartSize;
+   Vector2 mStartPos;
+   Vector2 mStartSize;
 
 protected:
    // Whether or not the camera is being moved.
@@ -42,9 +42,9 @@ protected:
    typedef LevelBuilderBaseEditTool Parent;
 
    // Current size and position of the camera being edited.
-   t2dVector mCameraPosition;
-   t2dVector mCameraSize;
-   t2dVector mOffset;
+   Vector2 mCameraPosition;
+   Vector2 mCameraSize;
+   Vector2 mOffset;
 
    ColorI mCameraOutlineColor;
    ColorI mCameraFillColor;
@@ -78,10 +78,10 @@ public:
    void onRenderGraph( LevelBuilderSceneWindow* sceneWindow );
 
    // State Info Accessors
-   t2dVector getCameraPosition() { return mCameraPosition; };
-   t2dVector getCameraSize() { return mCameraSize; };
-   void setCameraPosition(t2dVector pos) { mCameraPosition = pos; };
-   void setCameraSize(t2dVector size) { mCameraSize = size; };
+   Vector2 getCameraPosition() { return mCameraPosition; };
+   Vector2 getCameraSize() { return mCameraSize; };
+   void setCameraPosition(Vector2 pos) { mCameraPosition = pos; };
+   void setCameraSize(Vector2 size) { mCameraSize = size; };
 
    // Declare our Console Object
    DECLARE_CONOBJECT(LevelBuilderCameraTool);
@@ -95,18 +95,18 @@ class UndoFullCameraAction : public UndoAction
 private:
    LevelBuilderCameraTool* mCameraTool;
 
-   t2dVector mStartPosition;
-   t2dVector mStartSize;
-   t2dVector mFinishPosition;
-   t2dVector mFinishSize;
+   Vector2 mStartPosition;
+   Vector2 mStartSize;
+   Vector2 mFinishPosition;
+   Vector2 mFinishSize;
 
-   SimObjectPtr<t2dSceneGraph> mSceneGraph;
+   SimObjectPtr<Scene> mSceneGraph;
 
 public:
-   UndoFullCameraAction(LevelBuilderCameraTool* camera, t2dSceneGraph* sceneGraph, UTF8* actionName) : UndoAction(actionName) { mSceneGraph = sceneGraph; mCameraTool = camera; };
+   UndoFullCameraAction(LevelBuilderCameraTool* camera, Scene* sceneGraph, UTF8* actionName) : UndoAction(actionName) { mSceneGraph = sceneGraph; mCameraTool = camera; };
 
-   void setStartBounds(t2dVector pos, t2dVector size) { mStartPosition = pos; mStartSize = size; };
-   void setFinishBounds(t2dVector pos, t2dVector size) { mFinishPosition = pos; mFinishSize = size; };
+   void setStartBounds(Vector2 pos, Vector2 size) { mStartPosition = pos; mStartSize = size; };
+   void setFinishBounds(Vector2 pos, Vector2 size) { mFinishPosition = pos; mFinishSize = size; };
 
    bool hasChanged() { return !((mStartPosition == mFinishPosition) && (mStartSize == mFinishSize)); };
 
@@ -114,11 +114,11 @@ public:
    {
       if (!mSceneGraph) return;
       char pos[32];
-      dSprintf(pos, 32, "%f %f", mStartPosition.mX, mStartPosition.mY);
+      dSprintf(pos, 32, "%f %f", mStartPosition.x, mStartPosition.y);
       mSceneGraph->setDataField(StringTable->insert("cameraPosition"), NULL, pos);
 
       char size[32];
-      dSprintf(size, 32, "%f %f", mStartSize.mX, mStartSize.mY);
+      dSprintf(size, 32, "%f %f", mStartSize.x, mStartSize.y);
       mSceneGraph->setDataField(StringTable->insert("cameraSize"), NULL, size);
 
       Con::executef(mCameraTool, 3, "onCameraChanged", pos, size);
@@ -128,11 +128,11 @@ public:
    {
       if (!mSceneGraph) return;
       char pos[32];
-      dSprintf(pos, 32, "%f %f", mFinishPosition.mX, mFinishPosition.mY);
+      dSprintf(pos, 32, "%f %f", mFinishPosition.x, mFinishPosition.y);
       mSceneGraph->setDataField(StringTable->insert("cameraPosition"), NULL, pos);
 
       char size[32];
-      dSprintf(size, 32, "%f %f", mFinishSize.mX, mFinishSize.mY);
+      dSprintf(size, 32, "%f %f", mFinishSize.x, mFinishSize.y);
       mSceneGraph->setDataField(StringTable->insert("cameraSize"), NULL, size);
 
       Con::executef(mCameraTool, 3, "onCameraChanged", pos, size);
@@ -147,18 +147,18 @@ class UndoCameraAction : public UndoAction
 private:
    LevelBuilderCameraTool* mCameraTool;
    
-   t2dVector mStartPosition;
-   t2dVector mStartSize;
-   t2dVector mFinishPosition;
-   t2dVector mFinishSize;
+   Vector2 mStartPosition;
+   Vector2 mStartSize;
+   Vector2 mFinishPosition;
+   Vector2 mFinishSize;
 
 public:
    UndoCameraAction(LevelBuilderCameraTool* camera, UTF8* actionName) : UndoAction(actionName) { mCameraTool = camera; };
 
    bool hasChanged() { return !((mStartPosition == mFinishPosition) && (mStartSize == mFinishSize)); };
 
-   void setStartBounds(t2dVector pos, t2dVector size) { mStartPosition = pos; mStartSize = size; };
-   void setFinishBounds(t2dVector pos, t2dVector size) { mFinishPosition = pos; mFinishSize = size; };
+   void setStartBounds(Vector2 pos, Vector2 size) { mStartPosition = pos; mStartSize = size; };
+   void setFinishBounds(Vector2 pos, Vector2 size) { mFinishPosition = pos; mFinishSize = size; };
 
    virtual void undo()
    {
@@ -166,9 +166,9 @@ public:
       mCameraTool->setCameraSize(mStartSize);
 
       char position[64];
-      dSprintf(position, 64, "%f %f", mStartPosition.mX, mStartPosition.mY);
+      dSprintf(position, 64, "%f %f", mStartPosition.x, mStartPosition.y);
       char size[64];
-      dSprintf(size, 64, "%f %f", mStartSize.mX, mStartSize.mY);
+      dSprintf(size, 64, "%f %f", mStartSize.x, mStartSize.y);
       Con::executef(mCameraTool, 3, "onCameraChanged", position, size);
    };
 
@@ -178,9 +178,9 @@ public:
       mCameraTool->setCameraSize(mFinishSize);
 
       char position[64];
-      dSprintf(position, 64, "%f %f", mFinishPosition.mX, mFinishPosition.mY);
+      dSprintf(position, 64, "%f %f", mFinishPosition.x, mFinishPosition.y);
       char size[64];
-      dSprintf(size, 64, "%f %f", mFinishSize.mX, mFinishSize.mY);
+      dSprintf(size, 64, "%f %f", mFinishSize.x, mFinishSize.y);
       Con::executef(mCameraTool, 3, "onCameraChanged", position, size);
    };
 };

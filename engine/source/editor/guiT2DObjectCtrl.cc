@@ -248,25 +248,25 @@ void guiT2DObjectCtrl::onRender(Point2I offset, const RectI& updateRect)
       const Vector2* pClipBoundary = mSelectedSceneObject->getWorldClipBoundary();
 
       // Calculate the GUI-Control Clip Boundary.
-      const F32 xscale = (pClipBoundary[1].mX - pClipBoundary[0].mX) / ctrlRectInset.extent.x;
-      const F32 yscale = (pClipBoundary[2].mY - pClipBoundary[0].mY) / ctrlRectInset.extent.y;
+      const F32 xscale = (pClipBoundary[1].x - pClipBoundary[0].x) / ctrlRectInset.extent.x;
+      const F32 yscale = (pClipBoundary[2].y - pClipBoundary[0].y) / ctrlRectInset.extent.y;
 
-      F32 x1 = pClipBoundary[0].mX + ( objRect.point.x - ctrlRectInset.point.x) * xscale;
-      F32 x2 = pClipBoundary[1].mX + ( objRect.point.x + objRect.extent.x - ctrlRectInset.extent.x - ctrlRectInset.point.x) * xscale;
-      F32 y1 = pClipBoundary[0].mY + ( objRect.point.y - ctrlRectInset.point.y) * yscale;
-      F32 y2 = pClipBoundary[2].mY + ( objRect.point.y + objRect.extent.y - ctrlRectInset.extent.y - ctrlRectInset.point.y) * yscale;
+      F32 x1 = pClipBoundary[0].x + ( objRect.point.x - ctrlRectInset.point.x) * xscale;
+      F32 x2 = pClipBoundary[1].x + ( objRect.point.x + objRect.extent.x - ctrlRectInset.extent.x - ctrlRectInset.point.x) * xscale;
+      F32 y1 = pClipBoundary[0].y + ( objRect.point.y - ctrlRectInset.point.y) * yscale;
+      F32 y2 = pClipBoundary[2].y + ( objRect.point.y + objRect.extent.y - ctrlRectInset.extent.y - ctrlRectInset.point.y) * yscale;
 
 	  Vector2 size = mSelectedSceneObject->getSize();
-      if (size.mX > size.mY)
+      if (size.x > size.y)
       {
          S32 center = objRect.point.y + (objRect.extent.y / 2);
-         objRect.extent.y *= size.mY / size.mX;
+         objRect.extent.y *= size.y / size.x;
          objRect.point.y = center - (objRect.extent.y / 2);
       }
       else
       {
          S32 center = objRect.point.x + (objRect.extent.x / 2);
-         objRect.extent.x *= size.mX / size.mY;
+         objRect.extent.x *= size.x / size.y;
          objRect.point.x = center - (objRect.extent.x / 2);
       }
 
@@ -291,7 +291,7 @@ void guiT2DObjectCtrl::onRender(Point2I offset, const RectI& updateRect)
       }
 
       // Setup Orthographic Projection for Object Area.
-      glOrtho( x1, x2, y2, y1, 0.0f, t2dSceneGraph::maxLayersSupported );
+      glOrtho( x1, x2, y2, y1, 0.0f, Scene::maxLayersSupported );
 
       // Setup new viewport.
       dglSetViewport(objRect);
@@ -309,7 +309,7 @@ void guiT2DObjectCtrl::onRender(Point2I offset, const RectI& updateRect)
       RectF clipBounds( -x1,-y1, x2-x1, y2-y1 );
 
       // Render Object in GUI-space.
-      // by the way - the arguments to t2dSceneObject::renderObject() are not used by any existing t2dSceneObject.
+      // by the way - the arguments to SceneObject::renderObject() are not used by any existing SceneObject.
       mSelectedSceneObject->renderObject( clipBounds, clipBounds );
 
       // Restore Standard Settings.

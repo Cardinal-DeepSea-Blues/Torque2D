@@ -16,7 +16,7 @@
 #endif
 
 #ifndef _LEVELBUILDERBASEEDITTOOL_H_
-#include "TGB/levelBuilderBaseEditTool.h"
+#include "editor/levelBuilderBaseEditTool.h"
 #endif
 
 #ifndef _CONSOLETYPES_H_
@@ -34,22 +34,22 @@ private:
    ColorI            mOutlineColor;
 
    // The mouse drag start position after snapping.
-   t2dVector mDragStart;
+   Vector2 mDragStart;
    F32 mMouseDownAR;
 
 protected:
    typedef LevelBuilderBaseEditTool Parent;
    
-   t2dSceneObject*   mCreatedObject;
+   SceneObject*   mCreatedObject;
    StringTableEntry  mScriptClassName;
    StringTableEntry  mScriptSuperClassName;
    StringTableEntry  mConfigDatablockName;
 
    // Must be defined by the derived class though they can't be pure virtual since this
    // is a console object.
-   virtual t2dSceneObject* createObject() { return NULL; };
+   virtual SceneObject* createObject() { return NULL; };
    virtual void showObject() { if (mCreatedObject) mCreatedObject->setVisible(true); };
-   virtual t2dVector getDefaultSize(LevelBuilderSceneWindow* sceneWindow);
+   virtual Vector2 getDefaultSize(LevelBuilderSceneWindow* sceneWindow);
    virtual Point2I getPixelSize() { return Point2I(128, 128); };
 
    // Properties
@@ -66,7 +66,7 @@ public:
    void onRenderGraph( LevelBuilderSceneWindow* sceneWindow );
 
    bool create(LevelBuilderSceneWindow* sceneWindow);
-   t2dSceneObject* createFull(LevelBuilderSceneWindow* sceneWindow, t2dVector position);
+   SceneObject* createFull(LevelBuilderSceneWindow* sceneWindow, Vector2 position);
 
    virtual void onObjectCreated();
 
@@ -88,13 +88,13 @@ class UndoCreateAction : public UndoAction
    typedef UndoAction Parent;
 
 private:
-   t2dSceneObject* mObject;
+   SceneObject* mObject;
    bool mWasAcquired;
    LevelBuilderSceneEdit* mSceneEdit;
 
 public:
    UndoCreateAction(LevelBuilderSceneEdit* sceneEdit, UTF8* name) : UndoAction(name) { mSceneEdit = sceneEdit; };
-   void addObject(t2dSceneObject* object)
+   void addObject(SceneObject* object)
    {
       mObject = object;
       deleteNotify(object);

@@ -8,7 +8,7 @@
 //---------------------------------------------------------------------------------------------
 
 #include "console/console.h"
-#include "TGB/levelBuilderTriggerTool.h"
+#include "editor/levelBuilderTriggerTool.h"
 
 // Implement Our Console Object
 IMPLEMENT_CONOBJECT(LevelBuilderTriggerTool);
@@ -23,9 +23,9 @@ LevelBuilderTriggerTool::~LevelBuilderTriggerTool()
 {
 }
 
-t2dSceneObject* LevelBuilderTriggerTool::createObject()
+SceneObject* LevelBuilderTriggerTool::createObject()
 {
-   t2dTrigger* trigger = dynamic_cast<t2dTrigger*>(ConsoleObject::create("t2dTrigger"));
+   Trigger* trigger = dynamic_cast<Trigger*>(ConsoleObject::create("t2dTrigger"));
 
    return trigger;
 }

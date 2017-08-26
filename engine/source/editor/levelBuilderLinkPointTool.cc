@@ -7,10 +7,10 @@
 // SceneObject Link Point Tool.
 //-----------------------------------------------------------------------------
 #include "console/console.h"
-#include "dgl/dgl.h"
-#include "TGB/levelBuilderLinkPointTool.h"
-#include "TGB/levelBuilderSceneEdit.h"
-#include "TGB/levelBuilderMountTool.h"
+#include "graphics/dgl.h"
+#include "editor/levelBuilderLinkPointTool.h"
+#include "editor/levelBuilderSceneEdit.h"
+#include "editor/levelBuilderMountTool.h"
 
 IMPLEMENT_CONOBJECT(LevelBuilderLinkPointTool);
 
@@ -51,7 +51,7 @@ void LevelBuilderLinkPointTool::onDeactivate()
    Parent::onDeactivate();
 }
 
-bool LevelBuilderLinkPointTool::onAcquireObject( t2dSceneObject *object )
+bool LevelBuilderLinkPointTool::onAcquireObject( SceneObject *object )
 {
    if(!isEditable(object) || !mSceneWindow)
       return false;
@@ -69,7 +69,7 @@ bool LevelBuilderLinkPointTool::onAcquireObject( t2dSceneObject *object )
    return true;
 }
 
-void LevelBuilderLinkPointTool::onRelinquishObject( t2dSceneObject *object )
+void LevelBuilderLinkPointTool::onRelinquishObject( SceneObject *object )
 {
    if(!mSceneWindow || !mSceneObject)
       return Parent::onRelinquishObject(object);
@@ -84,7 +84,7 @@ void LevelBuilderLinkPointTool::onRelinquishObject( t2dSceneObject *object )
          // Since we're a tool override, we should try to edit any object we can.
          for (S32 i = 0; i < mSceneWindow->getSceneEdit()->getAcquiredObjectCount(); i++)
          {
-            t2dSceneObject* newObject = mSceneWindow->getSceneEdit()->getAcquiredObject(i);
+            SceneObject* newObject = mSceneWindow->getSceneEdit()->getAcquiredObject(i);
             if ((newObject != mSceneObject) && isEditable(newObject))
             {
                foundNewObject = true;
@@ -96,22 +96,22 @@ void LevelBuilderLinkPointTool::onRelinquishObject( t2dSceneObject *object )
          if (!foundNewObject)
          {
             // Grab the size and position of the camera from the scenegraph.
-            t2dVector cameraPosition = t2dVector(0.0f, 0.0f);
-            t2dVector cameraSize = t2dVector(100.0f, 75.0f);
+            Vector2 cameraPosition = Vector2(0.0f, 0.0f);
+            Vector2 cameraSize = Vector2(100.0f, 75.0f);
             if (mSceneWindow->getSceneGraph())
             {
                const char* pos = mSceneWindow->getSceneGraph()->getDataField(StringTable->insert("cameraPosition"), NULL);
-               if (t2dSceneObject::getStringElementCount(pos) == 2)
-                  cameraPosition = t2dSceneObject::getStringElementVector(pos);
+               if (SceneObject::getStringElementCount(pos) == 2)
+                  cameraPosition = SceneObject::getStringElementVector(pos);
                
                const char* size = mSceneWindow->getSceneGraph()->getDataField(StringTable->insert("cameraSize"), NULL);
-               if (t2dSceneObject::getStringElementCount(size) == 2)
-                  cameraSize = t2dSceneObject::getStringElementVector(size);
+               if (SceneObject::getStringElementCount(size) == 2)
+                  cameraSize = SceneObject::getStringElementVector(size);
             }
 
             // And update the camera.
             mSceneWindow->setTargetCameraZoom( 1.0f );
-            mSceneWindow->setTargetCameraPosition(cameraPosition, cameraSize.mX, cameraSize.mY);
+            mSceneWindow->setTargetCameraPosition(cameraPosition, cameraSize.x, cameraSize.y);
             mSceneWindow->startCameraMove( 0.5f );
             mSceneObject = NULL;
          }
@@ -122,7 +122,7 @@ void LevelBuilderLinkPointTool::onRelinquishObject( t2dSceneObject *object )
    Parent::onRelinquishObject(object);
 }
 
-void LevelBuilderLinkPointTool::editObject(t2dSceneObject* object)
+void LevelBuilderLinkPointTool::editObject(SceneObject* object)
 {
    if (!mSceneWindow || !isEditable(object))
       return;
@@ -145,7 +145,7 @@ void LevelBuilderLinkPointTool::editObject(t2dSceneObject* object)
 
 ConsoleMethod(LevelBuilderLinkPointTool, editObject, void, 3, 3, "Selects an object for editing.")
 {
-   t2dSceneObject* obj = dynamic_cast<t2dSceneObject*>(Sim::findObject(argv[2]));
+   SceneObject* obj = dynamic_cast<SceneObject*>(Sim::findObject(argv[2]));
    if (obj)
       object->editObject(obj);
    else
@@ -173,7 +173,7 @@ ConsoleMethod(LevelBuilderLinkPointTool, finishEdit, void, 2, 2, "Applies change
    object->finishEdit();
 }
 
-bool LevelBuilderLinkPointTool::isEditable(t2dSceneObject* obj)
+bool LevelBuilderLinkPointTool::isEditable(SceneObject* obj)
 {
    return true;
 }
@@ -185,7 +185,7 @@ void LevelBuilderLinkPointTool::onRenderGraph(LevelBuilderSceneWindow* sceneWind
    if ((mSceneWindow != sceneWindow) || !mSceneObject)
       return;
 
-   t2dSceneObject::typeMountNodeVector& mountNodes = mSceneObject->mMountNodes;
+   SceneObject::typeMountNodeVector& mountNodes = mSceneObject->mMountNodes;
 
    GuiControlProfile* profile = dynamic_cast<GuiControlProfile*>(Sim::findObject("GuiDefaultProfile"));
    AssertFatal(profile, "GuiDefaultProfile not found");
@@ -259,7 +259,7 @@ bool LevelBuilderLinkPointTool::onMouseDown( LevelBuilderSceneWindow* sceneWindo
       if (mouseStatus.pickList.size() == 0)
          return Parent::onMouseDown(sceneWindow, mouseStatus);
 
-      t2dSceneObject* pObj = mouseStatus.pickList[0];
+      SceneObject* pObj = mouseStatus.pickList[0];
 
       if ((mouseStatus.event.mouseClickCount >= 2) && isEditable(pObj))
          sceneWindow->getSceneEdit()->requestAcquisition(pObj);
@@ -267,7 +267,7 @@ bool LevelBuilderLinkPointTool::onMouseDown( LevelBuilderSceneWindow* sceneWindo
       return true;
    }
 
-   t2dSceneObject::typeMountNodeVector& mountNodes = mSceneObject->mMountNodes;
+   SceneObject::typeMountNodeVector& mountNodes = mSceneObject->mMountNodes;
 
    RectI bounds = mSceneWindow->getObjectBoundsWindow(mSceneObject);
    S32 hitNode = findMountNode( mouseStatus.event.mousePoint );
@@ -282,7 +282,7 @@ bool LevelBuilderLinkPointTool::onMouseDown( LevelBuilderSceneWindow* sceneWindo
    {
       mAddUndo = true;
       mDraggingMountNode = mountNodes.size();
-      t2dVector position = getMountPointObject( mSceneWindow, mSceneObject, mSceneWindow->localToGlobalCoord(mouseStatus.event.mousePoint));
+      Vector2 position = getMountPointObject( mSceneWindow, mSceneObject, mSceneWindow->localToGlobalCoord(mouseStatus.event.mousePoint));
       U32 node = mSceneObject->addLinkPoint(position);
       mSceneWindow->getSceneEdit()->onObjectChanged(mSceneObject);
 
@@ -357,20 +357,20 @@ bool LevelBuilderLinkPointTool::onRightMouseUp( LevelBuilderSceneWindow* sceneWi
 
    if (mouseStatus.pickList.size() > 1)
    {
-      t2dSceneObject* obj = mouseStatus.pickList[0];
+      SceneObject* obj = mouseStatus.pickList[0];
       if (obj == mSceneObject)
          obj = mouseStatus.pickList[1];
 
       if (obj->getIsMounted())
       {
-         t2dSceneObject* mountedTo = obj->getMountedParent();
+         SceneObject* mountedTo = obj->getMountedParent();
 
          UndoDismountAction* undo = new UndoDismountAction(mSceneWindow->getSceneEdit(), "Dismount Object");
          undo->setMountInfo(obj, mountedTo, obj->getMountOffset(), obj->getMountForce(), obj->getMountTrackRotation(),
                             true, obj->getMountOwned(), obj->getMountInheritAttributes());
 
          obj->dismount();
-         t2dVector position = obj->getPosition() + t2dVector(10.0f, 10.0f);
+         Vector2 position = obj->getPosition() + Vector2(10.0f, 10.0f);
          obj->setPosition(position);
          undo->setStartPosition(position);
          undo->addToManager(&mSceneWindow->getSceneEdit()->getUndoManager());
@@ -403,14 +403,14 @@ S32 LevelBuilderLinkPointTool::findMountNode( Point2I hitPoint )
    if ( !mSceneObject )
       return -1;
    
-   t2dSceneObject::typeMountNodeVector& mountNodes = mSceneObject->mMountNodes;
+   SceneObject::typeMountNodeVector& mountNodes = mSceneObject->mMountNodes;
 
    // Generate Draw Points 
    static Vector<Point2I> drawPoints;
    drawPoints.clear();
    drawPoints.reserve( mountNodes.size() + 1 );
 
-   t2dSceneObject::typeMountNodeVector::iterator j = mountNodes.begin();
+   SceneObject::typeMountNodeVector::iterator j = mountNodes.begin();
    for ( ; j != mountNodes.end(); j++ )
       drawPoints.push_back( mSceneWindow->globalToLocalCoord( getMountPointWorld( mSceneWindow, mSceneObject, (*j).mLocalMountPosition ) ) );
 
@@ -421,7 +421,7 @@ S32 LevelBuilderLinkPointTool::findMountNode( Point2I hitPoint )
    return -1;
 }
 
-Point2F LevelBuilderLinkPointTool::getMountPointObject(LevelBuilderSceneWindow* sceneWindow, const t2dSceneObject* obj, const Point2I& worldPoint) const 
+Point2F LevelBuilderLinkPointTool::getMountPointObject(LevelBuilderSceneWindow* sceneWindow, const SceneObject* obj, const Point2I& worldPoint) const 
 {
    Point2I localPoint = sceneWindow->globalToLocalCoord( worldPoint );
    // Get our object's bounds window
@@ -446,7 +446,7 @@ Point2F LevelBuilderLinkPointTool::getMountPointObject(LevelBuilderSceneWindow* 
                    ( (F32)positionY * nHeightInverse * 2.0f - 1.0f) );
 }
 
-Point2I LevelBuilderLinkPointTool::getMountPointWorld(LevelBuilderSceneWindow* sceneWindow, const t2dSceneObject *obj, Point2F oneToOnePoint) const 
+Point2I LevelBuilderLinkPointTool::getMountPointWorld(LevelBuilderSceneWindow* sceneWindow, const SceneObject *obj, Point2F oneToOnePoint) const 
 {
    // Get our object's bounds window
    RectI objRect = sceneWindow->getObjectBoundsWindow(obj);

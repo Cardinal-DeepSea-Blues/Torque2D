@@ -8,8 +8,8 @@
 //-----------------------------------------------------------------------------
 
 #include "console/console.h"
-#include "dgl/dgl.h"
-#include "TGB/levelBuilderSceneEdit.h"
+#include "graphics/dgl.h"
+#include "editor/levelBuilderSceneEdit.h"
 #include "T2D/t2dTileMap.h"
 
 // Implement Our Console Object
@@ -201,12 +201,12 @@ void LevelBuilderSceneEdit::onRenderBackground(LevelBuilderSceneWindow* sceneWin
    Point2F	cameraStart = sceneWindow->getCurrentCamera().mSceneMin;
    Point2F	cameraEnd   = sceneWindow->getCurrentCamera().mSceneMax;
 
-   t2dVector windowWorldMin, windowWorldMax;
-   sceneWindow->sceneToWindowCoord((t2dVector)cameraStart, windowWorldMin);
-   sceneWindow->sceneToWindowCoord((t2dVector)cameraEnd, windowWorldMax);
+   Vector2 windowWorldMin, windowWorldMax;
+   sceneWindow->sceneToWindowCoord((Vector2)cameraStart, windowWorldMin);
+   sceneWindow->sceneToWindowCoord((Vector2)cameraEnd, windowWorldMax);
 
-   windowWorldMin	=	(t2dVector)sceneWindow->localToGlobalCoord(Point2I(S32(windowWorldMin.mX), S32(windowWorldMin.mY)));
-   windowWorldMax	=	(t2dVector)sceneWindow->localToGlobalCoord(Point2I(S32(windowWorldMax.mX), S32(windowWorldMax.mY)));
+   windowWorldMin	=	(Vector2)sceneWindow->localToGlobalCoord(Point2I(S32(windowWorldMin.x), S32(windowWorldMin.y)));
+   windowWorldMax	=	(Vector2)sceneWindow->localToGlobalCoord(Point2I(S32(windowWorldMax.x), S32(windowWorldMax.y)));
 
    // Draw Grid Lines
    if(mGridVisible)
@@ -223,7 +223,7 @@ void LevelBuilderSceneEdit::onRenderBackground(LevelBuilderSceneWindow* sceneWin
          ySnapDistance *= 2.0f;
       }
 
-      t2dVector currStep;
+      Vector2 currStep;
       // Draw Vertical Grid Lines
       if( isGridSnapX() )
       {
@@ -232,8 +232,8 @@ void LevelBuilderSceneEdit::onRenderBackground(LevelBuilderSceneWindow* sceneWin
          {
             currStep.set( nI, 0 );
             sceneWindow->sceneToWindowCoord(currStep,currStep);
-            currStep	= (t2dVector)sceneWindow->localToGlobalCoord( Point2I( S32(currStep.mX), S32(currStep.mY) ) );
-            dglDrawLine( (S32)(currStep.mX), (S32)windowWorldMin.mY, (S32)(currStep.mX), (S32)windowWorldMax.mY, mGridColor );
+            currStep	= (Vector2)sceneWindow->localToGlobalCoord( Point2I( S32(currStep.x), S32(currStep.y) ) );
+            dglDrawLine( (S32)(currStep.x), (S32)windowWorldMin.y, (S32)(currStep.x), (S32)windowWorldMax.y, mGridColor );
          }
       }
 
@@ -244,8 +244,8 @@ void LevelBuilderSceneEdit::onRenderBackground(LevelBuilderSceneWindow* sceneWin
          {
             currStep.set( 0, nI );
             sceneWindow->sceneToWindowCoord(currStep,currStep);
-            currStep	=	(t2dVector)sceneWindow->localToGlobalCoord(Point2I(S32(currStep.mX),S32(currStep.mY)));
-            dglDrawLine(S32(windowWorldMin.mX), S32(currStep.mY), S32(windowWorldMax.mX), S32(currStep.mY), mGridColor);
+            currStep	=	(Vector2)sceneWindow->localToGlobalCoord(Point2I(S32(currStep.x),S32(currStep.y)));
+            dglDrawLine(S32(windowWorldMin.x), S32(currStep.y), S32(windowWorldMax.x), S32(currStep.y), mGridColor);
          }
       }
    }
@@ -261,12 +261,12 @@ void LevelBuilderSceneEdit::onRenderForeground(LevelBuilderSceneWindow* sceneWin
    Point2F	cameraStart = sceneWindow->getCurrentCamera().mSceneMin;
    Point2F	cameraEnd   = sceneWindow->getCurrentCamera().mSceneMax;
 
-   t2dVector windowWorldMin, windowWorldMax;
-   sceneWindow->sceneToWindowCoord((t2dVector)cameraStart, windowWorldMin);
-   sceneWindow->sceneToWindowCoord((t2dVector)cameraEnd, windowWorldMax);
+   Vector2 windowWorldMin, windowWorldMax;
+   sceneWindow->sceneToWindowCoord((Vector2)cameraStart, windowWorldMin);
+   sceneWindow->sceneToWindowCoord((Vector2)cameraEnd, windowWorldMax);
 
-   windowWorldMin	=	(t2dVector)sceneWindow->localToGlobalCoord(Point2I(S32(windowWorldMin.mX), S32(windowWorldMin.mY)));
-   windowWorldMax	=	(t2dVector)sceneWindow->localToGlobalCoord(Point2I(S32(windowWorldMax.mX), S32(windowWorldMax.mY)));
+   windowWorldMin	=	(Vector2)sceneWindow->localToGlobalCoord(Point2I(S32(windowWorldMin.x), S32(windowWorldMin.y)));
+   windowWorldMax	=	(Vector2)sceneWindow->localToGlobalCoord(Point2I(S32(windowWorldMax.x), S32(windowWorldMax.y)));
 
    S32 lineThickness = 2;
    ColorF lineColor = mGridColor * 0.5f;
@@ -275,29 +275,29 @@ void LevelBuilderSceneEdit::onRenderForeground(LevelBuilderSceneWindow* sceneWin
    // Draw the camera outline if it is desired.
    if (mCameraVisible)
    {
-      t2dVector cameraSize = t2dVector(100.0f, 75.0f);
-      t2dVector cameraPosition = t2dVector(0.0f, 0.0f);
+      Vector2 cameraSize = Vector2(100.0f, 75.0f);
+      Vector2 cameraPosition = Vector2(0.0f, 0.0f);
 
       // Always check return values of () before referencing them.
       if( sceneWindow->getSceneGraph() != NULL )
       {
          const char* pos = sceneWindow->getSceneGraph()->getDataField(StringTable->insert("cameraPosition"), NULL);
-         if (t2dSceneObject::getStringElementCount(pos) == 2)
-            cameraPosition = t2dSceneObject::getStringElementVector(pos);
+         if (SceneObject::getStringElementCount(pos) == 2)
+            cameraPosition = SceneObject::getStringElementVector(pos);
 
          const char* size = sceneWindow->getSceneGraph()->getDataField(StringTable->insert("cameraSize"), NULL);
-         if (t2dSceneObject::getStringElementCount(size) == 2)
-            cameraSize = t2dSceneObject::getStringElementVector(size);
+         if (SceneObject::getStringElementCount(size) == 2)
+            cameraSize = SceneObject::getStringElementVector(size);
       }
 
-      t2dVector upperLeft = cameraPosition - (cameraSize * 0.5f);
-      t2dVector lowerRight = cameraPosition + (cameraSize * 0.5f);
+      Vector2 upperLeft = cameraPosition - (cameraSize * 0.5f);
+      Vector2 lowerRight = cameraPosition + (cameraSize * 0.5f);
 
       sceneWindow->sceneToWindowCoord(upperLeft, upperLeft);
       sceneWindow->sceneToWindowCoord(lowerRight, lowerRight);
 
-      Point2I windowUpperLeft = sceneWindow->localToGlobalCoord(Point2I(upperLeft.mX, upperLeft.mY));
-      Point2I windowLowerRight = sceneWindow->localToGlobalCoord(Point2I(lowerRight.mX, lowerRight.mY));
+      Point2I windowUpperLeft = sceneWindow->localToGlobalCoord(Point2I(upperLeft.x, upperLeft.y));
+      Point2I windowLowerRight = sceneWindow->localToGlobalCoord(Point2I(lowerRight.x, lowerRight.y));
       S32 width = windowLowerRight.x - windowUpperLeft.x;
       S32 height = windowLowerRight.y - windowUpperLeft.y;
 
@@ -316,19 +316,19 @@ void LevelBuilderSceneEdit::onRenderForeground(LevelBuilderSceneWindow* sceneWin
 
    if (mGuidesVisible)
    {
-      t2dVector zeroPoint;
-      sceneWindow->sceneToWindowCoord(t2dVector(0.0f, 0.0f), zeroPoint);
-      Point2I windowZero = sceneWindow->localToGlobalCoord(Point2I(zeroPoint.mX, zeroPoint.mY));
+      Vector2 zeroPoint;
+      sceneWindow->sceneToWindowCoord(Vector2(0.0f, 0.0f), zeroPoint);
+      Point2I windowZero = sceneWindow->localToGlobalCoord(Point2I(zeroPoint.x, zeroPoint.y));
 
       S32 halfLineThickness = lineThickness >> 1;
 
       // Draw Y Axis
       if ((cameraStart.x < 0.0f) && (cameraEnd.x > 0.0f))
-         dglDrawRectFill(Point2I(windowZero.x - halfLineThickness, windowWorldMin.mY), Point2I(windowZero.x + halfLineThickness, windowWorldMax.mY), lineColor);
+         dglDrawRectFill(Point2I(windowZero.x - halfLineThickness, windowWorldMin.y), Point2I(windowZero.x + halfLineThickness, windowWorldMax.y), lineColor);
 
       // Draw X Axis
       if ((cameraStart.y < 0.0f) && (cameraEnd.y > 0.0f))
-         dglDrawRectFill(Point2I(windowWorldMin.mX, windowZero.y - halfLineThickness), Point2I(windowWorldMax.mX, windowZero.y + halfLineThickness), lineColor);
+         dglDrawRectFill(Point2I(windowWorldMin.x, windowZero.y - halfLineThickness), Point2I(windowWorldMax.x, windowZero.y + halfLineThickness), lineColor);
    }
 
    // Check for a tool override from the window.
@@ -344,7 +344,7 @@ void LevelBuilderSceneEdit::onRenderForeground(LevelBuilderSceneWindow* sceneWin
 //-----------------------------------------------------------------------------
 // isAcquired
 //-----------------------------------------------------------------------------
-bool LevelBuilderSceneEdit::isAcquired(const t2dSceneObject* object) const
+bool LevelBuilderSceneEdit::isAcquired(const SceneObject* object) const
 {
    //PROFILE_SCOPE(LevelBuilderSceneEdit_isAcquired);
 
@@ -356,12 +356,12 @@ bool LevelBuilderSceneEdit::isAcquired(const t2dSceneObject* object) const
    return false;
 }
 
-bool LevelBuilderSceneEdit::isAcquired(const t2dSceneObjectGroup *group) const
+bool LevelBuilderSceneEdit::isAcquired(const SceneObjectGroup *group) const
 {
    //PROFILE_SCOPE(LevelBuilderSceneEdit_isAcquired);
 
    // Every child of this group must be acquired.
-   Vector<t2dSceneObject*> objects;
+   Vector<SceneObject*> objects;
    group->getSceneObjects(objects);
 
    for (S32 i = 0; i < objects.size(); i++)
@@ -373,7 +373,7 @@ bool LevelBuilderSceneEdit::isAcquired(const t2dSceneObjectGroup *group) const
    return true;
 }
 
-bool LevelBuilderSceneEdit::isOnlyAcquired(const t2dSceneObjectGroup* group) const
+bool LevelBuilderSceneEdit::isOnlyAcquired(const SceneObjectGroup* group) const
 {
    //PROFILE_SCOPE(LevelBuilderSceneEdit_isOnlyAcquired);
 
@@ -393,13 +393,13 @@ bool LevelBuilderSceneEdit::isOnlyAcquired(const t2dSceneObjectGroup* group) con
 //-----------------------------------------------------------------------------
 // requestAcquisition
 //-----------------------------------------------------------------------------
-void LevelBuilderSceneEdit::requestAcquisition(t2dSceneObject* obj)
+void LevelBuilderSceneEdit::requestAcquisition(SceneObject* obj)
 {
    if (mActiveTool)
       acquireObject(obj);
 }
 
-void LevelBuilderSceneEdit::requestAcquisition(t2dSceneObjectGroup* group)
+void LevelBuilderSceneEdit::requestAcquisition(SceneObjectGroup* group)
 {
    if (mActiveTool)
       acquireObject(group);
@@ -430,13 +430,13 @@ void LevelBuilderSceneEdit::onObjectSpatialChanged()
       Con::executef(this, 2, "onObjectSpatialChanged", Con::getIntArg(getAcquiredObject(0)->getId()));
 }
 
-void LevelBuilderSceneEdit::onObjectChanged(t2dSceneObject* object)
+void LevelBuilderSceneEdit::onObjectChanged(SceneObject* object)
 {
    //PROFILE_SCOPE(LevelBuilderSceneEdit_onObjectChanged_Param);
    Con::executef(this, 2, "onObjectChanged", Con::getIntArg(object->getId()));
 }
 
-void LevelBuilderSceneEdit::onObjectSpatialChanged(t2dSceneObject* object)
+void LevelBuilderSceneEdit::onObjectSpatialChanged(SceneObject* object)
 {
    //PROFILE_SCOPE(LevelBuilderSceneEdit_onObjectSpatialChanged_Param);
    object->updateSpatialConfig();
@@ -446,7 +446,7 @@ void LevelBuilderSceneEdit::onObjectSpatialChanged(t2dSceneObject* object)
 //-----------------------------------------------------------------------------
 // acquireObject
 //-----------------------------------------------------------------------------
-void LevelBuilderSceneEdit::acquireObject(t2dSceneObject* object)
+void LevelBuilderSceneEdit::acquireObject(SceneObject* object)
 {
    //PROFILE_SCOPE(LevelBuilderSceneEdit_acquireObject);
 
@@ -462,7 +462,7 @@ void LevelBuilderSceneEdit::acquireObject(t2dSceneObject* object)
    {
       // Notify the script. For a single object, we'll just pass back the object, otherwise
       // we'll pass back the whole group.
-      t2dSceneObjectGroup* group = object->getSceneObjectGroup();
+      SceneObjectGroup* group = object->getSceneObjectGroup();
       if (group && isOnlyAcquired(group) && (group->size() > 1))
       {
          mAcquiredGroup = group;
@@ -490,11 +490,11 @@ void LevelBuilderSceneEdit::acquireObject(t2dSceneObject* object)
 //-----------------------------------------------------------------------------
 // acquireObject
 //-----------------------------------------------------------------------------
-void LevelBuilderSceneEdit::acquireObject(t2dSceneObjectGroup* group)
+void LevelBuilderSceneEdit::acquireObject(SceneObjectGroup* group)
 {
    //PROFILE_SCOPE(LevelBuilderSceneEdit_acquireObject_group);
 
-   Vector<t2dSceneObject*> pObjects;
+   Vector<SceneObject*> pObjects;
    group->getSceneObjects(pObjects);
 
    // Each object should only be acquired if the active tool wants it.
@@ -502,7 +502,7 @@ void LevelBuilderSceneEdit::acquireObject(t2dSceneObjectGroup* group)
    {
       for (S32 i = 0; i < pObjects.size(); i++)
       {
-         t2dSceneObject* object = pObjects[i];
+         SceneObject* object = pObjects[i];
          if (mActiveTool->onAcquireObject(object))
             mAcquiredObjects.addObject(object);
       }
@@ -531,8 +531,8 @@ ConsoleMethod(LevelBuilderSceneEdit, acquireObject, void, 3, 3, "Acquires an obj
    if (!pSimObject)
       return;
 
-   t2dSceneObject* pSceneObj           = dynamic_cast<t2dSceneObject*>(pSimObject);
-   t2dSceneObjectGroup* pSceneObjGroup = dynamic_cast<t2dSceneObjectGroup*>(pSimObject);
+   SceneObject* pSceneObj           = dynamic_cast<SceneObject*>(pSimObject);
+   SceneObjectGroup* pSceneObjGroup = dynamic_cast<SceneObjectGroup*>(pSimObject);
 
    if (pSceneObj)
       object->requestAcquisition(pSceneObj);
@@ -545,7 +545,7 @@ ConsoleMethod(LevelBuilderSceneEdit, acquireObject, void, 3, 3, "Acquires an obj
 // If an object is passed in, it is unacquired, otherwise the entire selection
 // set is cleared.
 //-----------------------------------------------------------------------------
-void LevelBuilderSceneEdit::clearAcquisition(t2dSceneObject* object)
+void LevelBuilderSceneEdit::clearAcquisition(SceneObject* object)
 {
    //PROFILE_SCOPE(LevelBuilderSceneEdit_clearAcquisition);
    if(object)
@@ -565,17 +565,17 @@ void LevelBuilderSceneEdit::clearAcquisition(t2dSceneObject* object)
    {
       // Clear the entire set.
       while(mAcquiredObjects.size())
-         clearAcquisition((t2dSceneObject*)mAcquiredObjects.first());
+         clearAcquisition((SceneObject*)mAcquiredObjects.first());
    }
 }
 
 ConsoleMethod(LevelBuilderSceneEdit, clearAcquisition, void, 2, 3, "Relinquishes acquisition of an object.")
 {
-   t2dSceneObject* pObject = NULL;
+   SceneObject* pObject = NULL;
 
    if (argc == 3)
    {
-      pObject = dynamic_cast<t2dSceneObject*>(Sim::findObject(dAtoi(argv[2])));
+      pObject = dynamic_cast<SceneObject*>(Sim::findObject(dAtoi(argv[2])));
 
       // If an object was specified but it's invalid, just don't do anything.
       if (!pObject)
@@ -601,7 +601,7 @@ void LevelBuilderSceneEdit::deleteAcquiredObjects()
 
    while (mAcquiredObjects.size())
    {
-      t2dSceneObject* object = (t2dSceneObject*)mAcquiredObjects.first();
+      SceneObject* object = (SceneObject*)mAcquiredObjects.first();
       clearAcquisition(object);
 
       undo->addObject(object, true);
@@ -609,7 +609,7 @@ void LevelBuilderSceneEdit::deleteAcquiredObjects()
 
       Con::executef(this, 2, "onPreObjectDeleted", Con::getIntArg( object->getId() ));
 
-      t2dSceneObjectGroup* group = object->getSceneObjectGroup();
+      SceneObjectGroup* group = object->getSceneObjectGroup();
       moveToRecycleBin(object);
       if (group && group->empty())
          moveToRecycleBin(group);
@@ -642,7 +642,7 @@ void LevelBuilderSceneEdit::moveFromRecycleBin(SimObject* object)
          {
             // We check for t2dSceneObejct's so that we can tag their spatials as dirty.
             // This allows them to be properly instantiated back into the scene. -JDD
-            t2dSceneObject *pObject = dynamic_cast<t2dSceneObject*>( i->object );
+            SceneObject *pObject = dynamic_cast<SceneObject*>( i->object );
             if( pObject )
                pObject->getParentPhysics().setSpatialDirty();
 
@@ -697,10 +697,10 @@ void LevelBuilderSceneEdit::moveToRecycleBin(SimObject* object)
 {
    //PROFILE_SCOPE(LevelBuilderSceneEdit_moveToRecycleBin);
 
-   t2dSceneGraph* oldSceneGraph = NULL;
+   Scene* oldSceneGraph = NULL;
    SimSet* oldGroup = NULL;
-   t2dSceneObject* sceneObject = dynamic_cast<t2dSceneObject*>(object);
-   t2dSceneObjectGroup* group = dynamic_cast<t2dSceneObjectGroup*>(object);
+   SceneObject* sceneObject = dynamic_cast<SceneObject*>(object);
+   SceneObjectGroup* group = dynamic_cast<SceneObjectGroup*>(object);
    if (sceneObject)
    {
       oldGroup = sceneObject->getSceneObjectGroup();
@@ -786,7 +786,7 @@ ConsoleMethod(LevelBuilderSceneEdit, getAcquiredObjectCount, S32, 2, 2, "Returns
 
 ConsoleMethod(LevelBuilderSceneEdit, getAcquiredGroup, S32, 2, 2, "Returns the acquired object group.")
 {
-   t2dSceneObjectGroup* group = object->getAcquiredGroup();
+   SceneObjectGroup* group = object->getAcquiredGroup();
 
    if (group)
       return group->getId();
@@ -796,7 +796,7 @@ ConsoleMethod(LevelBuilderSceneEdit, getAcquiredGroup, S32, 2, 2, "Returns the a
 
 ConsoleMethod(LevelBuilderSceneEdit, isAcquired, bool, 3, 3, "Returns whether or not an object is acquired.")
 {
-   t2dSceneObject* sceneObject = dynamic_cast<t2dSceneObject*>(Sim::findObject(argv[2]));
+   SceneObject* sceneObject = dynamic_cast<SceneObject*>(Sim::findObject(argv[2]));
    if (sceneObject)
       return object->isAcquired(sceneObject);
 
@@ -804,13 +804,13 @@ ConsoleMethod(LevelBuilderSceneEdit, isAcquired, bool, 3, 3, "Returns whether or
 }
 
 // Recursive grouping helper function.
-void LevelBuilderSceneEdit::addObjectsToGroup(t2dSceneObjectGroup* checkGroup, Vector<SimObject*>& objectGroup)
+void LevelBuilderSceneEdit::addObjectsToGroup(SceneObjectGroup* checkGroup, Vector<SimObject*>& objectGroup)
 {
    //PROFILE_SCOPE(LevelBuilderSceneEdit_addObjectsToGroup);
 
    for (S32 j = 0; j < checkGroup->size(); j++)
    {
-      t2dSceneObject* checkObject = dynamic_cast<t2dSceneObject*>(checkGroup->at(j));
+      SceneObject* checkObject = dynamic_cast<SceneObject*>(checkGroup->at(j));
       if (checkObject)
       {
          if (isAcquired(checkObject))
@@ -818,7 +818,7 @@ void LevelBuilderSceneEdit::addObjectsToGroup(t2dSceneObjectGroup* checkGroup, V
       }
       else
       {
-         t2dSceneObjectGroup* checkSubGroup = dynamic_cast<t2dSceneObjectGroup*>(checkGroup->at(j));
+         SceneObjectGroup* checkSubGroup = dynamic_cast<SceneObjectGroup*>(checkGroup->at(j));
          if (checkSubGroup)
          {
             if (isAcquired(checkSubGroup))
@@ -830,7 +830,7 @@ void LevelBuilderSceneEdit::addObjectsToGroup(t2dSceneObjectGroup* checkGroup, V
    }
 }
 
-bool LevelBuilderSceneEdit::containsAllAcquiredObjects(const t2dSceneObjectGroup* group) const
+bool LevelBuilderSceneEdit::containsAllAcquiredObjects(const SceneObjectGroup* group) const
 {
    //PROFILE_SCOPE(LevelBuilderSceneEdit_containsAllAcquireObjects);
 
@@ -855,7 +855,7 @@ void LevelBuilderSceneEdit::groupAcquiredObjects()
 
    //PROFILE_SCOPE(LevelBuilderSceneEdit_groupAcquiredObjects);
 
-   t2dSceneObjectGroup* group = new t2dSceneObjectGroup();
+   SceneObjectGroup* group = new SceneObjectGroup();
    if (!group->registerObject())
    {
       delete group;
@@ -870,17 +870,17 @@ void LevelBuilderSceneEdit::groupAcquiredObjects()
    // The objects to group.
    Vector<SimObject*> groupObjects;
    // The groups that have already been checked.
-   Vector<t2dSceneObjectGroup*> checkedGroups;
+   Vector<SceneObjectGroup*> checkedGroups;
 
    // If an entire group is selected, We need to group it instead of the individual objects.
    for (S32 i = 0; i < mAcquiredObjects.size(); i++)
    {
       // Grab the scene Object.
-      t2dSceneObject* sceneObject = dynamic_cast<t2dSceneObject*>(mAcquiredObjects[i]);
+      SceneObject* sceneObject = dynamic_cast<SceneObject*>(mAcquiredObjects[i]);
       if (sceneObject)
       {
          // Grab the object's group.
-         t2dSceneObjectGroup* checkGroup = sceneObject->getSceneObjectGroup();
+         SceneObjectGroup* checkGroup = sceneObject->getSceneObjectGroup();
          if (checkGroup)
          {
             // Make sure we haven't checked this group yet.
@@ -918,12 +918,12 @@ void LevelBuilderSceneEdit::groupAcquiredObjects()
 
    // By default, add the new group to the scenegraph, but if all objects
    // are in the same group, add the group to that.
-   t2dSceneObjectGroup* parentGroup = NULL;
-   t2dSceneGraph* parentGraph = NULL;
+   SceneObjectGroup* parentGroup = NULL;
+   Scene* parentGraph = NULL;
    if (groupObjects.size() > 0)
    {
-      parentGraph = t2dSceneObjectGroup::getSceneGraph(groupObjects[0]);
-      parentGroup = t2dSceneObjectGroup::getSceneObjectGroup(groupObjects[0]);
+      parentGraph = SceneObjectGroup::getSceneGraph(groupObjects[0]);
+      parentGroup = SceneObjectGroup::getSceneObjectGroup(groupObjects[0]);
    }
       
    else
@@ -959,7 +959,7 @@ void LevelBuilderSceneEdit::groupAcquiredObjects()
    Con::executef(1, "refreshTreeView");
 }
 
-ConsoleMethod(LevelBuilderSceneEdit, groupAcquiredObjects, void, 2, 2, "Puts all acquired objects in a t2dSceneObjectGroup.")
+ConsoleMethod(LevelBuilderSceneEdit, groupAcquiredObjects, void, 2, 2, "Puts all acquired objects in a SceneObjectGroup.")
 {
    object->groupAcquiredObjects();
 }
@@ -974,13 +974,13 @@ void LevelBuilderSceneEdit::breakApartAcquiredObjects()
 
    UndoBreakApartAction* undo = new UndoBreakApartAction(this, "Break Apart Objects");
 
-   Vector<t2dSceneObject*> objects;
+   Vector<SceneObject*> objects;
    mAcquiredObjects.getSceneObjects(objects);
 
    for (S32 i = 0; i < objects.size(); i++)
    {
-      t2dSceneObject* object = objects[i];
-      t2dSceneObjectGroup* group = object->getSceneObjectGroup();
+      SceneObject* object = objects[i];
+      SceneObjectGroup* group = object->getSceneObjectGroup();
       if (group)
       {
          SimSet* oldGroup = group;
@@ -1003,7 +1003,7 @@ void LevelBuilderSceneEdit::breakApartAcquiredObjects()
          // in which case we'll just let further iterations handle it.
          if (oldGroup->size() == 1)
          {
-            t2dSceneObject* object = dynamic_cast<t2dSceneObject*>(oldGroup->at(0));
+            SceneObject* object = dynamic_cast<SceneObject*>(oldGroup->at(0));
             if (object && !isAcquired(object))
             {
                SimSet* newGroup = NULL;
@@ -1025,7 +1025,7 @@ void LevelBuilderSceneEdit::breakApartAcquiredObjects()
 
          if (oldGroup->empty())
          {
-            t2dSceneObjectGroup* recycledGroup = dynamic_cast<t2dSceneObjectGroup*>(oldGroup);
+            SceneObjectGroup* recycledGroup = dynamic_cast<SceneObjectGroup*>(oldGroup);
             if (recycledGroup)
             {
                moveToRecycleBin(recycledGroup);
@@ -1051,7 +1051,7 @@ void LevelBuilderSceneEdit::updateAcquiredObjects()
    mAcquiredObjects.calculateObjectRect();
 }
 
-ConsoleMethod(LevelBuilderSceneEdit, updateAcquiredObjectSet, void, 2, 2, "Updates the t2dSceneObjectSet of acquired objects.")
+ConsoleMethod(LevelBuilderSceneEdit, updateAcquiredObjectSet, void, 2, 2, "Updates the SceneObjectSet of acquired objects.")
 {
    object->updateAcquiredObjects();
 }
@@ -1519,14 +1519,14 @@ ConsoleMethod(LevelBuilderSceneEdit, getRotationSnapThreshold, F32, 2, 2, "Gets 
 ConsoleMethod(LevelBuilderSceneEdit, getMousePosition, const char*, 2, 2, "")
 {
    char* ret = Con::getReturnBuffer(32);
-   dSprintf(ret, 32, "%s %s", object->getMousePosition().mX, object->getMousePosition().mY);
+   dSprintf(ret, 32, "%s %s", object->getMousePosition().x, object->getMousePosition().y);
    return ret;
 }
 
 ConsoleMethod(LevelBuilderSceneEdit, getCameraPosition, const char*, 2, 2, "")
 {
    char* ret = Con::getReturnBuffer(32);
-   dSprintf(ret, 32, "%s %s", object->getCameraPosition().mX, object->getCameraPosition().mY);
+   dSprintf(ret, 32, "%s %s", object->getCameraPosition().x, object->getCameraPosition().y);
    return ret;
 }
 

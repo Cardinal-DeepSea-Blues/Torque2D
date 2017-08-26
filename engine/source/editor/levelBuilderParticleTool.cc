@@ -8,7 +8,7 @@
 //---------------------------------------------------------------------------------------------
 
 #include "console/console.h"
-#include "TGB/levelBuilderParticleTool.h"
+#include "editor/levelBuilderParticleTool.h"
 
 // Implement Our Console Object
 IMPLEMENT_CONOBJECT(LevelBuilderParticleTool);
@@ -24,7 +24,7 @@ LevelBuilderParticleTool::~LevelBuilderParticleTool()
 {
 }
 
-t2dSceneObject* LevelBuilderParticleTool::createObject()
+SceneObject* LevelBuilderParticleTool::createObject()
 {
    t2dParticleEffect* effect = dynamic_cast<t2dParticleEffect*>(ConsoleObject::create("t2dParticleEffect"));
 
@@ -38,8 +38,8 @@ void LevelBuilderParticleTool::showObject()
    if (effect)
    {
       // Loading and playing an effect messes with size and position so we need to save and reset.
-      t2dVector size = effect->getSize();
-      t2dVector position = effect->getPosition();
+      Vector2 size = effect->getSize();
+      Vector2 position = effect->getPosition();
 
       effect->loadEffect(mEffectName);
       effect->playEffect(true);

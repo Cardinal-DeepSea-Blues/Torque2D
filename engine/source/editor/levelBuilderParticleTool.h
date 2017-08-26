@@ -13,12 +13,9 @@
 #include "2d/gui/SceneWindow.h"
 #endif
 
-#ifndef _T2DPARTICLEEFFECT_H_
-#include "T2D/t2dParticleEffect.h"
-#endif
-
+#include "2d/assets/ParticleAsset.h"
 #ifndef _LEVELBUILDERCREATETOOL_H_
-#include "TGB/levelBuilderCreateTool.h"
+#include "editor/levelBuilderCreateTool.h"
 #endif
 
 #ifndef _CONSOLETYPES_H_
@@ -36,7 +33,7 @@ private:
    StringTableEntry mEffectName;
 
 protected:
-   virtual t2dSceneObject* createObject();
+   virtual SceneObject* createObject();
    virtual void showObject();
   
 public:

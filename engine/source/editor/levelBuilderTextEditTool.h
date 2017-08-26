@@ -7,11 +7,11 @@
 #ifndef _LEVELBUILDERTEXTEDITTOOL_H_
 #define _LEVELBUILDERTEXTEDITTOOL_H_
 
-#include "TGB/levelBuilderBaseEditTool.h"
-#include "TGB/levelBuilderSelectionTool.h"
+#include "editor/levelBuilderBaseEditTool.h"
+#include "editor/levelBuilderSelectionTool.h"
 #include "T2D/t2dTextObject.h"
 #include "core/stringBuffer.h"
-#include "util/undo.h"
+#include "collection/undo.h"
 
 class UndoTextEdit;
 
@@ -46,8 +46,8 @@ public:
    /// @{
    virtual bool onActivate(LevelBuilderSceneWindow* sceneWindow);
    virtual void onDeactivate();
-   virtual bool onAcquireObject( t2dSceneObject* object );
-   virtual void onRelinquishObject( t2dSceneObject* object );
+   virtual bool onAcquireObject( SceneObject* object );
+   virtual void onRelinquishObject( SceneObject* object );
 
    virtual void onRenderGraph( LevelBuilderSceneWindow* sceneWindow );
    /// @}
@@ -58,7 +58,7 @@ public:
    /// Begin editing a scene object.
    /// 
    /// @param object The object to edit.
-   void editObject( t2dSceneObject* object );
+   void editObject( SceneObject* object );
 
    /// This cancels an edit, not applying any changes.
    void cancelEdit();
@@ -152,7 +152,7 @@ protected:
    /// 
    /// @param obj The object to check.
    /// @return Whether or not the object can be edited.
-   bool isEditable( t2dSceneObject* obj );
+   bool isEditable( SceneObject* obj );
 
 private:
    /// Draws the sizing nobs - but only those used for word wrap resizing.

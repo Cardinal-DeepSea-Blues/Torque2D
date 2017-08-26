@@ -21,7 +21,7 @@
 #include "2d/sceneobject/SceneObject.h"
 #endif
 
-#ifndef _T2DVECTOR_H_
+#ifndef _Vector2_H_
 #include "2d/core/Vector2.h"
 #endif
 

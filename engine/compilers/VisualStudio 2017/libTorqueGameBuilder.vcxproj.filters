@@ -81,12 +81,6 @@
     <ClCompile Include="..\..\source\editor\levelBuilderTextObjectTool.cc">
       <Filter>editor</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\editor\levelBuilderTileMapEditTool.cc">
-      <Filter>editor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\editor\levelBuilderTileMapTool.cc">
-      <Filter>editor</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\editor\levelBuilderTriggerTool.cc">
       <Filter>editor</Filter>
     </ClCompile>
@@ -171,12 +165,6 @@
       <Filter>editor</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\editor\levelBuilderTextObjectTool.h">
-      <Filter>editor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\editor\levelBuilderTileMapEditTool.h">
-      <Filter>editor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\editor\levelBuilderTileMapTool.h">
       <Filter>editor</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\editor\levelBuilderTriggerTool.h">

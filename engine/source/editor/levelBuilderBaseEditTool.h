@@ -10,11 +10,11 @@
 #define _LEVELBUILDERBASEEDITTOOL_H_
 
 #ifndef _LEVELBUILDERBASETOOL_H_
-#include "TGB/levelBuilderBaseTool.h"
+#include "editor/levelBuilderBaseTool.h"
 #endif
 
 #ifndef _LEVELBUILDERSCENEEDIT_H_
-#include "TGB/levelBuilderSceneEdit.h"
+#include "editor/levelBuilderSceneEdit.h"
 #endif
 
 #ifndef _CONSOLETYPES_H_
@@ -42,11 +42,11 @@ protected:
 
    U32 mSizingState;
    
-   virtual void nudge(t2dVector pos, S32 directionX, S32 directionY, bool fast, t2dVector& newPos);
-   virtual void move(LevelBuilderSceneEdit* sceneEdit, t2dVector size, t2dVector mousePoint2D, t2dVector& finalPosition);
-   virtual void rotate(LevelBuilderSceneEdit* sceneEdit, F32 rotation, t2dVector rotationVector, t2dVector newVector, F32& newRotation);
-   virtual void scale(LevelBuilderSceneEdit* sceneEdit, t2dVector size, t2dVector pos, t2dVector mousePoint2D, bool uniform, bool maintainAR, F32 ar,
-                      t2dVector& newSize, t2dVector& newPosition, bool& flipX, bool& flipY);
+   virtual void nudge(Vector2 pos, S32 directionX, S32 directionY, bool fast, Vector2& newPos);
+   virtual void move(LevelBuilderSceneEdit* sceneEdit, Vector2 size, Vector2 mousePoint2D, Vector2& finalPosition);
+   virtual void rotate(LevelBuilderSceneEdit* sceneEdit, F32 rotation, Vector2 rotationVector, Vector2 newVector, F32& newRotation);
+   virtual void scale(LevelBuilderSceneEdit* sceneEdit, Vector2 size, Vector2 pos, Vector2 mousePoint2D, bool uniform, bool maintainAR, F32 ar,
+                      Vector2& newSize, Vector2& newPosition, bool& flipX, bool& flipY);
   
 public:
    LevelBuilderBaseEditTool();

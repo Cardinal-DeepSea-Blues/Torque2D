@@ -8,7 +8,7 @@
 //---------------------------------------------------------------------------------------------
 
 #include "console/console.h"
-#include "TGB/levelBuilderScrollerTool.h"
+#include "editor/levelBuilderScrollerTool.h"
 
 // Implement Our Console Object
 IMPLEMENT_CONOBJECT(LevelBuilderScrollerTool);
@@ -24,7 +24,7 @@ LevelBuilderScrollerTool::~LevelBuilderScrollerTool()
 {
 }
 
-t2dSceneObject* LevelBuilderScrollerTool::createObject()
+SceneObject* LevelBuilderScrollerTool::createObject()
 {
    t2dScroller* scroller = dynamic_cast<t2dScroller*>(ConsoleObject::create("t2dScroller"));
 

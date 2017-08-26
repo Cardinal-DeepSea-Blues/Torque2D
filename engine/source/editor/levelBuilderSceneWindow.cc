@@ -9,9 +9,9 @@
 
 #include "console/console.h"
 #include "console/consoleTypes.h"
-#include "dgl/dgl.h"
-#include "TGB/levelBuilderSceneWindow.h"
-#include "TGB/levelBuilderSceneEdit.h"
+#include "graphics/dgl.h"
+#include "editor/levelBuilderSceneWindow.h"
+#include "editor/levelBuilderSceneEdit.h"
 #include "platform/event.h"
 
 IMPLEMENT_CONOBJECT(LevelBuilderSceneWindow);
@@ -19,7 +19,7 @@ IMPLEMENT_CONOBJECT(LevelBuilderSceneWindow);
 //-----------------------------------------------------------------------------
 // Constructor
 //-----------------------------------------------------------------------------
-LevelBuilderSceneWindow::LevelBuilderSceneWindow() : t2dSceneWindow(),
+LevelBuilderSceneWindow::LevelBuilderSceneWindow() : SceneWindow(),
                                                      mDragCurrent(-1, -1),
                                                      mDragPoint(-1, -1),
                                                      mSceneEdit(NULL),
@@ -42,11 +42,11 @@ LevelBuilderSceneWindow::~LevelBuilderSceneWindow()
 //-----------------------------------------------------------------------------
 // setSceneGraph
 //-----------------------------------------------------------------------------
-void LevelBuilderSceneWindow::setSceneGraph(t2dSceneGraph* pT2DSceneGraph)
+void LevelBuilderSceneWindow::setSceneGraph(Scene* pT2DSceneGraph)
 {
    Parent::setSceneGraph(pT2DSceneGraph);
 
-   if(getSceneGraph())
+   if(getScene())
       getSceneGraph()->setIsEditorScene(true);
 }
 
@@ -65,19 +65,19 @@ void LevelBuilderSceneWindow::resetSceneGraph()
 // getObjectBoundsWindow
 // Gets the bounding rectangle of a scene object in window space.
 //-----------------------------------------------------------------------------
-RectI LevelBuilderSceneWindow::getObjectBoundsWindow(const t2dSceneObject* object)
+RectI LevelBuilderSceneWindow::getObjectBoundsWindow(const SceneObject* object)
 {
    RectF objLocalRect = object->getWorldClipRectangle();
 
-   t2dVector upperLeft = t2dVector(objLocalRect.point.x, objLocalRect.point.y);
-   t2dVector lowerRight = t2dVector(objLocalRect.extent.x, objLocalRect.extent.y) + upperLeft;
-   t2dVector windowUpperLeft, windowLowerRight;
-
+   Vector2 upperLeft = Vector2(objLocalRect.point.x, objLocalRect.point.y);
+   Vector2 lowerRight = Vector2(objLocalRect.extent.x, objLocalRect.extent.y) + upperLeft;
+   Vector2 windowUpperLeft, windowLowerRight;
+   
    sceneToWindowCoord(upperLeft, windowUpperLeft);
    sceneToWindowCoord(lowerRight, windowLowerRight);
 
-   return RectI(S32(windowUpperLeft.mX), S32(windowUpperLeft.mY),
-                S32(windowLowerRight.mX - windowUpperLeft.mX), S32(windowLowerRight.mY - windowUpperLeft.mY));
+   return RectI(S32(windowUpperLeft.x), S32(windowUpperLeft.y),
+                S32(windowLowerRight.x - windowUpperLeft.x), S32(windowLowerRight.y - windowUpperLeft.y));
 }
 
 //-----------------------------------------------------------------------------
@@ -119,8 +119,8 @@ bool LevelBuilderSceneWindow::mouseDispatcher( const GuiEvent &event, const t2dE
    mouseStatus.lastMousePoint2D  = mLastMouseStatus.mousePoint2D;
 
    // Mouse Point 2D
-   t2dVector scenePoint;
-   windowToSceneCoord( t2dVector( F32(localEvent.mousePoint.x), F32(localEvent.mousePoint.y) ), scenePoint );
+   Vector2 scenePoint;
+   windowToSceneCoord( Vector2( F32(localEvent.mousePoint.x), F32(localEvent.mousePoint.y) ), scenePoint );
    mouseStatus.mousePoint2D = scenePoint;
 
    // Don't pick invisible objects.
@@ -166,15 +166,15 @@ bool LevelBuilderSceneWindow::mouseDispatcher( const GuiEvent &event, const t2dE
       //-----------------------------------------------------------------------------
 
       // Generate Drag Rect and Normalized Version
-      t2dVector sceneDragPoint;
-      t2dVector sceneCurrentPoint;
+      Vector2 sceneDragPoint;
+      Vector2 sceneCurrentPoint;
       windowToSceneCoord( globalToLocalCoord(mouseStatus.dragRect.point), sceneDragPoint );
       windowToSceneCoord( globalToLocalCoord(mouseStatus.dragRect.point + mouseStatus.dragRect.extent), sceneCurrentPoint );
 
       // Store Rect's
-      mouseStatus.dragRect2D = RectF( sceneDragPoint.mX, sceneDragPoint.mY, sceneCurrentPoint.mX - sceneDragPoint.mX, sceneCurrentPoint.mY - sceneDragPoint.mY );
-      mouseStatus.dragRectNormal2D = RectF( getMin(sceneDragPoint.mX, sceneCurrentPoint.mX), getMin(sceneDragPoint.mY, sceneCurrentPoint.mY),
-                                            mFabs(sceneDragPoint.mX - sceneCurrentPoint.mX), mFabs(sceneDragPoint.mY - sceneCurrentPoint.mY));
+      mouseStatus.dragRect2D = RectF( sceneDragPoint.x, sceneDragPoint.y, sceneCurrentPoint.x - sceneDragPoint.x, sceneCurrentPoint.y - sceneDragPoint.y );
+      mouseStatus.dragRectNormal2D = RectF( getMin(sceneDragPoint.x, sceneCurrentPoint.x), getMin(sceneDragPoint.y, sceneCurrentPoint.y),
+                                            mFabs(sceneDragPoint.x - sceneCurrentPoint.x), mFabs(sceneDragPoint.y - sceneCurrentPoint.y));
 
       if (getSceneGraph()->pickRect(sceneDragPoint, sceneCurrentPoint, mGroupMask & renderGroups, mLayerMask & renderLayers, false, NULL, true ) > 0)
       {
@@ -398,7 +398,7 @@ void LevelBuilderSceneWindow::setTargetCameraArea(const RectF& cameraWindow)
    setTargetCameraPosition(centerPosition, width, height);
 }
 
-void LevelBuilderSceneWindow::setTargetCameraPosition(t2dVector centerPosition, F32 width, F32 height)
+void LevelBuilderSceneWindow::setTargetCameraPosition(Vector2 centerPosition, F32 width, F32 height)
 {
    F32 windowAR = (F32)getExtent().x / (F32)getExtent().y;
    F32 sceneAR = width / height;
@@ -420,7 +420,7 @@ void LevelBuilderSceneWindow::setCurrentCameraArea(const RectF& cameraWindow)
    setCurrentCameraPosition(centerPosition, width, height);
 }
 
-void LevelBuilderSceneWindow::setCurrentCameraPosition(t2dVector centerPosition, F32 width, F32 height)
+void LevelBuilderSceneWindow::setCurrentCameraPosition(Vector2 centerPosition, F32 width, F32 height)
 {
    F32 windowAR = (F32)getExtent().x / (F32)getExtent().y;
    F32 sceneAR = width / height;

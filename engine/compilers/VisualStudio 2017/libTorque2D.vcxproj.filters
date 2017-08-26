@@ -1386,6 +1386,12 @@
     <ClCompile Include="..\..\source\platform\platformNet.cpp">
       <Filter>platform</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\source\2d\sceneobject\Path.cc">
+      <Filter>2d\sceneobject</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\2d\sceneobject\SceneObjectGroup.cc">
+      <Filter>2d\sceneobject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\audio\audio.h">
@@ -3077,6 +3083,12 @@
     </ClInclude>
     <ClInclude Include="..\..\source\math\mNormalDistribution.h">
       <Filter>math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\2d\sceneobject\Path.h">
+      <Filter>2d\sceneobject</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\2d\sceneobject\SceneObjectGroup.h">
+      <Filter>2d\sceneobject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

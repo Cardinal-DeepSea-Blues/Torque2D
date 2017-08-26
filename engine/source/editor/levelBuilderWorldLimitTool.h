@@ -10,7 +10,7 @@
 #define _LEVELBUILDERWORLDLIMITTOOL_H_
 
 #ifndef _LEVELBUILDERBASEEDITTOOL_H_
-#include "TGB/levelBuilderBaseEditTool.h"
+#include "editor/levelBuilderBaseEditTool.h"
 #endif
 #ifndef _T2DSCENEOBJECT_H_
 #include "2d/sceneobject/SceneObject.h"
@@ -38,14 +38,14 @@ protected:
    bool mMoving;
 
    LevelBuilderSceneWindow* mSceneWindow;
-   t2dSceneObject* mSceneObject;
+   SceneObject* mSceneObject;
 
-   t2dVector mWorldLimitPosition;
-   t2dVector mWorldLimitSize;
-   t2dVector mOffset;
+   Vector2 mWorldLimitPosition;
+   Vector2 mWorldLimitSize;
+   Vector2 mOffset;
 
-   t2dVector mWorldLimitMinBackup;
-   t2dVector mWorldLimitMaxBackup;
+   Vector2 mWorldLimitMinBackup;
+   Vector2 mWorldLimitMaxBackup;
 
    ColorI mCameraOutlineColor;
    ColorI mCameraFillColor;
@@ -53,7 +53,7 @@ protected:
    RectF mCameraArea;
    F32 mCameraZoom;
 
-   bool isEditable(t2dSceneObject* object) { return true; };
+   bool isEditable(SceneObject* object) { return true; };
 
    void updateSceneObject();
 
@@ -73,11 +73,11 @@ public:
    // Base Tool Overrides
    virtual bool onActivate(LevelBuilderSceneWindow* sceneWindow);
    virtual void onDeactivate();
-   virtual bool onAcquireObject(t2dSceneObject* object);
-   virtual void onRelinquishObject(t2dSceneObject* object);
+   virtual bool onAcquireObject(SceneObject* object);
+   virtual void onRelinquishObject(SceneObject* object);
 
    // Object Editing
-   void editObject(t2dSceneObject* object);
+   void editObject(SceneObject* object);
    // This cancels an edit, not applying any changes.
    void cancelEdit();
    // This cancels an edit, applying changes.
@@ -86,8 +86,8 @@ public:
    virtual bool undo() { mUndoManager.undo(); return true; };
    virtual bool redo() { mUndoManager.redo(); return true; };
 
-   void setWorldLimitPosition(t2dVector pos) { mWorldLimitPosition = pos; };
-   void setWorldLimitSize(t2dVector size) { mWorldLimitSize = size; };
+   void setWorldLimitPosition(Vector2 pos) { mWorldLimitPosition = pos; };
+   void setWorldLimitSize(Vector2 size) { mWorldLimitSize = size; };
 
    void onRenderGraph( LevelBuilderSceneWindow* sceneWindow );
 
@@ -101,22 +101,22 @@ class UndoFullWorldLimitAction : public UndoAction
    typedef UndoAction Parent;
 
 private:
-   t2dSceneObject::eWorldLimit mStartMode;
-   t2dVector mStartMin;
-   t2dVector mStartMax;
+   SceneObject::eWorldLimit mStartMode;
+   Vector2 mStartMin;
+   Vector2 mStartMax;
    bool mStartCallback;
    
-   t2dSceneObject::eWorldLimit mEndMode;
-   t2dVector mEndMin;
-   t2dVector mEndMax;
+   SceneObject::eWorldLimit mEndMode;
+   Vector2 mEndMin;
+   Vector2 mEndMax;
    bool mEndCallback;
 
-   t2dSceneObject* mSceneObject;
+   SceneObject* mSceneObject;
 
 public:
-   UndoFullWorldLimitAction(t2dSceneObject* sceneObject, UTF8* actionName) : UndoAction(actionName) { mSceneObject = sceneObject; deleteNotify(sceneObject); };
+   UndoFullWorldLimitAction(SceneObject* sceneObject, UTF8* actionName) : UndoAction(actionName) { mSceneObject = sceneObject; deleteNotify(sceneObject); };
 
-   void setStart(t2dSceneObject::eWorldLimit mode, t2dVector min, t2dVector max, bool callback)
+   void setStart(SceneObject::eWorldLimit mode, Vector2 min, Vector2 max, bool callback)
    {
       mStartMode = mode;
       mStartMin = min;
@@ -124,7 +124,7 @@ public:
       mStartCallback = callback;
    };
 
-   void setFinish(t2dSceneObject::eWorldLimit mode, t2dVector min, t2dVector max, bool callback)
+   void setFinish(SceneObject::eWorldLimit mode, Vector2 min, Vector2 max, bool callback)
    {
       mEndMode = mode;
       mEndMin = min;
@@ -169,18 +169,18 @@ class UndoWorldLimitAction : public UndoAction
 private:
    LevelBuilderWorldLimitTool* mWorldLimitTool;
    
-   t2dVector mStartPosition;
-   t2dVector mStartSize;
-   t2dVector mFinishPosition;
-   t2dVector mFinishSize;
+   Vector2 mStartPosition;
+   Vector2 mStartSize;
+   Vector2 mFinishPosition;
+   Vector2 mFinishSize;
 
 public:
    UndoWorldLimitAction(LevelBuilderWorldLimitTool* tool, UTF8* actionName) : UndoAction(actionName) { mWorldLimitTool = tool; };
 
    bool hasChanged() { return !((mStartPosition == mFinishPosition) && (mStartSize == mFinishSize)); };
 
-   void setStartBounds(t2dVector pos, t2dVector size) { mStartPosition = pos; mStartSize = size; };
-   void setFinishBounds(t2dVector pos, t2dVector size) { mFinishPosition = pos; mFinishSize = size; };
+   void setStartBounds(Vector2 pos, Vector2 size) { mStartPosition = pos; mStartSize = size; };
+   void setFinishBounds(Vector2 pos, Vector2 size) { mFinishPosition = pos; mFinishSize = size; };
 
    virtual void undo() { mWorldLimitTool->setWorldLimitPosition(mStartPosition); mWorldLimitTool->setWorldLimitSize(mStartSize); };
    virtual void redo() { mWorldLimitTool->setWorldLimitPosition(mFinishPosition); mWorldLimitTool->setWorldLimitSize(mFinishSize); };

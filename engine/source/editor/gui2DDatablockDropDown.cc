@@ -1,6 +1,6 @@
 #include "console/console.h"
 #include "console/consoleTypes.h"
-#include "TGB/gui2DDatablockDropDown.h"
+#include "editor/gui2DDatablockDropDown.h"
 #include "T2D/t2dBaseDatablock.h"
 
 IMPLEMENT_CONOBJECT( T2DDatablockDropDownCtrl );

@@ -8,7 +8,7 @@
 //---------------------------------------------------------------------------------------------
 
 #include "console/console.h"
-#include "TGB/levelBuilderSceneObjectTool.h"
+#include "editor/levelBuilderSceneObjectTool.h"
 
 // Implement Our Console Object
 IMPLEMENT_CONOBJECT(LevelBuilderSceneObjectTool);
@@ -23,9 +23,9 @@ LevelBuilderSceneObjectTool::~LevelBuilderSceneObjectTool()
 {
 }
 
-t2dSceneObject* LevelBuilderSceneObjectTool::createObject()
+SceneObject* LevelBuilderSceneObjectTool::createObject()
 {
-   t2dSceneObject* staticSprite = dynamic_cast<t2dSceneObject*>(ConsoleObject::create("t2dSceneObject"));
+   SceneObject* staticSprite = dynamic_cast<SceneObject*>(ConsoleObject::create("SceneObject"));
 
    return staticSprite;
 }

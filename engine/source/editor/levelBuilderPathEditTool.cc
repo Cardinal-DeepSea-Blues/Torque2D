@@ -8,8 +8,8 @@
 //---------------------------------------------------------------------------------------------
 
 #include "console/console.h"
-#include "dgl/dgl.h"
-#include "TGB/levelBuilderPathEditTool.h"
+#include "graphics/dgl.h"
+#include "editor/levelBuilderPathEditTool.h"
 
 // Implement Our Console Object
 IMPLEMENT_CONOBJECT(LevelBuilderPathEditTool);
@@ -145,14 +145,14 @@ bool LevelBuilderPathEditTool::onMouseDown( LevelBuilderSceneWindow* sceneWindow
          if (next >= mPath->getNodeCount())
             next = 0;
 
-         F32 addAngle = mAtan(mouseStatus.mousePoint2D.mX - mPath->getNode(addIndex).position.mX,
-                              mouseStatus.mousePoint2D.mY - mPath->getNode(addIndex).position.mY);
+         F32 addAngle = mAtan(mouseStatus.mousePoint2D.x - mPath->getNode(addIndex).position.x,
+                              mouseStatus.mousePoint2D.y - mPath->getNode(addIndex).position.y);
 
-         F32 prevAngle = mAtan(mouseStatus.mousePoint2D.mX - mPath->getNode(previous).position.mX,
-                              mouseStatus.mousePoint2D.mY - mPath->getNode(previous).position.mY);
+         F32 prevAngle = mAtan(mouseStatus.mousePoint2D.x - mPath->getNode(previous).position.x,
+                              mouseStatus.mousePoint2D.y - mPath->getNode(previous).position.y);
 
-         F32 nextAngle = mAtan(mouseStatus.mousePoint2D.mX - mPath->getNode(next).position.mX,
-                              mouseStatus.mousePoint2D.mY - mPath->getNode(next).position.mY);
+         F32 nextAngle = mAtan(mouseStatus.mousePoint2D.x - mPath->getNode(next).position.x,
+                              mouseStatus.mousePoint2D.y - mPath->getNode(next).position.y);
 
          if (mFabs(addAngle - prevAngle) < mFabs(addAngle - nextAngle))
             addIndex = next;
@@ -188,7 +188,7 @@ bool LevelBuilderPathEditTool::onMouseDragged( LevelBuilderSceneWindow* sceneWin
    else if (mDraggingNode != -1)
    {
       mAddUndo = true;
-      move(sceneWindow->getSceneEdit(), t2dVector(0.0f, 0.0f), mouseStatus.mousePoint2D, mPath->getNode(mDraggingNode).position);
+      move(sceneWindow->getSceneEdit(), Vector2(0.0f, 0.0f), mouseStatus.mousePoint2D, mPath->getNode(mDraggingNode).position);
    }
 
    return true;
@@ -270,15 +270,15 @@ void LevelBuilderPathEditTool::onRenderGraph( LevelBuilderSceneWindow* sceneWind
 
          // Draw a line representing the weight and rotation.
          F32 rotation = mDegToRad(node.rotation - 90.0f);
-         t2dVector point1 = node.position - (t2dVector(mCos(rotation), mSin(rotation)) * node.weight * 0.5f);
-         t2dVector point2 = node.position + (t2dVector(mCos(rotation), mSin(rotation)) * node.weight * 0.5f);
+         Vector2 point1 = node.position - (Vector2(mCos(rotation), mSin(rotation)) * node.weight * 0.5f);
+         Vector2 point2 = node.position + (Vector2(mCos(rotation), mSin(rotation)) * node.weight * 0.5f);
          
-         t2dVector windowPoint1, windowPoint2;
+         Vector2 windowPoint1, windowPoint2;
          sceneWindow->sceneToWindowCoord(point1, windowPoint1);
          sceneWindow->sceneToWindowCoord(point2, windowPoint2);
 
-         Point2I window1 = sceneWindow->localToGlobalCoord(Point2I(windowPoint1.mX, windowPoint1.mY));
-         Point2I window2 = sceneWindow->localToGlobalCoord(Point2I(windowPoint2.mX, windowPoint2.mY));
+         Point2I window1 = sceneWindow->localToGlobalCoord(Point2I(windowPoint1.x, windowPoint1.y));
+         Point2I window2 = sceneWindow->localToGlobalCoord(Point2I(windowPoint2.x, windowPoint2.y));
          dglDrawLine(window1, window2, ColorI(255, 255, 255));
          dglDrawRectFill(window1 - Point2I(2, 2), window1 + Point2I(2, 2), ColorI(255, 255, 255));
          dglDrawRectFill(window2 - Point2I(2, 2), window2 + Point2I(2, 2), ColorI(255, 255, 255));
@@ -286,14 +286,14 @@ void LevelBuilderPathEditTool::onRenderGraph( LevelBuilderSceneWindow* sceneWind
    }
 }
 
-S32 LevelBuilderPathEditTool::findClosestNode(t2dPath *path, t2dVector position)
+S32 LevelBuilderPathEditTool::findClosestNode(t2dPath *path, Vector2 position)
 {
    S32 closestNode = -1;
    F32 closestLength;
    for (S32 i = 0; i < path->getNodeCount(); i++)
    {
       t2dPath::PathNode node = path->getNode(i);
-      t2dVector nodePosition = node.position;
+      Vector2 nodePosition = node.position;
       F32 length = (nodePosition - position).len();
 
       if ((i == 0) || (length < closestLength))
@@ -305,18 +305,18 @@ S32 LevelBuilderPathEditTool::findClosestNode(t2dPath *path, t2dVector position)
    return closestNode;
 }
 
-S32 LevelBuilderPathEditTool::findPathNode(t2dPath* path, t2dVector position)
+S32 LevelBuilderPathEditTool::findPathNode(t2dPath* path, Vector2 position)
 {
    for (S32 i = 0; i < path->getNodeCount(); i++)
    {
       t2dPath::PathNode node = path->getNode(i);
-      t2dVector nodeSize = t2dVector(path->getNodeRenderSize(), path->getNodeRenderSize());
-      t2dVector nodePosition = node.position;
-      t2dVector upperLeft = nodePosition - nodeSize;
-      t2dVector lowerRight = nodePosition + nodeSize;
+      Vector2 nodeSize = Vector2(path->getNodeRenderSize(), path->getNodeRenderSize());
+      Vector2 nodePosition = node.position;
+      Vector2 upperLeft = nodePosition - nodeSize;
+      Vector2 lowerRight = nodePosition + nodeSize;
 
-      if ((position.mX > upperLeft.mX) && (position.mY > upperLeft.mY) &&
-          (position.mX < lowerRight.mX) && (position.mY < lowerRight.mY))
+      if ((position.x > upperLeft.x) && (position.y > upperLeft.y) &&
+          (position.x < lowerRight.x) && (position.y < lowerRight.y))
       {
          return i;
       }
@@ -324,11 +324,11 @@ S32 LevelBuilderPathEditTool::findPathNode(t2dPath* path, t2dVector position)
    return -1;
 }
 
-S32 LevelBuilderPathEditTool::findBezierHandle(t2dPath::PathNode& node, t2dVector position)
+S32 LevelBuilderPathEditTool::findBezierHandle(t2dPath::PathNode& node, Vector2 position)
 {
    F32 rotation = mDegToRad(node.rotation - 90.0f);
-   t2dVector point1 = node.position - (t2dVector(mCos(rotation), mSin(rotation)) * node.weight * 0.5f);
-   t2dVector point2 = node.position + (t2dVector(mCos(rotation), mSin(rotation)) * node.weight * 0.5f);
+   Vector2 point1 = node.position - (Vector2(mCos(rotation), mSin(rotation)) * node.weight * 0.5f);
+   Vector2 point2 = node.position + (Vector2(mCos(rotation), mSin(rotation)) * node.weight * 0.5f);
 
    if ((position - point1).len() < 3.0f)
       return -1;
