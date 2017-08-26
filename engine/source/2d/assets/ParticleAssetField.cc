@@ -37,7 +37,7 @@
 #ifndef _STRINGUNIT_H_
 #include "string/stringUnit.h"
 #endif
-
+#include "debug/profiler.h"
 //-----------------------------------------------------------------------------
 
 static StringTableEntry particleAssetFieldRepeatTimeName   = StringTable->insert( "RepeatTime" );

@@ -273,9 +273,6 @@
     <ClCompile Include="..\..\source\console\consoleTypes.cc">
       <Filter>console</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\game\gameConnection.cc">
-      <Filter>game</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\game\version.cc">
       <Filter>game</Filter>
     </ClCompile>
@@ -972,27 +969,6 @@
     <ClCompile Include="..\..\source\sim\simSet.cc">
       <Filter>sim</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\network\httpObject.cc">
-      <Filter>network</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\network\netConnection.cc">
-      <Filter>network</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\network\netEvent.cc">
-      <Filter>network</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\network\netGhost.cc">
-      <Filter>network</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\network\netInterface.cc">
-      <Filter>network</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\network\netStringTable.cc">
-      <Filter>network</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\network\tcpObject.cc">
-      <Filter>network</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\string\stringBuffer.cc">
       <Filter>string</Filter>
     </ClCompile>
@@ -1023,20 +999,11 @@
     <ClCompile Include="..\..\source\platform\Tickable.cc">
       <Filter>platform</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\network\telnetConsole.cc">
-      <Filter>network</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\source\debug\telnetDebugger.cc">
       <Filter>debug</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\string\stringStack.cc">
       <Filter>string</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\network\connectionProtocol.cc">
-      <Filter>network</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\network\RemoteCommandEvent.cc">
-      <Filter>network</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\sim\scriptObject.cc">
       <Filter>sim</Filter>
@@ -1190,9 +1157,6 @@
     </ClCompile>
     <ClCompile Include="..\..\source\platform\platformFont.cc">
       <Filter>platform</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\source\network\networkProcessList.cc">
-      <Filter>network</Filter>
     </ClCompile>
     <ClCompile Include="..\..\source\testing\tests\platformFileIoTests.cc">
       <Filter>testing\tests</Filter>
@@ -1422,9 +1386,6 @@
     <ClCompile Include="..\..\source\platform\platformNet.cpp">
       <Filter>platform</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\network\netObject.cc">
-      <Filter>network</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\source\audio\audio.h">
@@ -1492,9 +1453,6 @@
     </ClInclude>
     <ClInclude Include="..\..\source\console\consoleTypes.h">
       <Filter>console</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\game\gameConnection.h">
-      <Filter>game</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\game\resource.h">
       <Filter>game</Filter>
@@ -2285,21 +2243,6 @@
     <ClInclude Include="..\..\source\sim\simSet.h">
       <Filter>sim</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\network\httpObject.h">
-      <Filter>network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\network\netConnection.h">
-      <Filter>network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\network\netInterface.h">
-      <Filter>network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\network\netStringTable.h">
-      <Filter>network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\network\tcpObject.h">
-      <Filter>network</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\string\stringBuffer.h">
       <Filter>string</Filter>
     </ClInclude>
@@ -2336,17 +2279,11 @@
     <ClInclude Include="..\..\source\platform\Tickable.h">
       <Filter>platform</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\network\telnetConsole.h">
-      <Filter>network</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\debug\telnetDebugger.h">
       <Filter>debug</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\string\stringStack.h">
       <Filter>string</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\network\connectionProtocol.h">
-      <Filter>network</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\sim\scriptObject.h">
       <Filter>sim</Filter>
@@ -2627,9 +2564,6 @@
     <ClInclude Include="..\..\source\game\gameInterface_ScriptBinding.h">
       <Filter>game</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\network\networkProcessList.h">
-      <Filter>network</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\testing\unitTesting.h">
       <Filter>testing</Filter>
     </ClInclude>
@@ -2873,9 +2807,6 @@
     <ClInclude Include="..\..\source\console\consoleLogger_ScriptBinding.h">
       <Filter>console</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\network\netConnection_ScriptBinding.h">
-      <Filter>network</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\game\gameConnection_ScriptBinding.h">
       <Filter>game</Filter>
     </ClInclude>
@@ -2915,14 +2846,8 @@
     <ClInclude Include="..\..\source\io\fileStreamObject_ScriptBinding.h">
       <Filter>io</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\network\httpObject_ScriptBinding.h">
-      <Filter>network</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\messaging\message_ScriptBinding.h">
       <Filter>messaging</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\network\tcpObject_ScriptBinding.h">
-      <Filter>network</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\sim\simSerialize_ScriptBinding.h">
       <Filter>sim</Filter>
@@ -2948,12 +2873,6 @@
     <ClInclude Include="..\..\source\debug\telnetDebugger_ScriptBinding.h">
       <Filter>debug</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\network\RemoteCommandEvent_ScriptBinding.h">
-      <Filter>network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\network\RemoteCommandEvent.h">
-      <Filter>network</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\source\io\resource\resourceManager_ScriptBinding.h">
       <Filter>io\resource</Filter>
     </ClInclude>
@@ -2963,9 +2882,6 @@
     <ClInclude Include="..\..\source\torqueConfig.h" />
     <ClInclude Include="..\..\source\platformWin32\cardProfile_ScriptBinding.h">
       <Filter>platformWin32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\network\connectionProtocol_ScriptBinding.h">
-      <Filter>network</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\console\consoleExprEvalState_ScriptBinding.h">
       <Filter>console</Filter>
@@ -3002,15 +2918,6 @@
     </ClInclude>
     <ClInclude Include="..\..\source\platformWin32\winConsole_ScriptBinding.h">
       <Filter>platformWin32</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\network\netInterface_ScriptBinding.h">
-      <Filter>network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\network\netStringTable_ScriptBinding.h">
-      <Filter>network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\network\telnetConsole_ScriptBinding.h">
-      <Filter>network</Filter>
     </ClInclude>
     <ClInclude Include="..\..\source\testing\unitTesting_ScriptBinding.h">
       <Filter>testing</Filter>
@@ -3171,12 +3078,6 @@
     <ClInclude Include="..\..\source\math\mNormalDistribution.h">
       <Filter>math</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\source\network\netObject.h">
-      <Filter>network</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\source\network\netObject_ScriptBinding.h">
-      <Filter>network</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\source\math\mMath_ASM.asm">
@@ -3191,8 +3092,5 @@
     <CustomBuild Include="..\..\source\platform\platformCPUInfo.asm">
       <Filter>platform</Filter>
     </CustomBuild>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Torque 2D.rc" />
   </ItemGroup>
 </Project>

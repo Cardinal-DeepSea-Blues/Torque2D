@@ -21,7 +21,7 @@
 //-----------------------------------------------------------------------------
 
 #include "2d/assets/ParticleAssetFieldCollection.h"
-
+#include "debug/profiler.h"
 //-----------------------------------------------------------------------------
 
     // Set custom property name.

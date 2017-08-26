@@ -26,17 +26,9 @@
 #ifndef _MPOINT_H_
 #include "math/mPoint.h"
 #endif
-#ifndef _NETOBJECT_H_
-#include "network/netObject.h"
-#endif
-#ifndef _NETSTRINGTABLE_H_
-#include "network/netStringTable.h"
-#endif
+
 #ifndef _EVENT_H_
 #include "platform/event.h"
-#endif
-#ifndef _CONNECTION_PROTOCOL_H_
-#include "network/connectionProtocol.h"
 #endif
 
 //----------------------------------------------------------------------------

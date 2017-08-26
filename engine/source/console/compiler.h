@@ -120,7 +120,6 @@ namespace Compiler
 
       OP_LOADIMMED_UINT,
       OP_LOADIMMED_FLT,
-      OP_TAG_TO_STR,
       OP_LOADIMMED_STR,
       OP_DOCBLOCK_STR,
       OP_LOADIMMED_IDENT,

@@ -34,7 +34,7 @@
 #ifndef _ASSET_FIELD_TYPES_H_
 #include "assets/assetFieldTypes.h"
 #endif
-
+#include "debug/profiler.h"
 //-----------------------------------------------------------------------------
 
 class TamlModuleIdUpdateVisitor : public TamlVisitor

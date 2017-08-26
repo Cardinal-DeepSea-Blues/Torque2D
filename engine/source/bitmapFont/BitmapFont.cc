@@ -30,6 +30,8 @@
 
 #include <string>
 
+#include "debug/profiler.h"
+
 namespace font
 {
    BitmapFont::BitmapFont()

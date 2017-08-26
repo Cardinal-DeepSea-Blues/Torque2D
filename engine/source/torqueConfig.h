@@ -46,12 +46,8 @@
 
 //-----------------------------------------------------------------------------
 
-/// Profiler macros used when the profiler is disabled.
-#define PROFILE_START(name) TORQUE_UNUSED(#name)
-#define PROFILE_END()
-#define PROFILE_SCOPE(name) TORQUE_UNUSED(#name)
-
 //-----------------------------------------------------------------------------
+#define TORQUE_ENABLE_PROFILER
 
 /// The following pre-processor definitions should be added to your compiler command-line
 /// if you required their respective functionality:

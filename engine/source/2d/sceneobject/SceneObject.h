@@ -304,8 +304,8 @@ public:
     virtual void            sceneRenderOverlay( const SceneRenderState* pSceneRenderState );
 
     /// Networking.
-    virtual U32             packUpdate(NetConnection * conn, U32 mask, BitStream *stream);
-    virtual void            unpackUpdate(NetConnection * conn, BitStream *stream);
+    virtual U32             packUpdate( U32 mask, BitStream *stream);
+    virtual void            unpackUpdate( BitStream *stream);
 
     /// Scene.
     inline Scene* const     getScene( void ) const                      { return mpScene; }

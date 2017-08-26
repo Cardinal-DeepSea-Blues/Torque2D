@@ -40,20 +40,16 @@
 #include "sim/simBase.h"
 #include "gui/guiCanvas.h"
 #include "input/actionMap.h"
-#include "network/connectionProtocol.h"
 #include "io/bitStream.h"
-#include "network/telnetConsole.h"
 #include "debug/telnetDebugger.h"
 #include "console/consoleTypes.h"
 #include "math/mathTypes.h"
 #include "graphics/TextureManager.h"
 #include "io/resource/resourceManager.h"
 #include "platform/platformVideo.h"
-#include "network/netStringTable.h"
 #include "memory/frameAllocator.h"
 #include "game/version.h"
 #include "debug/profiler.h"
-#include "network/serverQuery.h"
 #include "game/defaultGame.h"
 #include "platform/nativeDialogs/msgBox.h"
 #include "platform/nativeDialogs/fileDialog.h"
@@ -61,9 +57,6 @@
 
 #include <stdio.h>
 
-#ifndef _NETWORK_PROCESS_LIST_H_
-#include "network/networkProcessList.h"
-#endif
 
 #ifndef _REMOTE_DEBUGGER_BRIDGE_H_
 #include "debug/remote/RemoteDebuggerBridge.h"
@@ -91,8 +84,6 @@
 //-----------------------------------------------------------------------------
 
 DefaultGame GameObject;
-DemoNetInterface GameNetInterface;
-NetworkProcessList gServerProcessList(true);
 StringTableEntry gMasterAddress;
 
 static F32 gTimeScale = 1.0;
@@ -152,9 +143,7 @@ bool initializeLibraries()
 #endif	
 
 	Platform::initConsole();
-	NetStringTable::create();
 
-	TelnetConsole::create();
 	TelnetDebugger::create();
 
 	Processor::init();
@@ -181,12 +170,10 @@ void shutdownLibraries()
 		ResourceManager->purge();
 
 	TelnetDebugger::destroy();
-	TelnetConsole::destroy();
 
 	Sim::shutdown();
 	Platform::shutdown();
 
-	NetStringTable::destroy();
 	Con::shutdown();
 
 	ResManager::destroy();
@@ -367,42 +354,6 @@ bool DefaultGame::mainInitialize(int argc, const char **argv)
 	// Start processing ticks.
 	setProcessTicks(true);
 
-
-#ifdef TORQUE_OS_IOS	
-
-	// Torque 2D does not have true, GameKit networking support. 
-	// The old socket network code is untested, undocumented and likely broken. 
-	// This will eventually be replaced with GameKit. 
-	// For now, it is confusing to even have a checkbox in the editor that no one uses or understands. 
-	// If you are one of the few that uses this, just replace the false; with the commented line. -MP 1.5
-
-	//-Mat this is a bit of a hack, but if we don't want the network, we shut it off now. 
-	// We can't do it until we've run the entry script, otherwise the script variable will not have ben loaded
-	bool usesNet = false; //dAtob( Con::getVariable( "$pref::iOS::UseNetwork" ) );
-	if (!usesNet) {
-		Net::shutdown();
-	}
-
-#ifdef TORQUE_OS_IOS_PROFILE
-	iPhoneProfilerProfilerInit();
-#endif
-
-#endif
-
-#ifdef TORQUE_OS_ANDROID
-
-	//-Mat this is a bit of a hack, but if we don't want the network, we shut it off now.
-  // We can't do it until we've run the entry script, otherwise the script variable will not have ben loaded
-	bool usesNet = false; //dAtob( Con::getVariable( "$pref::iOS::UseNetwork" ) );
-	if (!usesNet) {
-		Net::shutdown();
-	}
-
-#ifdef TORQUE_OS_ANDROID_PROFILE
-	AndroidProfilerProfilerInit();
-#endif
-#endif
-
 	return true;
 }
 
@@ -452,12 +403,6 @@ void DefaultGame::advanceTime(F32 timeDelta)
 
 void DefaultGame::mainLoop(void)
 {
-#ifdef TORQUE_OS_IOS_PROFILE
-	iPhoneProfilerStart("MAIN_LOOP");
-#endif	
-#ifdef TORQUE_OS_ANDROID_PROFILE
-	AndroidProfilerStart("MAIN_LOOP");
-#endif
 	PROFILE_START(MainLoop);
 #ifdef TORQUE_ALLOW_JOURNALING
 	PROFILE_START(JournalMain);
@@ -470,9 +415,6 @@ void DefaultGame::mainLoop(void)
 	PROFILE_START(PlatformProcessMain);
 	Platform::process(); // keys, etc.
 	PROFILE_END();
-	PROFILE_START(TelconsoleProcessMain);
-	TelConsole->process();
-	PROFILE_END();
 	PROFILE_START(TelDebuggerProcessMain);
 	TelDebugger->process();
 	PROFILE_END();
@@ -483,21 +425,6 @@ void DefaultGame::mainLoop(void)
 	Game->processEvents(); // process all non-sim posted events.
 	PROFILE_END();
 	PROFILE_END();
-
-#ifdef TORQUE_OS_IOS_PROFILE
-	iPhoneProfilerEnd("MAIN_LOOP");
-	if (iPhoneProfilerGetCount() >= 60) {
-		iPhoneProfilerPrintAllResults();
-		iPhoneProfilerProfilerInit();
-	}
-#endif
-#ifdef TORQUE_OS_ANDROID_PROFILE
-	AndroidProfilerEnd("MAIN_LOOP");
-	if (AndroidProfilerGetCount() >= 60) {
-		AndroidProfilerPrintAllResults();
-		AndroidProfilerProfilerInit();
-	}
-#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -597,53 +524,14 @@ void DefaultGame::processTimeEvent(TimeEvent *event)
 	}
 
 	Platform::advanceTime(elapsedTime);
-	bool tickPass;
-
-	PROFILE_START(ServerProcess);
-#ifdef TORQUE_OS_IOS_PROFILE
-	iPhoneProfilerStart("SERVER_PROC");
-#endif    
-#ifdef TORQUE_OS_ANDROID_PROFILE
-	AndroidProfilerStart("SERVER_PROC");
-#endif
-	tickPass = gServerProcessList.advanceTime(elapsedTime);
-#ifdef TORQUE_OS_IOS_PROFILE
-	iPhoneProfilerEnd("SERVER_PROC");
-#endif
-#ifdef TORQUE_OS_ANDROID_PROFILE
-	AndroidProfilerEnd("SERVER_PROC");
-#endif
-	PROFILE_END();
-
-	PROFILE_START(ServerNetProcess);
-	// only send packets if a tick happened
-	if (tickPass)
-		GNet->processServer();
-	PROFILE_END();
 
 	PROFILE_START(SimAdvanceTime);
-#ifdef TORQUE_OS_IOS_PROFILE
-	iPhoneProfilerStart("SIM_TIME");
-#endif
-#ifdef TORQUE_OS_ANDROID_PROFILE
-	AndroidProfilerStart("SIM_TIME");
-#endif
+
 	Sim::advanceTime(elapsedTime);
-#ifdef TORQUE_OS_IOS_PROFILE
-	iPhoneProfilerEnd("SIM_TIME");
-#endif
-#ifdef TORQUE_OS_ANDROID_PROFILE
-	AndroidProfilerEnd("SIM_TIME");
-#endif
+
 	PROFILE_END();
 
 	PROFILE_START(ClientProcess);
-#ifdef TORQUE_OS_IOS_PROFILE
-	iPhoneProfilerStart("CLIENT_PROC");
-#endif
-#ifdef TORQUE_OS_ANDROID_PROFILE
-	AndroidProfilerStart("CLIENT_PROC");
-#endif
 
 	PROFILE_START(TickableAdvanceTime);
 	Tickable::advanceTime(elapsedTime);
@@ -662,25 +550,11 @@ void DefaultGame::processTimeEvent(TimeEvent *event)
 		lastAudioUpdate = realTime;
 	}
 
-#ifdef TORQUE_OS_IOS_PROFILE
-	iPhoneProfilerEnd("CLIENT_PROC");
-#endif
-#ifdef TORQUE_OS_ANDROID_PROFILE
-	AndroidProfilerEnd("CLIENT_PROC");
-#endif
 	PROFILE_END();
-	PROFILE_START(ClientNetProcess);
-	GNet->processClient();
-	PROFILE_END();
+
 
 	if (Canvas && TextureManager::mDGLRender)
 	{
-#ifdef TORQUE_OS_IOS_PROFILE	   
-		iPhoneProfilerStart("GL_RENDER");
-#endif
-#ifdef TORQUE_OS_ANDROID_PROFILE
-		AndroidProfilerStart("GL_RENDER");
-#endif
 		bool preRenderOnly = false;
 		if (gFrameSkip && gFrameCount % gFrameSkip)
 			preRenderOnly = true;
@@ -689,14 +563,7 @@ void DefaultGame::processTimeEvent(TimeEvent *event)
 		Canvas->renderFrame(preRenderOnly);
 		PROFILE_END();
 		gFrameCount++;
-#ifdef TORQUE_OS_IOS_PROFILE
-		iPhoneProfilerEnd("GL_RENDER");
-#endif
-#ifdef TORQUE_OS_ANDROID_PROFILE
-		AndroidProfilerEnd("GL_RENDER");
-#endif
 	}
-	GNet->checkTimeouts();
 
 #ifdef TORQUE_ALLOW_MUSICPLAYER
 	updateVolume();
@@ -757,6 +624,6 @@ void DefaultGame::processConsoleEvent(ConsoleEvent *event)
 
 void DefaultGame::processPacketReceiveEvent(PacketReceiveEvent * prEvent)
 {
-	GNet->processPacketReceiveEvent(prEvent);
+	//GNet->processPacketReceiveEvent(prEvent);
 }
 

@@ -909,14 +909,14 @@ void SceneObject::sceneRenderOverlay( const SceneRenderState* sceneRenderState )
 
 //-----------------------------------------------------------------------------
 
-U32 SceneObject::packUpdate(NetConnection * conn, U32 mask, BitStream *stream)
+U32 SceneObject::packUpdate( U32 mask, BitStream *stream)
 {
     return 0;
 }
 
 //-----------------------------------------------------------------------------
 
-void SceneObject::unpackUpdate(NetConnection * conn, BitStream *stream)
+void SceneObject::unpackUpdate( BitStream *stream)
 {
 }
 

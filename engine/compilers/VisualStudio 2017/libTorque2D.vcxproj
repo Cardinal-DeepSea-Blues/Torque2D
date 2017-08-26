@@ -240,9 +240,6 @@
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ResourceCompile Include="Torque 2D.rc" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="..\..\source\2d\assets\AnimationAsset.cc" />
     <ClCompile Include="..\..\source\2d\assets\FontAsset.cc" />
     <ClCompile Include="..\..\source\2d\assets\ImageAsset.cc" />
@@ -459,18 +456,6 @@
     <ClCompile Include="..\..\source\module\moduleDefinition.cc" />
     <ClCompile Include="..\..\source\module\moduleManager.cc" />
     <ClCompile Include="..\..\source\module\moduleMergeDefinition.cc" />
-    <ClCompile Include="..\..\source\network\connectionProtocol.cc" />
-    <ClCompile Include="..\..\source\network\httpObject.cc" />
-    <ClCompile Include="..\..\source\network\netConnection.cc" />
-    <ClCompile Include="..\..\source\network\netEvent.cc" />
-    <ClCompile Include="..\..\source\network\netGhost.cc" />
-    <ClCompile Include="..\..\source\network\netInterface.cc" />
-    <ClCompile Include="..\..\source\network\netObject.cc" />
-    <ClCompile Include="..\..\source\network\netStringTable.cc" />
-    <ClCompile Include="..\..\source\network\networkProcessList.cc" />
-    <ClCompile Include="..\..\source\network\RemoteCommandEvent.cc" />
-    <ClCompile Include="..\..\source\network\tcpObject.cc" />
-    <ClCompile Include="..\..\source\network\telnetConsole.cc" />
     <ClCompile Include="..\..\source\persistence\taml\binary\tamlBinaryReader.cc" />
     <ClCompile Include="..\..\source\persistence\taml\binary\tamlBinaryWriter.cc" />
     <ClCompile Include="..\..\source\persistence\taml\json\tamlJSONParser.cc" />
@@ -510,7 +495,6 @@
     <ClCompile Include="..\..\source\console\consoleObject.cc" />
     <ClCompile Include="..\..\source\console\consoleParser.cc" />
     <ClCompile Include="..\..\source\console\consoleTypes.cc" />
-    <ClCompile Include="..\..\source\game\gameConnection.cc" />
     <ClCompile Include="..\..\source\game\version.cc" />
     <ClCompile Include="..\..\source\math\mathTypes.cc" />
     <ClCompile Include="..\..\source\math\mathUtils.cc" />
@@ -980,25 +964,6 @@
     <ClInclude Include="..\..\source\module\moduleManager_ScriptBinding.h" />
     <ClInclude Include="..\..\source\module\moduleMergeDefinition.h" />
     <ClInclude Include="..\..\source\module\tamlModuleIdUpdateVisitor.h" />
-    <ClInclude Include="..\..\source\network\connectionProtocol.h" />
-    <ClInclude Include="..\..\source\network\connectionProtocol_ScriptBinding.h" />
-    <ClInclude Include="..\..\source\network\httpObject.h" />
-    <ClInclude Include="..\..\source\network\httpObject_ScriptBinding.h" />
-    <ClInclude Include="..\..\source\network\netConnection.h" />
-    <ClInclude Include="..\..\source\network\netConnection_ScriptBinding.h" />
-    <ClInclude Include="..\..\source\network\netInterface.h" />
-    <ClInclude Include="..\..\source\network\netInterface_ScriptBinding.h" />
-    <ClInclude Include="..\..\source\network\netObject.h" />
-    <ClInclude Include="..\..\source\network\netObject_ScriptBinding.h" />
-    <ClInclude Include="..\..\source\network\netStringTable.h" />
-    <ClInclude Include="..\..\source\network\netStringTable_ScriptBinding.h" />
-    <ClInclude Include="..\..\source\network\networkProcessList.h" />
-    <ClInclude Include="..\..\source\network\RemoteCommandEvent.h" />
-    <ClInclude Include="..\..\source\network\RemoteCommandEvent_ScriptBinding.h" />
-    <ClInclude Include="..\..\source\network\tcpObject.h" />
-    <ClInclude Include="..\..\source\network\tcpObject_ScriptBinding.h" />
-    <ClInclude Include="..\..\source\network\telnetConsole.h" />
-    <ClInclude Include="..\..\source\network\telnetConsole_ScriptBinding.h" />
     <ClInclude Include="..\..\source\persistence\rapidjson\include\rapidjson\allocators.h" />
     <ClInclude Include="..\..\source\persistence\rapidjson\include\rapidjson\document.h" />
     <ClInclude Include="..\..\source\persistence\rapidjson\include\rapidjson\encodedstream.h" />
@@ -1055,7 +1020,6 @@
     <ClInclude Include="..\..\source\console\consoleObject.h" />
     <ClInclude Include="..\..\source\console\consoleParser.h" />
     <ClInclude Include="..\..\source\console\consoleTypes.h" />
-    <ClInclude Include="..\..\source\game\gameConnection.h" />
     <ClInclude Include="..\..\source\game\resource.h" />
     <ClInclude Include="..\..\source\game\version.h" />
     <ClInclude Include="..\..\source\math\mathIO.h" />

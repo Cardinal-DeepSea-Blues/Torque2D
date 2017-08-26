@@ -31,10 +31,6 @@
 #include "2d/core/Vector2.h"
 #endif
 
-#ifndef _NETOBJECT_H_
-#include "network/netObject.h"
-#endif
-
 #ifndef _TICKABLE_H_
 #include "platform/Tickable.h"
 #endif

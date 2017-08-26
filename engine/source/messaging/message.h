@@ -34,7 +34,6 @@
 */
 
 #include "sim/simBase.h"
-#include "network/netConnection.h"
 
 #ifndef _MESSAGE_H_
 #define _MESSAGE_H_

@@ -23,7 +23,6 @@
 #include "audio/audioDataBlock.h"
 #include "console/consoleTypes.h"
 #include "platform/platformAL.h"
-#include "network/netConnection.h"
 
 //--------------------------------------------------------------------------
 namespace

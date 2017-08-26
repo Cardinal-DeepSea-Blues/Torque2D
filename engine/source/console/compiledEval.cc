@@ -34,7 +34,6 @@
 #include "console/compiler.h"
 
 #include "sim/simBase.h"
-#include "network/netStringTable.h"
 #include "component/dynamicConsoleMethodComponent.h"
 #include "string/stringStack.h"
 #include "messaging/message.h"
@@ -1365,15 +1364,6 @@ breakContinue:
             ip++;
             FLT++;
             break;
-         case OP_TAG_TO_STR:
-            code[ip-1] = OP_LOADIMMED_STR;
-            // it's possible the string has already been converted
-            if(U8(curStringTable[code[ip]]) != StringTagPrefixByte)
-            {
-               U32 id = GameAddTaggedString(curStringTable + code[ip]);
-               dSprintf(curStringTable + code[ip] + 1, 7, "%d", id);
-               *(curStringTable + code[ip]) = StringTagPrefixByte;
-            }
          case OP_LOADIMMED_STR:
             STR.setStringValue(curStringTable + code[ip++]);
             break;

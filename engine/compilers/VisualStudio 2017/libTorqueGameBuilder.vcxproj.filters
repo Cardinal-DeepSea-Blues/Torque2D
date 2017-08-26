@@ -1,2 +1,192 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" />
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="editor">
+      <UniqueIdentifier>{34ae7a85-970d-4470-8adc-4b9c48ffe3ed}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\source\editor\gui2DDatablockDropDown.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\guiParticleGraphCtrl.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\guiT2DObjectCtrl.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderAnimatedSpriteTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderBaseEditTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderBaseTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderCameraTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderChunkedSpriteTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderCreateTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderLinkPointTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderMountTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderParticleTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderPathEditTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderPathTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderPolyTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderSceneEdit.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderSceneObjectTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderSceneWindow.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderScrollerTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderSelectionTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderShapeVectorTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderSortPointTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderStaticSpriteTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderTextEditTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderTextObjectTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderTileMapEditTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderTileMapTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderTriggerTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\levelBuilderWorldLimitTool.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\source\editor\preferencesManager.cc">
+      <Filter>editor</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\source\editor\gui2DDatablockDropDown.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\guiParticleGraphCtrl.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\guiT2DObjectCtrl.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderAnimatedSpriteTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderBaseEditTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderBaseTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderCameraTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderChunkedSpriteTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderCreateTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderLinkPointTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderMountTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderParticleTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderPathEditTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderPathTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderPolyTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderSceneEdit.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderSceneObjectTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderSceneWindow.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderScrollerTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderSelectionTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderShapeVectorTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderSortPointTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderStaticSpriteTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderTextEditTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderTextObjectTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderTileMapEditTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderTileMapTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderTriggerTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\levelBuilderWorldLimitTool.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\source\editor\preferencesManager.h">
+      <Filter>editor</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

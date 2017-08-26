@@ -171,6 +171,10 @@ public:
    static ProfilerRootData pdata##name##obj (#name); \
    ScopedProfiler scopedProfiler##name##obj(&pdata##name##obj);
 
+#else
+#define PROFILE_START(name) TORQUE_UNUSED(name)
+#define PROFILE_END()
+#define PROFILE_SCOPE(name) TORQUE_UNUSED(name)
 #endif
 
 #endif

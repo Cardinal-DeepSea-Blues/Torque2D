@@ -961,7 +961,7 @@ U32 StrConstNode::compile(U32 *codeStream, U32 ip, TypeReq type)
    switch(type)
    {
    case TypeReqString:
-      codeStream[ip++] = tag ? OP_TAG_TO_STR : OP_LOADIMMED_STR;
+      codeStream[ip++] = OP_LOADIMMED_STR;
       codeStream[ip++] = index;
       break;
    case TypeReqUInt:
